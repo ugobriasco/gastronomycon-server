@@ -1,0 +1,16 @@
+{
+  "name": "grocerybot",
+  "version": "0.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "express": "^4.1.2",
+    "jsonwebtoken": "^7.2.1",
+    "mongoose": "^4.7.1",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0"
+  }
+}
