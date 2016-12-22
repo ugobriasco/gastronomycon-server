@@ -21,6 +21,8 @@ app.use(bodyParser.urlencoded({
 //routing
 var router 		= require('./server/api/api.routes');
 app.use(express.static(path.join(__dirname, '/client'))); //Expose /client
+app.use('/lib', express.static(__dirname + '/node_modules'));
+app.use('/env', express.static(__dirname + '/environments'));
 app.use('/api', router);
 
 

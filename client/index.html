@@ -1,13 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css"></link>
+	<title>ng2 app0</title>
+
+    <!-- required vor ng2 router -->
+    <base href='/'>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/flatly/bootstrap.min.css">
+    <style>body { padding: 50px 50px; }</style>
+
+    <!-- load the dependencies -->
+    <script src="lib/core-js/client/shim.min.js"></script>
+    <script src="lib/zone.js/dist/zone.js"></script>
+    <script src="lib/reflect-metadata/Reflect.js"></script>
+
+    <!-- load our angular app with systemjs -->
+    <script src="lib/systemjs/dist/system.src.js"></script>
+    <script src="env/systemjs.config.js"></script>
+    <script>
+        System.import('app').catch(function(err) {console.error(err);});
+    </script>
+
 </head>
 <body>
-	<h1>Welcome in Grocerybot</h1>
-	<p>Please connect to the /api</p>
-	
+
+	<app>
+
 </body>
 </html>

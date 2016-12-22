@@ -1,16 +1,46 @@
 {
   "name": "grocerybot",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "server.js",
+  "scripts": {
+    "start": "concurrently \"npm run tsc:w\" \"npm run express\" ",
+    "express": "nodemon server",
+    "lite": "lite-server",
+    "tsc": "tsc",
+    "tsc:w": "tsc -w",
+    "typings": "src/typings",
+    "postinstall": "typings install"
+  },
+  "author": "@ugobriasco",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^3.1.0",
+    "lite-server": "^2.2.2",
+    "typescript": "^2.1.4",
+    "typings": "^2.0.0"
+  },
   "dependencies": {
+    "@angular/common": "^2.3.1",
+    "@angular/compiler": "^2.3.1",
+    "@angular/core": "^2.3.1",
+    "@angular/forms": "^2.3.1",
+    "@angular/http": "^2.3.1",
+    "@angular/platform-browser": "^2.3.1",
+    "@angular/platform-browser-dynamic": "^2.3.1",
+    "@angular/router": "^3.3.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
+    "core-js": "^2.4.1",
     "express": "^4.1.2",
     "jsonwebtoken": "^7.2.1",
     "mongoose": "^4.7.1",
     "passport": "^0.3.2",
     "passport-http": "^0.3.0",
     "passport-jwt": "^2.2.1",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "^5.0.1",
+    "systemjs": "^0.19.41",
+    "zone.js": "^0.7.2"
   }
 }
