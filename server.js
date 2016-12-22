@@ -1,6 +1,7 @@
 //vendor
 var express 	= require('express'),
 	mongoose 	= require('mongoose'),
+	path			= require('path'),
 	bodyParser 	= require('body-parser'),
 	passport 	= require('passport');
 
@@ -19,7 +20,9 @@ app.use(bodyParser.urlencoded({
 
 //routing
 var router 		= require('./server/api/api.routes');
+app.use(express.static(path.join(__dirname, '/client'))); //Expose /client
 app.use('/api', router);
+
 
 //launcher
 app.listen(port);
