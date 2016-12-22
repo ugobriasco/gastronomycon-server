@@ -1,7 +1,7 @@
 //vendor
 var express 	= require('express'),
 	mongoose 	= require('mongoose'),
-	path			= require('path'),
+	path		= require('path'),
 	bodyParser 	= require('body-parser'),
 	passport 	= require('passport');
 
