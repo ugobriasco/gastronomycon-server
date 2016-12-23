@@ -1,9 +1,9 @@
 var express = require('express');
 
-var itemCtrl		= require('./item/item.controller'),
-	userCtrl 		= require('./user/user.controller'),
-	basicAuthCtrl 	= require('./auth/basic/basic.controller'),
-	jwtAuthCtrl 	= require('./auth/jwt/jwt.strategy');
+var itemCtrl		= require('../item/item.controller'),
+	userCtrl 		= require('../user/user.controller'),
+	//basicAuthCtrl 	= require('../auth/basic/basic.controller'),
+	jwtAuthCtrl 	= require('../auth/auth.controller');
 
 
 var router=express.Router();
@@ -31,6 +31,9 @@ router.route('/user/:objID')
 router.route('/login')
 .post(jwtAuthCtrl.postLogin);
 
+router.route('/signup')
+.post(jwtAuthCtrl.postSignUp);
+
 
 
 router.get('/', function(req, res){
@@ -38,5 +41,3 @@ router.get('/', function(req, res){
 });
 
 module.exports = router;
-
-

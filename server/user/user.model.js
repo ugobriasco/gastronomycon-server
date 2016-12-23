@@ -3,36 +3,45 @@ var mongoose = require('mongoose'),
 
 
 var UserSchema = new mongoose.Schema({
-	username:{
+	email: {type: String, unique: true},
+	password: String,
+  	passwordResetToken: String,
+  	passwordResetExpires: Date,
+
+  	facebook: String,
+  	tokens: Array,
+
+  	profile: {
+    name: String,
+    picture: String
+  	},
+  	role: {
 		type: String,
-		unique: true,
-		required: true
+		enum: ['User', 'Admin'],
+		default: 'User'
 	},
-	password: {
-		type: String,
-		required: true
-	},
+
 	role: {
 		type: String,
 		enum: ['User', 'Admin'],
 		default: 'User'
 	},
-	resetPasswordToken: {type: String},
-	resetPasswordExpires: {type: Date},
+//	resetPasswordToken: {type: String},
+//	resetPasswordExpires: {type: Date},
 },{timestamps: true});
 
 
-// Execute before each user.save() call
+/**
+ * Password hash middleware.
+ */
+
+
+
 UserSchema.pre('save', function(callback) {
   var user = this;
-
-  // Break out if the password hasn't changed
   if (!user.isModified('password')) return callback();
-
-  // Password changed so we need to hash it
   bcrypt.genSalt(5, function(err, salt) {
     if (err) return callback(err);
-
     bcrypt.hash(user.password, salt, null, function(err, hash) {
       if (err) return callback(err);
       user.password = hash;
@@ -41,11 +50,26 @@ UserSchema.pre('save', function(callback) {
   });
 });
 
+
 UserSchema.methods.verifyPassword = function(password, cb) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
+};
+
+/**
+ * Helper method for getting user's gravatar.
+ */
+UserSchema.methods.gravatar = function gravatar(size) {
+  if (!size) {
+    size = 200;
+  }
+  if (!this.email) {
+    return `https://gravatar.com/avatar/?s=${size}&d=retro`;
+  }
+  const md5 = crypto.createHash('md5').update(this.email).digest('hex');
+  return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 
 // Export the Mongoose model

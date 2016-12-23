@@ -1,9 +1,10 @@
 //vendor
-var express 	= require('express'),
-	mongoose 	= require('mongoose'),
-	path		= require('path'),
-	bodyParser 	= require('body-parser'),
-	passport 	= require('passport');
+var express 			= require('express'),
+	expressValidator 	= require('express-validator'),
+	mongoose 			= require('mongoose'),
+	path				= require('path'),
+	bodyParser 			= require('body-parser'),
+	passport 			= require('passport');
 
 //config
 var app			= express(),

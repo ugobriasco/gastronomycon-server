@@ -1,23 +1,8 @@
-/**
- * PLAN
- * --
-router.route('/user')
-	.get(userCtrl.getAllUsers)
-	.post(userCtrl.postUser);
-router.route('/user/:objID')
-	.get(userCtrl.getUser);
-	.post(userCtrl.postUser);
-	.put(userCtrl.updateUser);
-	.delete(userCtrl.deleteUser);
-
-
- */
-
 var User = require('./user.model');
 
 exports.postUser = function(req, res){
 	var user = new User({
-		username: req.body.username,
+		email: req.body.email,
 		password: req.body.password
 	});
 
