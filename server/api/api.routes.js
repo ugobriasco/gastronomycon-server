@@ -19,9 +19,14 @@ router.route('/items/:objID')
 .put(itemCtrl.putItem)
 .delete(itemCtrl.deleteItem)
 
-router.route('/users')
-.get(userCtrl.getUsers)
-.post(userCtrl.postUser);
+router.route('/user')
+	.get(userCtrl.getAllUsers)
+	.post(userCtrl.postUser);
+router.route('/user/:objID')
+	.get(userCtrl.getUser)
+	.post(userCtrl.postUser)
+	.put(userCtrl.updateUser)
+	.delete(userCtrl.deleteUser);
 
 router.route('/login')
 .post(jwtAuthCtrl.postLogin);
