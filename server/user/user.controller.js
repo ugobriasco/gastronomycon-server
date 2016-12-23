@@ -1,15 +1,16 @@
 var User = require('./user.model');
 
 exports.postUser = function(req, res){
-	var user = new User({
-		email: req.body.email,
-		password: req.body.password
-	});
+	// var user = new User({
+	// 	email: req.body.email,
+	// 	password: req.body.password
+	// });
 
-	user.save(function(err){
-		if(err) throw err;
-		res.json({message: "new user"});
-	});
+	// user.save(function(err){
+	// 	if(err) throw err;
+	// 	res.json({message: "new user"});
+	// });
+    res.status(401).json({meassge: "This route is deprecated"});
 }
 
 exports.getAllUsers = function(req,res){

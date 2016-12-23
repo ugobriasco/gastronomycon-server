@@ -1,6 +1,7 @@
 //Require the dev-dependencies
 const 	chai = require('chai'),
-		chaiHttp = require('chai-http');
+		chaiHttp = require('chai-http'),
+		mongoose = require('mongoose');
 
 const User = require('../user/user.model');
 
@@ -13,12 +14,12 @@ chai.use(chaiHttp);
 //Our parent block
 
 
-describe('/api/signin', () =>{
-	it('it should register a new user returning a 201 and a token'), (done) => {
+describe('/api/signup', () =>{
+	it('it should register a new user returning a 201 and a token', (done) => {
 		let user1 = {email: magic, password: magic}
 
 		chai.request(host)
-		.post('/signin')
+		.post('/signup')
 		.set('content-type', 'application/x-www-form-urlencoded')	
 		.send(user1)
 		.end((err, res) => {
@@ -27,59 +28,56 @@ describe('/api/signin', () =>{
 			//res.body.should.have.property('token');
 			done();
 		});
-	}
-	it('it should respond 422 for signup without email'), (done) => {
+	});
+	it('it should respond 422 for signup without email', (done) => {
 		let user = {password: magic}
 
 		chai.request(host)
-		.post('/signin')
+		.post('/signup')
 		.send(user)
 		.end((err, res) => {
 			res.should.have.status(422);
 			//res.body.should.not.have.property('token');
 			done();
 		});
-	}
-	it('it should respond 422 with wrong req.body'), (done) => {
+	});
+	it('it should respond 422 for signup without password', (done) => {
+		let user = {email: magic}
+
+		chai.request(host)
+		.post('/signup')
+		.send(user)
+		.end((err, res) => {
+			res.should.have.status(422);
+			//res.body.should.not.have.property('token');
+			done();
+		});
+	});
+	it('it should respond 422 with wrong req.body', (done) => {
 		let user = {apples: 2}
 
 		chai.request(host)
-		.post('/signin')
+		.post('/signup')
 		.send(user)
 		.end((err, res) => {
 			res.should.have.status(422);
 			//res.body.should.not.have.property('token');
 			done();
 		});
-	}
-	it('it should respond 422 for signup without password'), (done) => {
-		let user = {email: magic}
-
-		user.save((err, user) =>{
-			chai.request(host)
-				.post('/signin')
-				.send(user)
-				.end((err, res) => {
-					res.should.have.status(422);
-					//res.body.should.not.have.property('token');
-					done();
-		});
-
-		});
-
-	}
-	it('it should not register a already existing user, sending back a 422'), (done) => {
+	});
+	
+	it('it should not register a already existing user, sending back a 422', (done) => {
 		let user = {email: magic, password: magic}
 
 		chai.request(host)
-		.post('/signin')
+		.post('/signup')
 		.send(user)
 		.end((err, res) => {
 			res.should.have.status(422);
 			res.body.should.not.have.property('token');
 			done();
 		});
-	}
+	});
 
 });
 
@@ -91,7 +89,7 @@ describe('/user', () => {
             res.should.have.status(200);
             res.body.should.be.a('array');
           done();
-        });
+      	});
   });
 });
 
