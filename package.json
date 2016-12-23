@@ -9,11 +9,14 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "typings": "src/typings",
-    "postinstall": "typings install"
+    "postinstall": "typings install",
+    "test": "mocha server/**/*specs.js --reporter spec "
   },
   "author": "@ugobriasco",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "concurrently": "^3.1.0",
     "lite-server": "^2.2.2",
     "typescript": "^2.1.4",

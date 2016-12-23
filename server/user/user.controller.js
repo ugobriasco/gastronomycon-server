@@ -15,6 +15,8 @@ exports.postUser = function(req, res){
 exports.getAllUsers = function(req,res){
 	User.find(function(err, users){
 		if(err) throw err;
+        var magic = new Date().toISOString();
+        console.log(magic);
 		res.json(users);
 	});
 }

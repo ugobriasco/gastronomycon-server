@@ -15,9 +15,8 @@ mongoose.connect('mongodb://localhost:27017/grocerybot');
 app.use(passport.initialize());
 
 //parsing
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //routing
 var router 		= require('./server/api/api.routes');

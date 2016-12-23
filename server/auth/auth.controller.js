@@ -20,24 +20,27 @@ const cfg = require('../cfg');
  * @return {json}     message, token
  */
 exports.postLogin = function(req, res){
+	if(!req.body.email || !req.body.password){
+		return res.status(400).json({message: 'Please fill out all fields'});
+	}
+
 	User.findOne({
 		email: req.body.email
 	}, function(err, user){
-
 		if(err) throw err;
-		if(!user){ res.status(401).json({message: 'no user found', email: user}); }
-
-		user.verifyPassword(req.body.password, function(err, isMatch){
-			if(err) throw err;
-			if(!isMatch) {res.status(401).json({message: 'wrong password'});}
-			else{
-				res.status(201).json({
-		          token: generateToken(user),
-		          user: user
-		        });
-			}
-		});
-
+		if(!user){ res.status(401).json({message: 'no user found', email: req.body.email});
+		} else {
+			user.verifyPassword(req.body.password, function(err, isMatch){
+				if(err) throw err;
+				if(!isMatch) {res.status(401).json({message: 'wrong password'});}
+				else{
+					res.status(201).json({
+			          token: generateToken(user),
+			          user: user
+			        });
+				}
+			});
+		}
 	});
 }
 
