@@ -13,7 +13,7 @@ var UserSchema = new mongoose.Schema({
 
   	profile: {
     name: String,
-    picture: String
+    avatar: String
   	},
   	role: {
 		type: String,

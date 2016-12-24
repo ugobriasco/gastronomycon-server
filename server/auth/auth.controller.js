@@ -81,7 +81,7 @@ generateToken = function(user) {
 }
 
 exports.isAuthenticated = function(req, res, next){
-	var token = req.body.token || req.query.token || req.headers['x-access-token'];
+	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['bearer'];
 
 	if(token){
 		jwt.verify(token,cfg.secret, function(err, decoded){
