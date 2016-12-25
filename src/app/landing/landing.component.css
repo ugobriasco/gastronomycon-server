@@ -1,0 +1,38 @@
+.page-header h1 {
+  color: white;
+  font-size: 400%;
+}
+
+.page-header h3 {
+	font-size: 200%
+}
+
+/*landing*/
+.landing-page{
+  background-color:rgba(0, 0, 0, 0.4);
+  padding-bottom:10%;
+  padding-top:10%;
+  border-radius: 30%;
+}
+
+#bg {
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  z-index: -1;
+}
+#bg img {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  margin: auto; 
+  min-width: 50%;
+  min-height: 50%;
+  opacity: 0.4;
+  background-color: rgba(255, 255, 255, 1);
+}
+

@@ -3,7 +3,9 @@ import {Routes, RouterModule} from '@angular/router';
 
 
 import { LandingComponent } from './landing/landing.component';
-
+import { SignupComponent } from './auth/signup.component';
+import { LoginComponent } from './auth/login.component';
+import { UserComponent } from './user/user.component';
 
 export const routes: Routes = [
 {
@@ -15,10 +17,18 @@ export const routes: Routes = [
 	path: 'landing',
 	component: LandingComponent,
 },
-//{
-	//path: 'login', 
-	//component: LoginComponent
-//},
+{
+	path: 'login', 
+	component: LoginComponent
+},
+{
+	path: 'signup', 
+	component: SignupComponent
+},
+{
+	path: 'profile', 
+	component: UserComponent
+},
 
 
 //{

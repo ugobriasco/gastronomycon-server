@@ -4,11 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/throw';
+
 import { routing } from './app.routing';
+import { AuthService } from './shared/auth.service';
+import { UserService } from './shared/user.service';
+
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
 import { UserComponent } from './user/user.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './auth/login.component';
+import { SignupComponent } from './auth/signup.component';
 
 
 @NgModule({
@@ -16,7 +26,8 @@ import { LoginComponent } from './login/login.component';
     AppComponent,
     LandingComponent,
     UserComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -24,7 +35,10 @@ import { LoginComponent } from './login/login.component';
     HttpModule,
     routing
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
