@@ -8,7 +8,7 @@ var express 			= require('express'),
 
 //config
 var app			= express(),
-	port 		= process.env.PORT || 3000;
+	port 		= process.env.PORT || 3001;
 mongoose.Promise = global.Promise; //handles moongose promise deprecation
 mongoose.connect('mongodb://localhost:27017/grocerybot');
 
@@ -21,8 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 //routing
 var router 		= require('./server/api/api.routes');
 app.use(express.static(path.join(__dirname, '/client'))); //Expose /client
-app.use('/lib', express.static(__dirname + '/node_modules'));
-app.use('/env', express.static(__dirname + '/environments'));
+//app.use('/lib', express.static(__dirname + '/node_modules'));
+//app.use('/env', express.static(__dirname + '/environments'));
 app.use('/api', router);
 
 
