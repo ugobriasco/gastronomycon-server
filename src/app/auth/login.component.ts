@@ -1,41 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+import { AuthService } from '../shared/auth.service';
+
 
 @Component({
   selector: 'app-login',
   template: `
-	<div class="container">
-	    <div class="row">
-			<div class="col lg-12">
-				<form class="form-horizontal" action='' method="POST">
-				  <fieldset>
-				    <div id="legend">
-				      <legend class="">Login</legend>
-				    </div>
-				    <div class="control-group">
-				      <!-- Username -->
-				      <label class="control-label"  for="username">Username</label>
-				      <div class="controls">
-				        <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
-				      </div>
-				    </div>
-				    <div class="control-group">
-				      <!-- Password-->
-				      <label class="control-label" for="password">Password</label>
-				      <div class="controls">
-				        <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
-				      </div>
-				    </div>
-				    <div class="control-group">
-				      <!-- Button -->
-				      <div class="controls">
-				        <button class="btn btn-success">Login</button>
-				      </div>
-				    </div>
-				  </fieldset>
-				</form>
-			</div>
-		</div>
-</div>
+  	<div class="container">
+		<form (ngSubmit) ="login()">
+
+		 <div class="form-group">
+		 	<label>Email</label>
+		 	<input type="text" class="form-control" name="email" [(ngModel)] = "credentials.email"/>
+	 	</div>
+	 	<div class="form-group">
+		 	<label>Password</label>
+		 	<input type="password" class="form-control" name="password" [(ngModel)] = "credentials.password"/>
+	 	</div>
+
+	 	<!--messages-->
+		<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+
+	 	<div>
+	 		<button type="submit"class="btn btn-primary">Login</button>
+	 	</div>
+		</form>
+	</div>
 
 
   `,
@@ -43,9 +33,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+	credentials = {email: '', password:''};
+	errorMessage: string = '';
+
+
+  constructor( private service: AuthService, private router: Router) { }
+
 
   ngOnInit() {
+  }
+
+  login(){
+  	this.service.login(this.credentials.email, this.credentials.password)
+  	.subscribe(
+  		data => {this.router.navigate(['']); console.log(data);}, 
+  		err => {this.errorMessage = err; console.log(err);}
+  	);
   }
 
 }

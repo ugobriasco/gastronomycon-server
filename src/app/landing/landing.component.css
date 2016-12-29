@@ -10,9 +10,8 @@
 /*landing*/
 .landing-page{
   background-color:rgba(0, 0, 0, 0.4);
-  padding-bottom:10%;
-  padding-top:10%;
-  border-radius: 30%;
+  padding-bottom:5%;
+  padding-top:5%;
 }
 
 #bg {
@@ -32,7 +31,7 @@
   margin: auto; 
   min-width: 50%;
   min-height: 50%;
-  opacity: 0.4;
+  opacity: 0.3;
   background-color: rgba(255, 255, 255, 1);
 }
 
