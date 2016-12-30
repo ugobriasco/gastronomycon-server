@@ -4,7 +4,7 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "start": "concurrently \"npm run build\" \"npm node server\" ",
+    "start": "ng build && node server",
     "build": "ng build",
     "lint": "tslint \"src/**/*.ts\"",
     "test": "ng test",
