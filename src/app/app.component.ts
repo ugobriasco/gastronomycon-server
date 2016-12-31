@@ -22,24 +22,22 @@ import { UserService } 			from './shared/user.service';
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse" id="navbar-collapse-1">
 	    <ul class="nav navbar-nav">
+	    	<li><a href="#">API</a></li>
+	    	<li><a href="#">Products</a></li>
 	    	
 	    </ul>
 	  	<ul class="nav navbar-nav navbar-right">
 			<li *ngIf="!isLoggedIn"><a routerLink="/signup">Sign Up</a></li>
 			<li *ngIf="!isLoggedIn"><a routerLink="/login">Login</a></li>
 			<li *ngIf="isLoggedIn" class="dropdown">
-				
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Welcome back, {{user}}! <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">User list</a></li>
-            <li><a href="#">Items</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a (click)="logout()" class="pointer">Logout</a></li>
-          </ul>
-      
-
-
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Welcome back! <span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="/profile">Profile</a></li>
+		            <li><a href="#">User list</a></li>
+		            <li><a href="#">Items</a></li>
+		            <li role="separator" class="divider"></li>
+		            <li><a (click)="logout()" class="pointer">Logout</a></li>
+		          </ul>
 			</li>
 			<li *ngIf="isLoggedIn"></li>
 		</ul>
@@ -68,7 +66,9 @@ export class AppComponent {
   	d = new Date();
 	currentYear = this.d.getFullYear();
 
-	user= 'GroceryUser';
+	userId= this.authService.getUserID();
+
+
 
 
 
@@ -78,7 +78,9 @@ export class AppComponent {
 		private router: Router
 		){}
 
+
 	ngOnInit(){
+
 		
 
 	}
@@ -86,6 +88,11 @@ export class AppComponent {
 	get isLoggedIn() {
 		return this.authService.isLoggedIn();
 	}
+
+
+
+
+
 
 
 

@@ -25,7 +25,9 @@ exports.getAllUsers = function(req,res){
 exports.getUser = function(req, res) {
     User.findById(req.params.objID, (err, user) => {
         if(err) res.send(err);
-        res.json(user);
+        res.json({
+            data: user
+        });
     });     
 }
 

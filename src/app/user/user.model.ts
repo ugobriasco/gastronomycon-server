@@ -1,7 +1,8 @@
 export class User {
-	id?: number; //optional
-	name: String;
-	email: String;
-	avatar: String;
-	role?: String;
+	constructor(
+		public id?: String, //optional
+		public email: String,
+		public role?: String
+		){}
+	
 }

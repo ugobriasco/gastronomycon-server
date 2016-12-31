@@ -7,20 +7,24 @@ import { Observable } from 'rxjs/Observable';
 @Injectable() export class AuthService{
 	private authUrl: string = 'http://localhost:3000/api';
 	private loggedIn: boolean = false;
+	private userID: string = '';
 
 	constructor(private http: Http){
 		this.loggedIn = !!localStorage.getItem('auth_token');
+		this.userID = localStorage.getItem('userID');
 	}
 
 	connectivityCheck(){return this.authUrl;}
 
 	isLoggedIn(){return this.loggedIn;}
+	getUserID(){return this.userID;}
 
 	login(email: string, password: string): Observable<String>{
 		return this.http.post(`${this.authUrl}/login`,{email, password})
 		.map( res => res.json())
 		.do( res =>{
-			if(res.token){ this.getToken(res.token);}
+			if(res.token){ this.setToken(res.token);}
+			if(res.user._id){this.setUserID(res.user._id);}
 		})
 		.catch(this.handleError);
 	}
@@ -29,7 +33,8 @@ import { Observable } from 'rxjs/Observable';
 		return this.http.post(`${this.authUrl}/signup`,{email, password})
 		.map( res => res.json())
 		.do( res => {
-			if(res.token){ this.getToken(res.token);}
+			if(res.token){ this.setToken(res.token);}
+			if(res.user._id){this.setUserID(res.user._id);}
 		})
 		.catch(this.handleError);
 	}
@@ -37,11 +42,19 @@ import { Observable } from 'rxjs/Observable';
 
 	logout(){
 		localStorage.removeItem('auth_token');
+		localStorage.removeItem('userID');
 		this.loggedIn = false;
 	}
 
-	private getToken(token){
+	
+
+	private setToken(token){
 		localStorage.setItem('auth_token', token);
+		this.loggedIn = true;
+	}
+
+	private setUserID(userID){
+		localStorage.setItem('userID', userID);
 		this.loggedIn = true;
 	}
 
