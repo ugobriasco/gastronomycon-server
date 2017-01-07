@@ -6,7 +6,6 @@ import {Subject} from 'rxjs/subject';
 @Injectable()
 export class UserService {
 
-	private usersUrl: string = 'http://reqres.in/api/users';
 	private MyUsersUrl: string = 'http://localhost:3000/api/user';
 	
 	constructor(private http: Http){}
@@ -25,10 +24,23 @@ export class UserService {
 		.catch(this.handleError);
 	}
 
+	updateUser(user): Observable<Object>{
 
 
+		let headers = new Headers();
+		let token = localStorage.getItem('auth_token');
+		headers.append('Content-Type', 'application/json');
+		headers.append('Authorization', `Bearer ${token}`);
 
+		let myId = localStorage.getItem('userID');
 
+		return this.http.put(`${this.MyUsersUrl}/${myId}`, user, {headers})
+		.map(res => res.json())
+		.catch(this.handleError);
+
+	}
+
+	
 
 	//Error handling from API
 	private handleError(err){

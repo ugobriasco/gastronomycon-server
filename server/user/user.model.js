@@ -5,13 +5,13 @@ var mongoose = require('mongoose'),
 var UserSchema = new mongoose.Schema({
 	email: {type: String, unique: true},
 	password: String,
-  	passwordResetToken: String,
-  	passwordResetExpires: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 
-  	facebook: String,
-  	tokens: Array,
+  facebook: String,
+  tokens: Array,
 
-  	profile: {
+  profile: {
     name: String,
     avatar: String
   	},

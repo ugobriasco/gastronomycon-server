@@ -8,13 +8,13 @@ var itemCtrl		= require('../item/item.controller'),
 
 var router=express.Router();
 
-router.route('/items')
-//.post(basicAuthCtrl.isAuthenticated ,itemCtrl.postItem)
-//.get(basicAuthCtrl.isAuthenticated ,itemCtrl.getItems);
-.post(jwtAuthCtrl.isAuthenticated ,itemCtrl.postItem)
-.get(jwtAuthCtrl.isAuthenticated ,itemCtrl.getItems);
+router.route('/item')
+//.post(jwtAuthCtrl.isAuthenticated ,itemCtrl.postItem)
+//.get(jwtAuthCtrl.isAuthenticated ,itemCtrl.getItems);
+.post(itemCtrl.postItem)
+.get(itemCtrl.getItems);
 
-router.route('/items/:objID')
+router.route('/item/:objID')
 .get(itemCtrl.getItem)
 .put(itemCtrl.putItem)
 .delete(itemCtrl.deleteItem)

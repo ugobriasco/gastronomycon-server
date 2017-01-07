@@ -8,62 +8,48 @@ import {User} from './user.model';
 
 @Component({
   selector: 'app-user',
-  template: `
-  		
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-sm-6">
-		            <div class="card hovercard">
-		                <div class="cardheader">
-
-		                </div>
-		                <div class="avatar">
-		                    <img alt="" src="http://lorempixel.com/100/100/people/9/">
-		                </div>
-		                <div class="info">
-		                    <div class="title">
-		                        {{user.name}}
-		                    </div>
-		                    <div class="desc">{{user.email}}</div>
-		                    <div class="desc">{{user.role}}</div>
-		                </div>
-		                <div class="bottom">
-		                    <a class="btn btn-primary btn-twitter btn-sm" href="https://twitter.com/webmaniac">
-		                        <i class="fa fa-twitter"></i>
-		                    </a>
-		                    <a class="btn btn-danger btn-sm" rel="publisher"
-		                       href="https://plus.google.com/+ahmshahnuralam">
-		                        <i class="fa fa-google-plus"></i>
-		                    </a>
-		                    <a class="btn btn-primary btn-sm" rel="publisher"
-		                       href="https://plus.google.com/shahnuralam">
-		                        <i class="fa fa-facebook"></i>
-		                    </a>
-		                    <a class="btn btn-warning btn-sm" rel="publisher" href="https://plus.google.com/shahnuralam">
-		                        <i class="fa fa-behance"></i>
-		                    </a>
-		                </div>
-		            </div>
-
-		        </div>
-
-			</div>
-		</div>
-  			
-  `,
+  templateUrl:'./user.component.html',
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
-title = 'http app digest';
-
-  user = {}
+  user: any;
+  successMessage: string = '';
+  errorMessage: string = '';
 
   constructor(private service: UserService){}
 
   ngOnInit(){
-  	this.service.getUser()
-  	.subscribe(user => this.user = user);
+  	this.init();
+  	this.service.getUser().subscribe(user => this.user = user);
+  }
+
+  updateUser(){
+  	this.errorMessage = '';
+  	this.successMessage = '';
+
+  	this.service.updateUser(this.user)
+  	.subscribe(
+  		user => {
+  			this.successMessage = 'Profile updated';
+        
+  		},
+  		err => {
+  			this.errorMessage = err;
+  			console.log(err);
+  		}
+
+
+  		)
+  }
+
+  init(): void {
+    this.user = {
+      email: '',
+      role: '',
+      profile: {
+        name: ''
+      }
+    }
   }
 
 }

@@ -4,12 +4,9 @@ var Item = require('./item.model');
 //endpoint for api/items
 
 exports.postItem = function(req, res){
-
 	var item = new Item();
-
-	item.name = req.body.name;
-	item.quantity = req.body.quantity;
-	
+	item.type = req.body.item.type;
+	item.name = req.body.item.name;
 
 	item.save(function(err){
 		if(err)throw err;
