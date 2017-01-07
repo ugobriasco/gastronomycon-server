@@ -19,6 +19,7 @@ import { LandingComponent } from './landing/landing.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './auth/login.component';
 import { SignupComponent } from './auth/signup.component';
+import { ItemsComponent } from './items/items.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { SignupComponent } from './auth/signup.component';
     LandingComponent,
     UserComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ItemsComponent
   ],
   imports: [
     BrowserModule,
