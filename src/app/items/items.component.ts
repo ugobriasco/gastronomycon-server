@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ItemsService} from './items.service';
 
 @Component({
   selector: 'app-items',
@@ -27,7 +28,7 @@ import { Component, OnInit } from '@angular/core';
   				<table class="table">
 		  			<thead>
 					      <tr>
-					        <th>ID</th>
+					        <th></th>
 					        <th>IT</th>
 					        <th>DE</th>
 					        <th>PL</th>
@@ -36,22 +37,23 @@ import { Component, OnInit } from '@angular/core';
 					</thead>
 						<tbody *ngFor ="let item of items">
 							<tr>
-								<td>{{item.id}}</td>
-								<td><strong>{{item.name.it.main}}</strong></td>
-								<td><strong>{{item.name.de.main}}</strong></td>
-								<td><strong>{{item.name.pl.main}}</strong></td>
-								<td><i class="fa fa-trash right" aria-hidden="true"></i> </td>
+								<td colspan="5">Id: <small>{{item?._id}}</small></td>
 							</tr>
 							<tr>
-								<td></td>
-								<td><em>{{item.name.it.spec}}</em></td>
-								<td><em>{{item.name.de.spec}}</em></td>
-								<td><em>{{item.name.pl.spec}}</em></td>
+								<td rowspan="2"><img src="{{item.pic}}" class="pic"/></td>
+								<td class="span3"><strong>{{item?.name?.it?.main}}</strong></td>
+								<td class="span3"><strong>{{item?.name?.de?.main}}</strong></td>
+								<td class="span3"><strong>{{item?.name?.pl?.main}}</strong></td>
+								<td class="span3"><i class="fa fa-trash right" aria-hidden="true"></i> </td>
+							</tr>
+							<tr>
+								<td><em>{{item?.name?.it?.spec}}</em></td>
+								<td><em>{{item?.name?.de?.spec}}</em></td>
+								<td><em>{{item?.name?.pl?.spec}}</em></td>
 								<td><i class="fa fa-pencil right" aria-hidden="true"></i></td>
 							</tr>
-							
 						</tbody>
-				</table>
+				</table>	
   			</div>
 
   		</div>
@@ -104,6 +106,17 @@ import { Component, OnInit } from '@angular/core';
         z-index: 3;   
     }
 
+    .pic {
+	    width: 100px;
+	    height: 100px;
+	    max-width: 100px;
+	    max-height: 100px;
+	    -webkit-border-radius: 50%;
+	    -moz-border-radius: 50%;
+	    border-radius: 50%;
+	    border: 5px solid rgba(255,255,255,0.5);
+	}
+
   `
 
 
@@ -112,10 +125,10 @@ import { Component, OnInit } from '@angular/core';
 export class ItemsComponent implements OnInit {
 
 
-	items = [
-
+/*	items = [
 	{
-		id: '000', 
+		_id: '000',
+		pic: 'http://www.989wolf.com/wp-content/uploads/2016/05/maxresdefault-1.jpg' ,
 		name:{
 			it:{
 				main: 'main',
@@ -133,7 +146,8 @@ export class ItemsComponent implements OnInit {
 		}	
 	},
 	{
-		id: '000', 
+		_id: '000',
+		pic: 'http://www.989wolf.com/wp-content/uploads/2016/05/maxresdefault-1.jpg' , 
 		name:{
 			it:{
 				main: 'main',
@@ -151,7 +165,8 @@ export class ItemsComponent implements OnInit {
 		}	
 	},
 	{
-		id: '000', 
+		_id: '000', 
+		pic: 'http://www.989wolf.com/wp-content/uploads/2016/05/maxresdefault-1.jpg' ,
 		name:{
 			it:{
 				main: 'main',
@@ -168,16 +183,18 @@ export class ItemsComponent implements OnInit {
 
 		}	
 	},
+	];*/
 
+	items = [];
 
-
-
-	];
-
-  constructor() { }
+  constructor(private service: ItemsService) {}
 
   ngOnInit() {
-  	console.log(this.items);
+  		this.service.getItems()
+  			.subscribe(http_items => this.items = http_items);
+
+  			console.log(this.items);
+  		
   }
 
 }
