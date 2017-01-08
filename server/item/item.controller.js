@@ -6,6 +6,7 @@ var Item = require('./item.model');
 exports.postItem = function(req, res){
 	var item = new Item();
 	item.type = req.body.item.type;
+	item.pic = req.body.item.pic;
 	item.name = req.body.item.name;
 
 	item.save(function(err){
@@ -15,8 +16,7 @@ exports.postItem = function(req, res){
 	});
 }
 
-exports.getItems = function(req, res){
-
+exports.getAllItems = function(req, res){
 	Item.find(function(err, items){
 		if(err)throw err;
 		res.send(items);
@@ -44,8 +44,10 @@ exports.putItem = function(req, res){
 	Item.findById(req.params.objID, function(err, item){
 		if(err)throw err;
 
-		item.name = req.body.name;
-		item.quantity = req.body.quantity;
+		var item = new Item();
+		item.type = req.body.item.type;
+		item.pic = req.body.item.pic;
+		item.name = req.body.item.name;
 
 		item.save(function(err){
 			if(err) throw err;

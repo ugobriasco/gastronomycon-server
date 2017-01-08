@@ -16,6 +16,7 @@ var mongoose = require('mongoose');
 
 var ItemSchema = new mongoose.Schema({
 	type: String,
+	pic: String,
 	name: {
 		it: {
 			main: String,
