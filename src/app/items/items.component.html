@@ -62,7 +62,7 @@
 
 <!-- Edit Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Edit Item">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
   	<form (ngSubmit)="updateItem()">
 	  	<div class="modal-content">
 	      <div class="modal-header">
@@ -74,26 +74,45 @@
 	      		<label for="Image url">Img url</label>
 	      		<input type="text" class="form-control" name="pic_url" [(ngModel)] = "$item.data.pic">
 	      	</div>
-	      	<div>
-		      	<ul class="nav nav-tabs">
-				  <li role="presentation" class="active"><a>IT</a></li>
-				  <li role="presentation"><a>DE</a></li>
-				  <li role="presentation"><a>PL</a></li>
-				</ul>
-	      	</div>
-
-
-
-
-
-
-
-
-
-
-
-	        <p>{{$item.data | json}}</p>
-	      </div>
+		    <div class="sidebar-category">
+		        <ul class="nav nav-tabs">
+		          <li [class.active]="panelshow == 'DE'"> <a (click)="setPanel('DE')">DE</a></li>
+		          <li [class.active]="panelshow == 'PL'"> <a (click)="setPanel('PL')">PL</a></li>
+		          <li [class.active]="panelshow == 'IT'"> <a (click)="setPanel('IT')">IT</a></li>
+		        </ul>
+		        <div *ngIf="panelshow == 'DE'"> 
+					<div class="form-group">
+	      				<label for="Image url">Main name</label>
+	      				<input type="text" class="form-control" name="de-main" [(ngModel)] = "$item.data.name.de.main">
+	      			</div>
+	      			<div class="form-group">
+	      				<label for="Image url">Spec</label>
+	      				<input type="text" class="form-control" name="de-spec" [(ngModel)] = "$item.data.name.de.spec">
+	      			</div>
+				</div>
+				<div *ngIf="panelshow == 'PL'"> 
+					<div class="form-group">
+	      				<label for="Image url">Main name</label>
+	      				<input type="text" class="form-control" name="pl-main" [(ngModel)] = "$item.data.name.pl.main">
+	      			</div>
+	      			<div class="form-group">
+	      				<label for="Image url">Spec</label>
+	      				<input type="text" class="form-control" name="pl-spec" [(ngModel)] = "$item.data.name.pl.spec">
+	      			</div>
+				</div>
+				<div *ngIf="panelshow == 'IT'"> 
+					<div class="form-group">
+	      				<label for="Image url">Main name</label>
+	      				<input type="text" class="form-control" name="it-main" [(ngModel)] = "$item.data.name.it.main">
+	      			</div>
+	      			<div class="form-group">
+	      				<label for="Image url">Spec</label>
+	      				<input type="text" class="form-control" name="it-spec" [(ngModel)] = "$item.data.name.it.spec">
+	      			</div>
+				</div>
+		        <p>{{$item.data | json}}</p>
+		     </div>
+		   </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 	        <button type="submit" class="btn btn-primary">Save changes</button>

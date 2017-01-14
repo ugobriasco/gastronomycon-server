@@ -11,7 +11,8 @@ import {ItemsService} from './items.service';
 export class ItemsComponent implements OnInit {
 
 	items = [];
-	$item = {id: 'bau', data: {} };
+	$item = {id: '', data:{} };
+  panelshow: string = '' ;
 
   constructor(private service: ItemsService) {}
 
@@ -28,8 +29,18 @@ export class ItemsComponent implements OnInit {
 
   }
 
+
+
   updateItem(){
-    
+    this.service.updateItem(this.$item.data)
   }
+
+  private setPanel(name){
+    
+    return this.panelshow = name;
+
+  }
+
+
 
 }
