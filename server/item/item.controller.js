@@ -19,7 +19,7 @@ exports.postItem = function(req, res){
 exports.getAllItems = function(req, res){
 	Item.find(function(err, items){
 		if(err)throw err;
-		res.send(items);
+		res.json({data: items});
 
 	});
 }
@@ -27,7 +27,7 @@ exports.getAllItems = function(req, res){
 exports.getItem = function(req, res){
 	Item.findById(req.params.objID, function(err, item){
 		if(err) throw err;
-		res.json(item);
+		res.json({data: item});
 
 	});
 }

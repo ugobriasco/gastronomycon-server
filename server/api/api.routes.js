@@ -11,13 +11,13 @@ var router=express.Router();
 router.route('/item')
 //.post(jwtAuthCtrl.isAuthenticated ,itemCtrl.postItem)
 //.get(jwtAuthCtrl.isAuthenticated ,itemCtrl.getItems);
-.post(itemCtrl.postItem)
-.get(itemCtrl.getItems);
+	.post(itemCtrl.postItem)
+	.get(itemCtrl.getAllItems);
 
 router.route('/item/:objID')
-.get(itemCtrl.getItem)
-.put(itemCtrl.putItem)
-.delete(itemCtrl.deleteItem)
+	.get(itemCtrl.getItem)
+	.put(itemCtrl.putItem)
+	.delete(itemCtrl.deleteItem)
 
 router.route('/user')
 	.get(userCtrl.getAllUsers)
@@ -29,10 +29,10 @@ router.route('/user/:objID')
 	.delete(userCtrl.deleteUser);
 
 router.route('/login')
-.post(jwtAuthCtrl.postLogin);
+	.post(jwtAuthCtrl.postLogin);
 
 router.route('/signup')
-.post(jwtAuthCtrl.postSignUp);
+	.post(jwtAuthCtrl.postSignUp);
 
 
 
