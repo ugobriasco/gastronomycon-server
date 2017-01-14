@@ -13,6 +13,7 @@ import 'rxjs/add/observable/throw';
 import { routing } from './app.routing';
 import { AuthService } from './shared/auth.service';
 import { UserService } from './shared/user.service';
+import { ItemsService } from './items/items.service';
 
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -22,6 +23,9 @@ import { SignupComponent } from './auth/signup.component';
 import { ItemsComponent } from './items/items.component';
 
 
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +33,7 @@ import { ItemsComponent } from './items/items.component';
     UserComponent,
     LoginComponent,
     SignupComponent,
-    ItemsComponent
+    ItemsComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,8 @@ import { ItemsComponent } from './items/items.component';
   ],
   providers: [
     AuthService,
-    UserService
+    UserService,
+    ItemsService
   ],
   bootstrap: [AppComponent]
 })

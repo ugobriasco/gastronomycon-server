@@ -1,3 +1,125 @@
-<p>
-  items works!
-</p>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+		<div id="custom-search-input">
+            <div class="input-group col-md-12">
+                <input type="text" class="  search-query form-control" placeholder="Search" />
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button">
+                        <span class=" glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12" *ngIf="items">
+			<table class="table">
+  			<thead>
+			      <tr>
+			        <th></th>
+			        <th>IT</th>
+			        <th>DE</th>
+			        <th>PL</th>
+			        <th></th>
+			      </tr>
+			</thead>
+				<tbody *ngFor ="let item of items">
+					<tr>
+						<td colspan="5"><small> Id: {{item?._id}}</small></td>
+					</tr>
+					<tr>
+						<td rowspan="2"><img src="{{item.pic}}" class="pic"/></td>
+						<td class="span3"><strong>{{item?.name?.it?.main}}</strong></td>
+						<td class="span3"><strong>{{item?.name?.de?.main}}</strong></td>
+						<td class="span3"><strong>{{item?.name?.pl?.main}}</strong></td>
+						<td class="span3">
+							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">
+							  <i class="fa fa-trash right" aria-hidden="true"></i>
+							</button>
+						 </td>
+					</tr>
+					<tr>
+						<td><em>{{item?.name?.it?.spec}}</em></td>
+						<td><em>{{item?.name?.de?.spec}}</em></td>
+						<td><em>{{item?.name?.pl?.spec}}</em></td>
+						<td>
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" (click)="selectId(item._id)">
+							  <i class="fa fa-pencil right" aria-hidden="true"></i>
+							</button>
+						</td>
+					</tr>
+				</tbody>
+		</table>
+		<p>Selector: {{$item.id}}</p>	
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Edit Item">
+  <div class="modal-dialog" role="document">
+  	<form (ngSubmit)="updateItem()">
+	  	<div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Edit Item {{$item.id}}</h4>
+	      </div>
+	      <div class="modal-body">
+	      	<div class="form-group">
+	      		<label for="Image url">Img url</label>
+	      		<input type="text" class="form-control" name="pic_url" [(ngModel)] = "$item.data.pic">
+	      	</div>
+	      	<div>
+		      	<ul class="nav nav-tabs">
+				  <li role="presentation" class="active"><a>IT</a></li>
+				  <li role="presentation"><a>DE</a></li>
+				  <li role="presentation"><a>PL</a></li>
+				</ul>
+	      	</div>
+
+
+
+
+
+
+
+
+
+
+
+	        <p>{{$item.data | json}}</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary">Save changes</button>
+	      </div>
+	    </div>
+    </form>
+  </div>
+</div>
+
+<!--DELETE Modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="Delete Item">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Delete Item</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

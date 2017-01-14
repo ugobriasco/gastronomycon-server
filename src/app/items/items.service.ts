@@ -7,6 +7,7 @@ import {Subject} from 'rxjs/subject';
 export class ItemsService {
 
 	private itemsUrl: string = 'http://localhost:3000/api/item'
+	private selectedItem: string = '';
 
   constructor(private http: Http) {}
 
@@ -16,6 +17,18 @@ export class ItemsService {
   	.catch(this.handleError);
   }
 
+   getItem(id: string): Observable<Object>{
+  	return this.http.get(`${this.itemsUrl}/${id}`)
+  	.map(res => res.json().data)
+  	.catch(this.handleError);
+  }
+
+
+  updateItem(item): Observable<Object>{
+  	return this.http.put(`${this.itemsUrl}/${item._id}`, item)
+  	.map(res => res.json)
+  	.catch(this.handleError);
+  }
 
 
   	private handleError(err){
