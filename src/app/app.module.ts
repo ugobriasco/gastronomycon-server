@@ -26,6 +26,7 @@ import { ItemsComponent } from './items/items.component';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +34,8 @@ import { ItemsComponent } from './items/items.component';
     UserComponent,
     LoginComponent,
     SignupComponent,
-    ItemsComponent,
+    ItemsComponent
+    
   ],
   imports: [
     BrowserModule,

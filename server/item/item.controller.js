@@ -5,9 +5,11 @@ var Item = require('./item.model');
 
 exports.postItem = function(req, res){
 	var item = new Item();
-	item.type = req.body.item.type;
-	item.pic = req.body.item.pic;
-	item.name = req.body.item.name;
+	item.type = req.body.type;
+	item.pic = req.body.pic;
+	item.name = req.body.name;
+
+	//ToDo robust input validation, as an inconsistant data will crash the client
 
 	item.save(function(err){
 		if(err)throw err;
@@ -44,10 +46,9 @@ exports.putItem = function(req, res){
 	Item.findById(req.params.objID, function(err, item){
 		if(err)throw err;
 
-		var item = new Item();
-		item.type = req.body.item.type;
-		item.pic = req.body.item.pic;
-		item.name = req.body.item.name;
+		item.type = req.body.type;
+		item.pic = req.body.pic;
+		item.name = req.body.name;
 
 		item.save(function(err){
 			if(err) throw err;
@@ -55,6 +56,17 @@ exports.putItem = function(req, res){
 
 		});
 	});
+
+
+	exports.updateUser = function(req, res) {
+    User.findById({_id: req.params.objID}, (err, user) => {
+        if(err) res.send(err);
+        Object.assign(user, req.body).save((err, user) => {
+            if(err) res.send(err);
+            res.json({ message: 'User updated!', user });
+        }); 
+    });
+}
 
 }
 

@@ -17,10 +17,16 @@ export class ItemsService {
   	.catch(this.handleError);
   }
 
-   getItem(id: string): Observable<Object>{
+  getItem(id: string): Observable<Object>{
   	return this.http.get(`${this.itemsUrl}/${id}`)
   	.map(res => res.json().data)
   	.catch(this.handleError);
+  }
+
+  createItem(item): Observable<Object>{
+    return this.http.post(`${this.itemsUrl}`, item)
+    .map(res => res.json)
+    .catch(this.handleError);
   }
 
 
@@ -28,6 +34,12 @@ export class ItemsService {
   	return this.http.put(`${this.itemsUrl}/${item._id}`, item)
   	.map(res => res.json)
   	.catch(this.handleError);
+  }
+
+  deleteItem(item): Observable<Object>{
+    return this.http.delete(`${this.itemsUrl}/${item._id}`)
+    .map(res => res.json)
+    .catch(this.handleError);
   }
 
 

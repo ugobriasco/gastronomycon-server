@@ -2,17 +2,17 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-		<div id="custom-search-input">
-            <div class="input-group col-md-12">
-                <input type="text" class="  search-query form-control" placeholder="Search" />
-                <span class="input-group-btn">
-                    <button class="btn btn-danger" type="button">
-                        <span class=" glyphicon glyphicon-search"></span>
-                    </button>
-                </span>
-            </div>
+		
+            <div class="input-group">
+		      <input type="text" class="form-control" placeholder="Search for...">
+		      <span class="input-group-btn">
+		        <button class="btn btn-success" type="button" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+		      </span>
+		    </div><!-- /input-group -->
         </div>
-		</div>
+
+
+		
 	</div>
 	<div class="row">
 		<div class="col-md-12" *ngIf="items">
@@ -36,7 +36,7 @@
 						<td class="span3"><strong>{{item?.name?.de?.main}}</strong></td>
 						<td class="span3"><strong>{{item?.name?.pl?.main}}</strong></td>
 						<td class="span3">
-							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal">
+							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" (click)="selectId(item._id)">
 							  <i class="fa fa-trash right" aria-hidden="true"></i>
 							</button>
 						 </td>
@@ -72,7 +72,7 @@
 	      <div class="modal-body">
 	      	<div class="form-group">
 	      		<label for="Image url">Img url</label>
-	      		<input type="text" class="form-control" name="pic_url" [(ngModel)] = "$item.data.pic">
+	      		<input type="text" class="form-control" name="pic-url" [(ngModel)] = "$item.data.pic">
 	      	</div>
 		    <div class="sidebar-category">
 		        <ul class="nav nav-tabs">
@@ -115,7 +115,7 @@
 		   </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	        <button type="submit" class="btn btn-primary">Save changes</button>
+	        <button type="submit" class="btn btn-primary" >Save changes</button>
 	      </div>
 	    </div>
     </form>
@@ -131,11 +131,14 @@
         <h4 class="modal-title" id="myModalLabel">Delete Item</h4>
       </div>
       <div class="modal-body">
-        ...
+        <h3 class="centered">Are you sure you want to delete this item?</h3>
+        <div class="row">
+        	<div class="col-md-12">{{$item.data | json}}</div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary"  (click)="deleteItem($item.data)">Yes</button>
       </div>
     </div>
   </div>
