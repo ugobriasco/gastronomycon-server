@@ -7,13 +7,7 @@ import { UserService } 			from './shared/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styles: [`
-	
-	.pointer{
-    cursor:pointer;
-	}
-
-  `]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   	d = new Date();
