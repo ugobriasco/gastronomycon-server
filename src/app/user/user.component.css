@@ -193,9 +193,10 @@
     background-color: rgba(214, 224, 226, 0.2);
 }
 
-.card.hovercard .cardheader {
-    background: url("http://lorempixel.com/850/280/nature/4/");
+.card.hovercard .cardheader .img {
+    /*background: url("http://lorempixel.com/850/280/nature/4/");*/
     background-size: cover;
+
     height: 135px;
 }
 

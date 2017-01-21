@@ -21,6 +21,7 @@ export class UserComponent implements OnInit {
   ngOnInit(){
   	this.init();
   	this.service.getUser().subscribe(user => this.user = user);
+    
   }
 
   updateUser(){
@@ -42,14 +43,17 @@ export class UserComponent implements OnInit {
   		)
   }
 
-  init(): void {
+  private init(): void {
     this.user = {
       email: '',
       role: '',
       profile: {
-        name: ''
+        name: '',
+        avatar: '',
+        cover: ''
       }
     }
   }
+
 
 }

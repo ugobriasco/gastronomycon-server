@@ -4,58 +4,47 @@
 		<div class="col-md-12">
 		
             <div class="input-group">
-		      <input type="text" class="form-control" placeholder="Search for...">
+		      <input type="text" class="form-control" placeholder="Search for..." >
 		      <span class="input-group-btn">
 		        <button class="btn btn-success" type="button" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		      </span>
 		    </div><!-- /input-group -->
         </div>
+    </div>
 
+    <hr>
 
-		
-	</div>
-	<div class="row">
-		<div class="col-md-12" *ngIf="items">
-			<table class="table">
-  			<thead>
-			      <tr>
-			        <th></th>
-			        <th>IT</th>
-			        <th>DE</th>
-			        <th>PL</th>
-			        <th></th>
-			      </tr>
-			</thead>
-				<tbody *ngFor ="let item of items">
-					<tr>
-						<td colspan="5"><small> Id: {{item?._id}}</small></td>
-					</tr>
-					<tr>
-						<td rowspan="2"><img src="{{item.pic}}" class="pic"/></td>
-						<td class="span3"><strong>{{item?.name?.it?.main}}</strong></td>
-						<td class="span3"><strong>{{item?.name?.de?.main}}</strong></td>
-						<td class="span3"><strong>{{item?.name?.pl?.main}}</strong></td>
-						<td class="span3">
-							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" (click)="selectId(item._id)">
-							  <i class="fa fa-trash right" aria-hidden="true"></i>
-							</button>
-						 </td>
-					</tr>
-					<tr>
-						<td><em>{{item?.name?.it?.spec}}</em></td>
-						<td><em>{{item?.name?.de?.spec}}</em></td>
-						<td><em>{{item?.name?.pl?.spec}}</em></td>
-						<td>
-							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" (click)="selectId(item._id)">
-							  <i class="fa fa-pencil right" aria-hidden="true"></i>
-							</button>
-						</td>
-					</tr>
-				</tbody>
-		</table>
-		<p>Selector: {{$item.id}}</p>	
-		</div>
-	</div>
+    <div class="row">
+	    	<div class="col-md-6 lib-item" *ngFor ="let item of items">
+	            <div class="lib-panel">
+	                <div class="row box-shadow">
+	                    <div class="col-md-6 lib-img-wrapper">
+	                        <img class="lib-img" src="{{item.pic}}">
+	                    </div>
+	                    <div class="col-md-6 lib-wrapper">
+	                        <div class="lib-row lib-header">
+	                            <p><strong>{{item?.name?.it?.main}}</strong> <span class="text-muted"><i>{{item?.name?.it?.spec}}</i> (it)</span></p>
+	                            <p><strong>{{item?.name?.de?.main}}</strong> <span class="text-muted"><i>{{item?.name?.de?.spec}}</i> (de)</span></p>
+	                            <p><strong>{{item?.name?.pl?.main}}</strong> <span class="text-muted"><i>{{item?.name?.de?.spec}}</i> (pl)</span></p>
+	                            
+	                        </div>
+	                        <div class="lib-row lib-desc">
+		                       
+	                        </div>
+	                         <div class="btn-group lib-btn-group">
+		                        	 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" (click)="selectId(item._id)">
+								  		<i class="fa fa-pencil right" aria-hidden="true"></i>
+									</button>
+		                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" (click)="selectId(item._id)">
+								  		<i class="fa fa-trash right" aria-hidden="true"></i>
+									</button>
+							</div> 
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+    </div>
+
 </div>
 
 

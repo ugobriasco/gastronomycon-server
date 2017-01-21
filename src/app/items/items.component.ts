@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {ItemsService} from './items.service';
+import {SearchPipe} from './items.searchitem.pipe';
 declare var jQuery:any;
 
 
 @Component({
   selector: 'app-items',
   templateUrl: './items.component.html',
-  styleUrls: ['./items.component.css']
+  styleUrls: ['./items.component.css'],
+
+
   
 })
 export class ItemsComponent implements OnInit {
