@@ -57,13 +57,20 @@
     max-height: 200px;
     min-height: 200px;
     overflow: hidden;
+    
 }
 
 
 .lib-panel .lib-img-wrapper img {
     width: 100%;
     background-color: transparent;
-    
+    object-fit: cover;
+    height: 200px;
+        
+}
+
+.lib-img-wrapper:hover{
+
 }
 
 .lib-panel .row,
@@ -109,8 +116,6 @@
     bottom: 0;
     right: 0;
 }
-
-
 
 .row-margin-bottom {
     margin-bottom: 20px;
