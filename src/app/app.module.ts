@@ -23,6 +23,8 @@ import { SignupComponent } from './auth/signup.component';
 import { ItemsComponent } from './items/items.component';
 import { SearchPipe} from './items/items.filterItem.pipe';
 import { OrderBy } from './shared/pipes/orderby.pipe';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 
 
@@ -39,7 +41,9 @@ import { OrderBy } from './shared/pipes/orderby.pipe';
     SignupComponent,
     ItemsComponent,
     SearchPipe,
-    OrderBy 
+    OrderBy,
+    NavbarComponent,
+    FooterComponent 
     
   ],
   imports: [

@@ -35,3 +35,8 @@
   background-color: rgba(255, 255, 255, 1);
 }
 
+header {
+  position: realtive;
+  padding-top:80px; 
+}
+
