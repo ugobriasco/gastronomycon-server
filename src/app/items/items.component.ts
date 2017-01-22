@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ItemsService} from './items.service';
-import {SearchPipe} from './items.searchitem.pipe';
+import {SearchPipe} from './items.filterItem.pipe';
 declare var jQuery:any;
 
 
@@ -8,8 +8,6 @@ declare var jQuery:any;
   selector: 'app-items',
   templateUrl: './items.component.html',
   styleUrls: ['./items.component.css'],
-
-
   
 })
 export class ItemsComponent implements OnInit {

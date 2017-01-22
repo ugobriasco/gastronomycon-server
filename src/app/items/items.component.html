@@ -4,18 +4,19 @@
 		<div class="col-md-12">
 		
             <div class="input-group">
-		      <input type="text" class="form-control" placeholder="Search for..." >
+		      <input type="text" class="form-control" placeholder="Search for..." #query (keyup)="0">
 		      <span class="input-group-btn">
 		        <button class="btn btn-success" type="button" (click)="addItem()"><i class="fa fa-plus" aria-hidden="true"></i></button>
 		      </span>
 		    </div><!-- /input-group -->
+		    {{query.value}}
         </div>
     </div>
 
     <hr>
 
     <div class="row">
-	    	<div class="col-md-6 lib-item" *ngFor ="let item of items">
+	    	<div class="col-md-6 lib-item" *ngFor ="let item of ( items | search:query.value)">
 	            <div class="lib-panel">
 	                <div class="row box-shadow">
 	                    <div class="col-md-6 lib-img-wrapper">
@@ -29,7 +30,7 @@
 	                            
 	                        </div>
 	                        <div class="lib-row lib-desc">
-		                       
+	                        	<p>ID: {{item?._id}}</p> 
 	                        </div>
 	                         <div class="btn-group lib-btn-group">
 		                        	 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" (click)="selectId(item._id)">

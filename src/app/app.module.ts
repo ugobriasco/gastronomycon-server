@@ -21,9 +21,11 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './auth/login.component';
 import { SignupComponent } from './auth/signup.component';
 import { ItemsComponent } from './items/items.component';
+import { SearchPipe} from './items/items.filterItem.pipe';
 
 
 
+//Since RC6, all Directives and Pipes should be moved to module's declarations.
 
 
 
@@ -34,7 +36,8 @@ import { ItemsComponent } from './items/items.component';
     UserComponent,
     LoginComponent,
     SignupComponent,
-    ItemsComponent
+    ItemsComponent,
+    SearchPipe
     
   ],
   imports: [

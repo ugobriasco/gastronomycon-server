@@ -215,8 +215,8 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-root',
-            template: __webpack_require__(667),
-            styles: ["\n\t\n\t.pointer{\n    cursor:pointer;\n\t}\n\n  "]
+            template: __webpack_require__(668),
+            styles: [__webpack_require__(664)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__shared_auth_service__["a" /* AuthService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_2__shared_auth_service__["a" /* AuthService */]) === 'function' && _a) || Object, (typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__shared_user_service__["a" /* UserService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_3__shared_user_service__["a" /* UserService */]) === 'function' && _b) || Object, (typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === 'function' && _c) || Object])
     ], AppComponent);
@@ -334,7 +334,7 @@ var ItemsComponent = (function () {
         this.service = service;
         this.items = [];
         this.$item = { id: '', data: {} };
-        this.panelshow = '';
+        this.panelshow = 'DE';
         this.successMessage = '';
         this.errorMessage = '';
     }
@@ -342,6 +342,15 @@ var ItemsComponent = (function () {
         var _this = this;
         this.service.getItems()
             .subscribe(function (http_items) { return _this.items = http_items; });
+        this.$item.data =
+            {
+                pic: '',
+                name: {
+                    it: { main: '', spec: '' },
+                    de: { main: '', spec: '' },
+                    pl: { main: '', spec: '' },
+                }
+            };
     };
     ItemsComponent.prototype.selectId = function (id) {
         var _this = this;
@@ -356,19 +365,52 @@ var ItemsComponent = (function () {
             .subscribe(function ($item) {
             _this.successMessage = 'Item updated';
             console.log('item updated');
+            _this.service.getItems()
+                .subscribe(function (http_items) { return _this.items = http_items; });
+            jQuery("#editModal").modal("hide");
         }, function (err) {
             _this.errorMessage = err;
             console.log(err);
         });
     };
-    ItemsComponent.prototype.setPanel = function (name) {
-        return this.panelshow = name;
+    ItemsComponent.prototype.addItem = function () {
+        var _this = this;
+        var item = {
+            pic: '',
+            name: {
+                it: { main: '', spec: '' },
+                de: { main: '', spec: '' },
+                pl: { main: '', spec: '' },
+            }
+        };
+        this.service.createItem(item)
+            .subscribe(function ($item) {
+            _this.successMessage = "Item added";
+            console.log('item created');
+            _this.service.getItems()
+                .subscribe(function (http_items) { return _this.items = http_items; });
+        }, function (err) {
+            _this.errorMessage = err;
+            console.log(err);
+        });
     };
+    ItemsComponent.prototype.deleteItem = function () {
+        var _this = this;
+        this.service.deleteItem(this.$item.data)
+            .subscribe(function ($item) {
+            console.log('item deleted');
+            _this.successMessage = 'Item deleted';
+            _this.service.getItems()
+                .subscribe(function (http_items) { return _this.items = http_items; });
+            jQuery("#deleteModal").modal("hide");
+        }, function (err) { console.log(err); _this.errorMessage = err; });
+    };
+    ItemsComponent.prototype.setPanel = function (name) { return this.panelshow = name; };
     ItemsComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-items',
-            template: __webpack_require__(668),
-            styles: [__webpack_require__(664)]
+            template: __webpack_require__(669),
+            styles: [__webpack_require__(665)],
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__items_service__["a" /* ItemsService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__items_service__["a" /* ItemsService */]) === 'function' && _a) || Object])
     ], ItemsComponent);
@@ -416,8 +458,18 @@ var ItemsService = (function () {
             .map(function (res) { return res.json().data; })
             .catch(this.handleError);
     };
+    ItemsService.prototype.createItem = function (item) {
+        return this.http.post("" + this.itemsUrl, item)
+            .map(function (res) { return res.json; })
+            .catch(this.handleError);
+    };
     ItemsService.prototype.updateItem = function (item) {
         return this.http.put(this.itemsUrl + "/" + item._id, item)
+            .map(function (res) { return res.json; })
+            .catch(this.handleError);
+    };
+    ItemsService.prototype.deleteItem = function (item) {
+        return this.http.delete(this.itemsUrl + "/" + item._id)
             .map(function (res) { return res.json; })
             .catch(this.handleError);
     };
@@ -469,8 +521,8 @@ var LandingComponent = (function () {
     LandingComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-landing',
-            template: __webpack_require__(669),
-            styles: [__webpack_require__(665)]
+            template: __webpack_require__(670),
+            styles: [__webpack_require__(666)]
         }), 
         __metadata('design:paramtypes', [])
     ], LandingComponent);
@@ -526,15 +578,17 @@ var UserComponent = (function () {
             email: '',
             role: '',
             profile: {
-                name: ''
+                name: '',
+                avatar: '',
+                cover: ''
             }
         };
     };
     UserComponent = __decorate([
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["G" /* Component */])({
             selector: 'app-user',
-            template: __webpack_require__(670),
-            styles: [__webpack_require__(666)]
+            template: __webpack_require__(671),
+            styles: [__webpack_require__(667)]
         }), 
         __metadata('design:paramtypes', [(typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__shared_user_service__["a" /* UserService */] !== 'undefined' && __WEBPACK_IMPORTED_MODULE_1__shared_user_service__["a" /* UserService */]) === 'function' && _a) || Object])
     ], UserComponent);
@@ -590,15 +644,15 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(469);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(677);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(678);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_toPromise__ = __webpack_require__(678);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_toPromise__ = __webpack_require__(679);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_toPromise__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_catch__ = __webpack_require__(675);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_catch__ = __webpack_require__(676);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_catch___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_catch__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_do__ = __webpack_require__(676);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_do__ = __webpack_require__(677);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_do__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_throw__ = __webpack_require__(674);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_throw__ = __webpack_require__(675);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_throw___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_observable_throw__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_routing__ = __webpack_require__(508);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__shared_auth_service__ = __webpack_require__(214);
@@ -650,7 +704,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_15__user_user_component__["a" /* UserComponent */],
                 __WEBPACK_IMPORTED_MODULE_16__auth_login_component__["a" /* LoginComponent */],
                 __WEBPACK_IMPORTED_MODULE_17__auth_signup_component__["a" /* SignupComponent */],
-                __WEBPACK_IMPORTED_MODULE_18__items_items_component__["a" /* ItemsComponent */],
+                __WEBPACK_IMPORTED_MODULE_18__items_items_component__["a" /* ItemsComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["b" /* BrowserModule */],
@@ -787,7 +841,7 @@ var environment = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_core_js_es6_reflect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__ = __webpack_require__(526);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_core_js_es7_reflect__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__(693);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__ = __webpack_require__(694);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_zone_js_dist_zone__);
 
 
@@ -812,53 +866,60 @@ var environment = {
 /***/ 664:
 /***/ function(module, exports) {
 
-module.exports = "#custom-search-input {\n        margin:0;\n        margin-top: 10px;\n        padding: 0;\n    }\n \n    #custom-search-input .search-query {\n        padding-right: 3px;\n        padding-right: 4px \\9;\n        padding-left: 3px;\n        padding-left: 4px \\9;\n        /* IE7-8 doesn't have border-radius, so don't indent the padding */\n \n        margin-bottom: 0;\n        border-radius: 3px;\n    }\n \n    #custom-search-input button {\n        border: 0;\n        background: none;\n        /** belows styles are working good */\n        padding: 2px 5px;\n        margin-top: 2px;\n        position: relative;\n        left: -28px;\n        /* IE7-8 doesn't have border-radius, so don't indent the padding */\n        margin-bottom: 0;\n        border-radius: 3px;\n        color:#D9230F;\n    }\n \n    .search-query:focus + button {\n        z-index: 3;   \n    }\n\n    .pic {\n\t    width: 100px;\n\t    height: 100px;\n\t    max-width: 100px;\n\t    max-height: 100px;\n\t    border-radius: 50%;\n\t    border: 5px solid rgba(255,255,255,0.5);\n\t}"
+module.exports = ".pointer{\n    cursor:pointer;\n\t}\n\nheader {\n  position: realtive;\n  padding-top:80px; \n}\n\n\n.page-wrap{\n  \n  min-height:100%;\n  margin-bottom: -80px;\n\n}\n\n.page-wrap:after {\n  content: \"\";\n  display: block;\n}\n\nfooter, .page-wrap:after {\n  height: 80px; \n}\n\n/*Footer*/\nfooter {\n\n  background-color: #f5f5f5;\n  border-top: 1px solid #E7E7E7;\n\n}"
 
 /***/ },
 
 /***/ 665:
 /***/ function(module, exports) {
 
-module.exports = ".page-header h1 {\n  color: white;\n  font-size: 400%;\n}\n\n.page-header h3 {\n\tfont-size: 200%\n}\n\n/*landing*/\n.landing-page{\n  background-color:rgba(0, 0, 0, 0.4);\n  padding-bottom:5%;\n  padding-top:5%;\n}\n\n#bg {\n  position: fixed; \n  top: -50%; \n  left: -50%; \n  width: 200%; \n  height: 200%;\n  z-index: -1;\n}\n#bg img {\n  position: absolute; \n  top: 0; \n  left: 0; \n  right: 0; \n  bottom: 0; \n  margin: auto; \n  min-width: 50%;\n  min-height: 50%;\n  opacity: 0.3;\n  background-color: rgba(255, 255, 255, 1);\n}\n\n"
+module.exports = "#custom-search-input {\n        margin:0;\n        margin-top: 10px;\n        padding: 0;\n    }\n \n    #custom-search-input .search-query {\n        padding-right: 3px;\n        padding-right: 4px \\9;\n        padding-left: 3px;\n        padding-left: 4px \\9;\n        /* IE7-8 doesn't have border-radius, so don't indent the padding */\n \n        margin-bottom: 0;\n        border-radius: 3px;\n    }\n \n    #custom-search-input button {\n        border: 0;\n        background: none;\n        /** belows styles are working good */\n        padding: 2px 5px;\n        margin-top: 2px;\n        position: relative;\n        left: -28px;\n        /* IE7-8 doesn't have border-radius, so don't indent the padding */\n        margin-bottom: 0;\n        border-radius: 3px;\n        color:#D9230F;\n    }\n \n    .search-query:focus + button {\n        z-index: 3;   \n    }\n\n    .pic {\n\t    width: 100px;\n\t    height: 100px;\n\t    max-width: 100px;\n\t    max-height: 100px;\n\t    border-radius: 50%;\n\t    border: 5px solid rgba(255,255,255,0.5);\n\t}\n\n\n.lib-panel {\n    margin-bottom: 20px;\n}\n\n.lib-panel .lib-img-wrapper, .lib-wrapper{\n    max-height: 200px;\n    min-height: 200px;\n    overflow: hidden;\n}\n\n\n.lib-panel .lib-img-wrapper img {\n    width: 100%;\n    background-color: transparent;\n    \n}\n\n.lib-panel .row,\n.lib-panel .col-md-6 {\n    padding: 0;\n    background-color: #FFFFFF;\n}\n\n\n.lib-panel .lib-row {\n    padding: 0 20px 0 20px;\n\n}\n\n.lib-panel .lib-row.lib-header {\n    background-color: #FFFFFF;\n    font-size: 15px;\n    padding: 10px 20px 0 20px;\n}\n\n.lib-panel .lib-row.lib-header .lib-header-seperator {\n    height: 2px;\n    width: 26px;\n    background-color: #d9d9d9;\n    margin: 7px 0 7px 0;\n}\n\n.lib-panel .lib-row.lib-desc {\n    position: relative;\n    height: 100%;\n    display: block;\n    font-size: 13px;\n}\n.lib-panel .lib-row.lib-desc a{\n    position: absolute;\n    width: 100%;\n    bottom: 10px;\n    left: 20px;\n}\n\n.lib-panel .lib-btn-group{\n    position: absolute;\n    bottom: 0;\n    right: 0;\n}\n\n\n\n.row-margin-bottom {\n    margin-bottom: 20px;\n}\n\n.box-shadow {\n    box-shadow: 0 0 10px 0 rgba(0,0,0,.10);\n}\n\n.lib-item{\n    padding-left:40px;\n    padding-right:40px;\n}\n\n.no-padding {\n    padding: 0;\n}\n\nul {\n  list-style-type: none;\n}\n"
 
 /***/ },
 
 /***/ 666:
 /***/ function(module, exports) {
 
-module.exports = "\n\n.card {\n    padding-top: 20px;\n    margin: 10px 0 20px 0;\n    background-color: rgba(214, 224, 226, 0.2);\n    border-top-width: 0;\n    border-bottom-width: 2px;\n    border-radius: 3px;\n    box-shadow: none;\n    box-sizing: border-box;\n}\n\n.card .card-heading {\n    padding: 0 20px;\n    margin: 0;\n}\n\n.card .card-heading.simple {\n    font-size: 20px;\n    font-weight: 300;\n    color: #777;\n    border-bottom: 1px solid #e5e5e5;\n}\n\n.card .card-heading.image img {\n    display: inline-block;\n    width: 46px;\n    height: 46px;\n    margin-right: 15px;\n    vertical-align: top;\n    border: 0;\n    border-radius: 50%;\n}\n\n.card .card-heading.image .card-heading-header {\n    display: inline-block;\n    vertical-align: top;\n}\n\n.card .card-heading.image .card-heading-header h3 {\n    margin: 0;\n    font-size: 14px;\n    line-height: 16px;\n    color: #262626;\n}\n\n.card .card-heading.image .card-heading-header span {\n    font-size: 12px;\n    color: #999999;\n}\n\n.card .card-body {\n    padding: 0 20px;\n    margin-top: 20px;\n}\n\n.card .card-media {\n    padding: 0 20px;\n    margin: 0 -14px;\n}\n\n.card .card-media img {\n    max-width: 100%;\n    max-height: 100%;\n}\n\n.card .card-actions {\n    min-height: 30px;\n    padding: 0 20px 20px 20px;\n    margin: 20px 0 0 0;\n}\n\n.card .card-comments {\n    padding: 20px;\n    margin: 0;\n    background-color: #f8f8f8;\n}\n\n.card .card-comments .comments-collapse-toggle {\n    padding: 0;\n    margin: 0 20px 12px 20px;\n}\n\n.card .card-comments .comments-collapse-toggle a,\n.card .card-comments .comments-collapse-toggle span {\n    padding-right: 5px;\n    overflow: hidden;\n    font-size: 12px;\n    color: #999;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n}\n\n.card-comments .media-heading {\n    font-size: 13px;\n    font-weight: bold;\n}\n\n.card.people {\n    position: relative;\n    display: inline-block;\n    width: 170px;\n    height: 300px;\n    padding-top: 0;\n    margin-left: 20px;\n    overflow: hidden;\n    vertical-align: top;\n}\n\n.card.people:first-child {\n    margin-left: 0;\n}\n\n.card.people .card-top {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: inline-block;\n    width: 170px;\n    height: 150px;\n    background-color: #ffffff;\n}\n\n.card.people .card-top.green {\n    background-color: #53a93f;\n}\n\n.card.people .card-top.blue {\n    background-color: #427fed;\n}\n\n.card.people .card-info {\n    position: absolute;\n    top: 150px;\n    display: inline-block;\n    width: 100%;\n    height: 101px;\n    overflow: hidden;\n    background: #ffffff;\n    box-sizing: border-box;\n}\n\n.card.people .card-info .title {\n    display: block;\n    margin: 8px 14px 0 14px;\n    overflow: hidden;\n    font-size: 16px;\n    font-weight: bold;\n    line-height: 18px;\n    color: #404040;\n}\n\n.card.people .card-info .desc {\n    display: block;\n    margin: 8px 14px 0 14px;\n    overflow: hidden;\n    font-size: 12px;\n    line-height: 16px;\n    color: #737373;\n    text-overflow: ellipsis;\n}\n\n.card.people .card-bottom {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    display: inline-block;\n    width: 100%;\n    padding: 10px 20px;\n    line-height: 29px;\n    text-align: center;\n    box-sizing: border-box;\n}\n\n.card.hovercard {\n    position: relative;\n    padding-top: 0;\n    overflow: hidden;\n    text-align: center;\n    background-color: rgba(214, 224, 226, 0.2);\n}\n\n.card.hovercard .cardheader {\n    background: url(\"http://lorempixel.com/850/280/nature/4/\");\n    background-size: cover;\n    height: 135px;\n}\n\n.card.hovercard .avatar {\n    position: relative;\n    top: -50px;\n    margin-bottom: -50px;\n}\n\n.card.hovercard .avatar img {\n    width: 100px;\n    height: 100px;\n    max-width: 100px;\n    max-height: 100px;\n    border-radius: 50%;\n    border: 5px solid rgba(255,255,255,0.5);\n}\n\n.card.hovercard .info {\n    padding: 4px 8px 10px;\n}\n\n.card.hovercard .info .title {\n    margin-bottom: 4px;\n    font-size: 24px;\n    line-height: 1;\n    color: #262626;\n    vertical-align: middle;\n}\n\n.card.hovercard .info .desc {\n    overflow: hidden;\n    font-size: 12px;\n    line-height: 20px;\n    color: #737373;\n    text-overflow: ellipsis;\n}\n\n.card.hovercard .bottom {\n    padding: 0 20px;\n    margin-bottom: 17px;\n}\n\n.btn-rounded{ border-radius: 50%; width:32px; height:32px; line-height:18px;  }\n"
+module.exports = ".page-header h1 {\n  color: white;\n  font-size: 400%;\n}\n\n.page-header h3 {\n\tfont-size: 200%\n}\n\n/*landing*/\n.landing-page{\n  background-color:rgba(0, 0, 0, 0.4);\n  padding-bottom:5%;\n  padding-top:5%;\n}\n\n#bg {\n  position: fixed; \n  top: -50%; \n  left: -50%; \n  width: 200%; \n  height: 200%;\n  z-index: -1;\n}\n#bg img {\n  position: absolute; \n  top: 0; \n  left: 0; \n  right: 0; \n  bottom: 0; \n  margin: auto; \n  min-width: 50%;\n  min-height: 50%;\n  opacity: 0.3;\n  background-color: rgba(255, 255, 255, 1);\n}\n\n"
 
 /***/ },
 
 /***/ 667:
 /***/ function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-inverse\">\n  <div class=\"container-fluid\">\n  <div class=\"navbar-header\">\n    <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse-1\" aria-expanded=\"false\">\n      <span class=\"sr-only\">Toggle navigation</span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n      <span class=\"icon-bar\"></span>\n    </button>\n    <a href=\"./\" class=\"navbar-brand glyphicon glyphicon-home\"></a>\n  </div>\n\n  <!-- Collect the nav links, forms, and other content for toggling -->\n  <div class=\"collapse navbar-collapse\" id=\"navbar-collapse-1\">\n      <ul class=\"nav navbar-nav\">\n        <li><a href=\"#\">API</a></li>\n        <li><a href=\"#\">Products</a></li>\n        \n      </ul>\n      <ul class=\"nav navbar-nav navbar-right\">\n      <li *ngIf=\"!isLoggedIn\"><a routerLink=\"/signup\">Sign Up</a></li>\n      <li *ngIf=\"!isLoggedIn\"><a routerLink=\"/login\">Login</a></li>\n      <li *ngIf=\"isLoggedIn\" class=\"dropdown\">\n              <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\"> Welcome back! <span class=\"caret\"></span></a>\n              <ul class=\"dropdown-menu\">\n                <li><a href=\"/profile\">Profile</a></li>\n                <li><a href=\"#\">User list</a></li>\n                <li><a href=\"/items\">Items</a></li>\n                <li role=\"separator\" class=\"divider\"></li>\n                <li><a (click)=\"logout()\" class=\"pointer\">Logout</a></li>\n              </ul>\n      </li>\n      <li *ngIf=\"isLoggedIn\"></li>\n    </ul>\n  </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n\n<router-outlet></router-outlet>\n<footer class=\"text-center\">\n  <p>Grocerybot &copy; {{currentYear}} - by <a href=\"http://matchyourtie.com\">matchyourtie</a></p>\n</footer>"
+module.exports = "\n\n.card {\n    padding-top: 20px;\n    margin: 10px 0 20px 0;\n    background-color: rgba(214, 224, 226, 0.2);\n    border-top-width: 0;\n    border-bottom-width: 2px;\n    border-radius: 3px;\n    box-shadow: none;\n    box-sizing: border-box;\n}\n\n.card .card-heading {\n    padding: 0 20px;\n    margin: 0;\n}\n\n.card .card-heading.simple {\n    font-size: 20px;\n    font-weight: 300;\n    color: #777;\n    border-bottom: 1px solid #e5e5e5;\n}\n\n.card .card-heading.image img {\n    display: inline-block;\n    width: 46px;\n    height: 46px;\n    margin-right: 15px;\n    vertical-align: top;\n    border: 0;\n    border-radius: 50%;\n}\n\n.card .card-heading.image .card-heading-header {\n    display: inline-block;\n    vertical-align: top;\n}\n\n.card .card-heading.image .card-heading-header h3 {\n    margin: 0;\n    font-size: 14px;\n    line-height: 16px;\n    color: #262626;\n}\n\n.card .card-heading.image .card-heading-header span {\n    font-size: 12px;\n    color: #999999;\n}\n\n.card .card-body {\n    padding: 0 20px;\n    margin-top: 20px;\n}\n\n.card .card-media {\n    padding: 0 20px;\n    margin: 0 -14px;\n}\n\n.card .card-media img {\n    max-width: 100%;\n    max-height: 100%;\n}\n\n.card .card-actions {\n    min-height: 30px;\n    padding: 0 20px 20px 20px;\n    margin: 20px 0 0 0;\n}\n\n.card .card-comments {\n    padding: 20px;\n    margin: 0;\n    background-color: #f8f8f8;\n}\n\n.card .card-comments .comments-collapse-toggle {\n    padding: 0;\n    margin: 0 20px 12px 20px;\n}\n\n.card .card-comments .comments-collapse-toggle a,\n.card .card-comments .comments-collapse-toggle span {\n    padding-right: 5px;\n    overflow: hidden;\n    font-size: 12px;\n    color: #999;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n}\n\n.card-comments .media-heading {\n    font-size: 13px;\n    font-weight: bold;\n}\n\n.card.people {\n    position: relative;\n    display: inline-block;\n    width: 170px;\n    height: 300px;\n    padding-top: 0;\n    margin-left: 20px;\n    overflow: hidden;\n    vertical-align: top;\n}\n\n.card.people:first-child {\n    margin-left: 0;\n}\n\n.card.people .card-top {\n    position: absolute;\n    top: 0;\n    left: 0;\n    display: inline-block;\n    width: 170px;\n    height: 150px;\n    background-color: #ffffff;\n}\n\n.card.people .card-top.green {\n    background-color: #53a93f;\n}\n\n.card.people .card-top.blue {\n    background-color: #427fed;\n}\n\n.card.people .card-info {\n    position: absolute;\n    top: 150px;\n    display: inline-block;\n    width: 100%;\n    height: 101px;\n    overflow: hidden;\n    background: #ffffff;\n    box-sizing: border-box;\n}\n\n.card.people .card-info .title {\n    display: block;\n    margin: 8px 14px 0 14px;\n    overflow: hidden;\n    font-size: 16px;\n    font-weight: bold;\n    line-height: 18px;\n    color: #404040;\n}\n\n.card.people .card-info .desc {\n    display: block;\n    margin: 8px 14px 0 14px;\n    overflow: hidden;\n    font-size: 12px;\n    line-height: 16px;\n    color: #737373;\n    text-overflow: ellipsis;\n}\n\n.card.people .card-bottom {\n    position: absolute;\n    bottom: 0;\n    left: 0;\n    display: inline-block;\n    width: 100%;\n    padding: 10px 20px;\n    line-height: 29px;\n    text-align: center;\n    box-sizing: border-box;\n}\n\n.card.hovercard {\n    position: relative;\n    padding-top: 0;\n    overflow: hidden;\n    text-align: center;\n    background-color: rgba(214, 224, 226, 0.2);\n}\n\n.card.hovercard .cardheader .img {\n    /*background: url(\"http://lorempixel.com/850/280/nature/4/\");*/\n    background-size: cover;\n\n    height: 135px;\n}\n\n.card.hovercard .avatar {\n    position: relative;\n    top: -50px;\n    margin-bottom: -50px;\n}\n\n.card.hovercard .avatar img {\n    width: 100px;\n    height: 100px;\n    max-width: 100px;\n    max-height: 100px;\n    border-radius: 50%;\n    border: 5px solid rgba(255,255,255,0.5);\n}\n\n.card.hovercard .info {\n    padding: 4px 8px 10px;\n}\n\n.card.hovercard .info .title {\n    margin-bottom: 4px;\n    font-size: 24px;\n    line-height: 1;\n    color: #262626;\n    vertical-align: middle;\n}\n\n.card.hovercard .info .desc {\n    overflow: hidden;\n    font-size: 12px;\n    line-height: 20px;\n    color: #737373;\n    text-overflow: ellipsis;\n}\n\n.card.hovercard .bottom {\n    padding: 0 20px;\n    margin-bottom: 17px;\n}\n\n.btn-rounded{ border-radius: 50%; width:32px; height:32px; line-height:18px;  }\n"
 
 /***/ },
 
 /***/ 668:
 /***/ function(module, exports) {
 
-module.exports = "\n<div class=\"container\">\n\t<div class=\"row\">\n\t\t<div class=\"col-md-12\">\n\t\t<div id=\"custom-search-input\">\n            <div class=\"input-group col-md-12\">\n                <input type=\"text\" class=\"  search-query form-control\" placeholder=\"Search\" />\n                <span class=\"input-group-btn\">\n                    <button class=\"btn btn-danger\" type=\"button\">\n                        <span class=\" glyphicon glyphicon-search\"></span>\n                    </button>\n                </span>\n            </div>\n        </div>\n\t\t</div>\n\t</div>\n\t<div class=\"row\">\n\t\t<div class=\"col-md-12\" *ngIf=\"items\">\n\t\t\t<table class=\"table\">\n  \t\t\t<thead>\n\t\t\t      <tr>\n\t\t\t        <th></th>\n\t\t\t        <th>IT</th>\n\t\t\t        <th>DE</th>\n\t\t\t        <th>PL</th>\n\t\t\t        <th></th>\n\t\t\t      </tr>\n\t\t\t</thead>\n\t\t\t\t<tbody *ngFor =\"let item of items\">\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td colspan=\"5\"><small> Id: {{item?._id}}</small></td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td rowspan=\"2\"><img src=\"{{item.pic}}\" class=\"pic\"/></td>\n\t\t\t\t\t\t<td class=\"span3\"><strong>{{item?.name?.it?.main}}</strong></td>\n\t\t\t\t\t\t<td class=\"span3\"><strong>{{item?.name?.de?.main}}</strong></td>\n\t\t\t\t\t\t<td class=\"span3\"><strong>{{item?.name?.pl?.main}}</strong></td>\n\t\t\t\t\t\t<td class=\"span3\">\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#deleteModal\">\n\t\t\t\t\t\t\t  <i class=\"fa fa-trash right\" aria-hidden=\"true\"></i>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t </td>\n\t\t\t\t\t</tr>\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td><em>{{item?.name?.it?.spec}}</em></td>\n\t\t\t\t\t\t<td><em>{{item?.name?.de?.spec}}</em></td>\n\t\t\t\t\t\t<td><em>{{item?.name?.pl?.spec}}</em></td>\n\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-primary btn-sm\" data-toggle=\"modal\" data-target=\"#editModal\" (click)=\"selectId(item._id)\">\n\t\t\t\t\t\t\t  <i class=\"fa fa-pencil right\" aria-hidden=\"true\"></i>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</td>\n\t\t\t\t\t</tr>\n\t\t\t\t</tbody>\n\t\t</table>\n\t\t<p>Selector: {{$item.id}}</p>\t\n\t\t</div>\n\t</div>\n</div>\n\n\n\n<!-- Edit Modal -->\n<div class=\"modal fade\" id=\"editModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Edit Item\">\n  <div class=\"modal-dialog modal-lg\" role=\"document\">\n  \t<form (ngSubmit)=\"updateItem()\">\n\t  \t<div class=\"modal-content\">\n\t      <div class=\"modal-header\">\n\t        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n\t        <h4 class=\"modal-title\" id=\"myModalLabel\">Edit Item {{$item.id}}</h4>\n\t      </div>\n\t      <div class=\"modal-body\">\n\t      \t<div class=\"form-group\">\n\t      \t\t<label for=\"Image url\">Img url</label>\n\t      \t\t<input type=\"text\" class=\"form-control\" name=\"pic-url\" [(ngModel)] = \"$item.data.pic\">\n\t      \t</div>\n\t\t    <div class=\"sidebar-category\">\n\t\t        <ul class=\"nav nav-tabs\">\n\t\t          <li [class.active]=\"panelshow == 'DE'\"> <a (click)=\"setPanel('DE')\">DE</a></li>\n\t\t          <li [class.active]=\"panelshow == 'PL'\"> <a (click)=\"setPanel('PL')\">PL</a></li>\n\t\t          <li [class.active]=\"panelshow == 'IT'\"> <a (click)=\"setPanel('IT')\">IT</a></li>\n\t\t        </ul>\n\t\t        <div *ngIf=\"panelshow == 'DE'\"> \n\t\t\t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Main name</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"de-main\" [(ngModel)] = \"$item.data.name.de.main\">\n\t      \t\t\t</div>\n\t      \t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Spec</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"de-spec\" [(ngModel)] = \"$item.data.name.de.spec\">\n\t      \t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div *ngIf=\"panelshow == 'PL'\"> \n\t\t\t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Main name</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"pl-main\" [(ngModel)] = \"$item.data.name.pl.main\">\n\t      \t\t\t</div>\n\t      \t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Spec</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"pl-spec\" [(ngModel)] = \"$item.data.name.pl.spec\">\n\t      \t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div *ngIf=\"panelshow == 'IT'\"> \n\t\t\t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Main name</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"it-main\" [(ngModel)] = \"$item.data.name.it.main\">\n\t      \t\t\t</div>\n\t      \t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Spec</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"it-spec\" [(ngModel)] = \"$item.data.name.it.spec\">\n\t      \t\t\t</div>\n\t\t\t\t</div>\n\t\t        <p>{{$item.data | json}}</p>\n\t\t     </div>\n\t\t   </div>\n\t      <div class=\"modal-footer\">\n\t        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n\t        <button type=\"submit\" class=\"btn btn-primary\">Save changes</button>\n\t      </div>\n\t    </div>\n    </form>\n  </div>\n</div>\n\n<!--DELETE Modal-->\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete Item\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n        <h4 class=\"modal-title\" id=\"myModalLabel\">Delete Item</h4>\n      </div>\n      <div class=\"modal-body\">\n        ...\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n        <button type=\"button\" class=\"btn btn-primary\">Save changes</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n"
+module.exports = "<div class=\"page-wrap\">\n  <nav class=\"navbar navbar-inverse\">\n    <div class=\"container-fluid\">\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a href=\"./\" class=\"navbar-brand glyphicon glyphicon-home\"></a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"navbar-collapse-1\">\n        <ul class=\"nav navbar-nav\">\n          <li><a href=\"#\">API</a></li>\n          <li><a href=\"#\">Products</a></li>\n          \n        </ul>\n        <ul class=\"nav navbar-nav navbar-right\">\n        <li *ngIf=\"!isLoggedIn\"><a routerLink=\"/signup\">Sign Up</a></li>\n        <li *ngIf=\"!isLoggedIn\"><a routerLink=\"/login\">Login</a></li>\n        <li *ngIf=\"isLoggedIn\" class=\"dropdown\">\n                <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\"> Welcome back! <span class=\"caret\"></span></a>\n                <ul class=\"dropdown-menu\">\n                  <li><a href=\"/profile\">Profile</a></li>\n                  <li><a href=\"#\">User list</a></li>\n                  <li><a href=\"/items\">Items</a></li>\n                  <li role=\"separator\" class=\"divider\"></li>\n                  <li><a (click)=\"logout()\" class=\"pointer\">Logout</a></li>\n                </ul>\n        </li>\n        <li *ngIf=\"isLoggedIn\"></li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n    </div><!-- /.container-fluid -->\n  </nav>\n\n  <router-outlet></router-outlet>\n    \n\n</div>\n\n<footer class=\"text-center\">\n  <p>Grocerybot &copy; {{currentYear}} - by <a href=\"http://matchyourtie.com\">matchyourtie</a></p>\n</footer>"
 
 /***/ },
 
 /***/ 669:
 /***/ function(module, exports) {
 
-module.exports = "<div id=\"bg\">\n  <img src=\"http://thelala.com/wp-content/uploads/2015/10/o-GROCERY-SHOPPING-facebook.jpg\" alt=\"\">\n</div>\n\n<header>\n\t<div class=\"container\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t<div class=\"page-header text-center landing-page circleBase\">\n\t\t\t\t\t<h1>Welcome in Grocerybot</h1>\n\t\t\t\t\t<h3>Your personal assistant for daily grocery shopping</h3>\n\t\t\t\t\t<p> Multilingual grocery lists\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</header>\n\n"
+module.exports = "\n<div class=\"container\">\n\t<div class=\"row\">\n\t\t<div class=\"col-md-12\">\n\t\t\n            <div class=\"input-group\">\n\t\t      <input type=\"text\" class=\"form-control\" placeholder=\"Search for...\" >\n\t\t      <span class=\"input-group-btn\">\n\t\t        <button class=\"btn btn-success\" type=\"button\" (click)=\"addItem()\"><i class=\"fa fa-plus\" aria-hidden=\"true\"></i></button>\n\t\t      </span>\n\t\t    </div><!-- /input-group -->\n        </div>\n    </div>\n\n    <hr>\n\n    <div class=\"row\">\n\t    \t<div class=\"col-md-6 lib-item\" *ngFor =\"let item of items\">\n\t            <div class=\"lib-panel\">\n\t                <div class=\"row box-shadow\">\n\t                    <div class=\"col-md-6 lib-img-wrapper\">\n\t                        <img class=\"lib-img\" src=\"{{item.pic}}\">\n\t                    </div>\n\t                    <div class=\"col-md-6 lib-wrapper\">\n\t                        <div class=\"lib-row lib-header\">\n\t                            <p><strong>{{item?.name?.it?.main}}</strong> <span class=\"text-muted\"><i>{{item?.name?.it?.spec}}</i> (it)</span></p>\n\t                            <p><strong>{{item?.name?.de?.main}}</strong> <span class=\"text-muted\"><i>{{item?.name?.de?.spec}}</i> (de)</span></p>\n\t                            <p><strong>{{item?.name?.pl?.main}}</strong> <span class=\"text-muted\"><i>{{item?.name?.de?.spec}}</i> (pl)</span></p>\n\t                            \n\t                        </div>\n\t                        <div class=\"lib-row lib-desc\">\n\t\t                       \n\t                        </div>\n\t                         <div class=\"btn-group lib-btn-group\">\n\t\t                        \t <button type=\"button\" class=\"btn btn-primary btn-sm\" data-toggle=\"modal\" data-target=\"#editModal\" (click)=\"selectId(item._id)\">\n\t\t\t\t\t\t\t\t  \t\t<i class=\"fa fa-pencil right\" aria-hidden=\"true\"></i>\n\t\t\t\t\t\t\t\t\t</button>\n\t\t                            <button type=\"button\" class=\"btn btn-danger btn-sm\" data-toggle=\"modal\" data-target=\"#deleteModal\" (click)=\"selectId(item._id)\">\n\t\t\t\t\t\t\t\t  \t\t<i class=\"fa fa-trash right\" aria-hidden=\"true\"></i>\n\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t</div> \n\t                    </div>\n\t                </div>\n\t            </div>\n\t        </div>\n    </div>\n\n</div>\n\n\n\n<!-- Edit Modal -->\n<div class=\"modal fade\" id=\"editModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Edit Item\">\n  <div class=\"modal-dialog modal-lg\" role=\"document\">\n  \t<form (ngSubmit)=\"updateItem()\">\n\t  \t<div class=\"modal-content\">\n\t      <div class=\"modal-header\">\n\t        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n\t        <h4 class=\"modal-title\" id=\"myModalLabel\">Edit Item {{$item.id}}</h4>\n\t      </div>\n\t      <div class=\"modal-body\">\n\t      \t<div class=\"form-group\">\n\t      \t\t<label for=\"Image url\">Img url</label>\n\t      \t\t<input type=\"text\" class=\"form-control\" name=\"pic-url\" [(ngModel)] = \"$item.data.pic\">\n\t      \t</div>\n\t\t    <div class=\"sidebar-category\">\n\t\t        <ul class=\"nav nav-tabs\">\n\t\t          <li [class.active]=\"panelshow == 'DE'\"> <a (click)=\"setPanel('DE')\">DE</a></li>\n\t\t          <li [class.active]=\"panelshow == 'PL'\"> <a (click)=\"setPanel('PL')\">PL</a></li>\n\t\t          <li [class.active]=\"panelshow == 'IT'\"> <a (click)=\"setPanel('IT')\">IT</a></li>\n\t\t        </ul>\n\t\t        <div *ngIf=\"panelshow == 'DE'\"> \n\t\t\t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Main name</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"de-main\" [(ngModel)] = \"$item.data.name.de.main\">\n\t      \t\t\t</div>\n\t      \t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Spec</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"de-spec\" [(ngModel)] = \"$item.data.name.de.spec\">\n\t      \t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div *ngIf=\"panelshow == 'PL'\"> \n\t\t\t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Main name</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"pl-main\" [(ngModel)] = \"$item.data.name.pl.main\">\n\t      \t\t\t</div>\n\t      \t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Spec</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"pl-spec\" [(ngModel)] = \"$item.data.name.pl.spec\">\n\t      \t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div *ngIf=\"panelshow == 'IT'\"> \n\t\t\t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Main name</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"it-main\" [(ngModel)] = \"$item.data.name.it.main\">\n\t      \t\t\t</div>\n\t      \t\t\t<div class=\"form-group\">\n\t      \t\t\t\t<label for=\"Image url\">Spec</label>\n\t      \t\t\t\t<input type=\"text\" class=\"form-control\" name=\"it-spec\" [(ngModel)] = \"$item.data.name.it.spec\">\n\t      \t\t\t</div>\n\t\t\t\t</div>\n\t\t        <p>{{$item.data | json}}</p>\n\t\t     </div>\n\t\t   </div>\n\t      <div class=\"modal-footer\">\n\t        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n\t        <button type=\"submit\" class=\"btn btn-primary\" >Save changes</button>\n\t      </div>\n\t    </div>\n    </form>\n  </div>\n</div>\n\n<!--DELETE Modal-->\n<div class=\"modal fade\" id=\"deleteModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Delete Item\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n        <h4 class=\"modal-title\" id=\"myModalLabel\">Delete Item</h4>\n      </div>\n      <div class=\"modal-body\">\n        <h3 class=\"centered\">Are you sure you want to delete this item?</h3>\n        <div class=\"row\">\n        \t<div class=\"col-md-12\">{{$item.data | json}}</div>\n        </div>\n      </div>\n      <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">No</button>\n        <button type=\"button\" class=\"btn btn-primary\"  (click)=\"deleteItem($item.data)\">Yes</button>\n      </div>\n    </div>\n  </div>\n</div>\n\n\n"
 
 /***/ },
 
 /***/ 670:
 /***/ function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <div *ngIf=\"user\">\n    <div *ngIf=\"successMessage\" class=\"alert alert-success\">{{successMessage}}</div>\n    <div *ngIf=\"errorMessage\" class=\"alert alert-danger\">{{errorMessage}}</div>\n    \t<div class=\"row\">\n    \t\t<div class=\"col-lg-9 col-sm-6\">\n            \t<button type=\"button\" class=\"btn btn-primary btn-sm\" data-toggle=\"modal\" data-target=\"#myModal\">\n    \t\t\t  <span class=\"fa fa-edit\"></span>\n    \t\t\t</button>\n            </div>\n    \t\t<div class=\"col-lg-3 col-sm-6\">\n\n                <div class=\"card hovercard\">\n                    <div class=\"cardheader\">\n\n                    </div>\n                    <div class=\"avatar\">\n                        <img alt=\"\" src=\"http://lorempixel.com/100/100/people/9/\">\n                    </div>\n                    <div class=\"info\">\n                        <div class=\"title\">\n                            {{user?.profile?.name}}\n                        </div>\n                        <div class=\"desc\">{{user?.email}}</div>\n                        <div class=\"desc\">{{user?.role}}</div>\n                    </div>\n                    <div class=\"bottom\">\n                        <a class=\"btn btn-primary btn-twitter btn-sm btn-rounded\" href=\"https://twitter.com/webmaniac\">\n                            <i class=\"fa fa-twitter\"></i>\n                        </a>\n                        <a class=\"btn btn-danger btn-sm btn-rounded\" rel=\"publisher\"\n                           href=\"https://plus.google.com/+ahmshahnuralam\">\n                            <i class=\"fa fa-google-plus\"></i>\n                        </a>\n                        <a class=\"btn btn-primary btn-sm btn-rounded\" rel=\"publisher\"\n                           href=\"https://plus.google.com/shahnuralam\">\n                            <i class=\"fa fa-facebook\"></i>\n                        </a>\n                        <a class=\"btn btn-warning btn-sm btn-rounded\" rel=\"publisher\" href=\"https://plus.google.com/shahnuralam\">\n                            <i class=\"fa fa-behance\"></i>\n                        </a>\n                    </div>\n                </div>\n            </div>\n    \t</div>\n    </div>\n  </div>\n<!-- Modal -->\n<div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <form (ngSubmit) = \"updateUser()\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n          <h4 class=\"modal-title\" id=\"myModalLabel\">Editing your profile..</h4>\n        </div>\n        <div class=\"modal-body\">\n\n          <div class=\"form-group\">\n            <label>Name</label>\n            <p>{{user?.profile?.name}}</p>\n            <input type=\"text\" class=\"form-control\" name=\"name\" [(ngModel)] = \"user.profile.name\" />\n          </div>\n\n          <div class=\"form-group\">\n            <label>Email</label>\n            <input type=\"text\" class=\"form-control\" name=\"email\" [(ngModel)]=\"user.email\"/>\n          </div>\n          \n        </div>\n\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n          <button class=\"btn btn-success\" type=\"submit\" >Update User</button>\n        </div>\n      </div>\n    </form>\n  </div>\n</div>\n\n\n"
+module.exports = "<div id=\"bg\">\n  <img src=\"http://thelala.com/wp-content/uploads/2015/10/o-GROCERY-SHOPPING-facebook.jpg\" alt=\"\">\n</div>\n\n<header>\n\t<div class=\"container\">\n\t\t<div class=\"row\">\n\t\t\t<div class=\"col-lg-12\">\n\t\t\t\t<div class=\"page-header text-center landing-page circleBase\">\n\t\t\t\t\t<h1>Welcome in Grocerybot</h1>\n\t\t\t\t\t<h3>Your personal assistant for daily grocery shopping</h3>\n\t\t\t\t\t<p> Multilingual grocery lists\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</header>\n\n\n"
 
 /***/ },
 
-/***/ 694:
+/***/ 671:
+/***/ function(module, exports) {
+
+module.exports = "<div class=\"container\">\n  <div *ngIf=\"user\">\n    <div *ngIf=\"successMessage\" class=\"alert alert-success\">{{successMessage}}</div>\n    <div *ngIf=\"errorMessage\" class=\"alert alert-danger\">{{errorMessage}}</div>\n    \t<div class=\"row\">\n    \t\t<div class=\"col-lg-4  col-lg-offset-4 col-sm-6 col-sm-offset-3\">\n                <div class=\"card hovercard\">\n                    <div class=\"cardheader\">\n                      <img alt=\"\" src=\"{{user?.profile?.cover}}\" onError=\"this.src='http://lorempixel.com/850/280/nature/4/'\">\n                    </div>\n                    <div class=\"avatar\">\n                        <img alt=\"\" src=\"{{user?.profile?.avata}}\" onError=\"this.src= './assets/img/default-avatar.png';\">\n                    </div>\n                    <div class=\"info\">\n                        <div class=\"title\">\n                            {{user?.profile?.name}}\n                        </div>\n                        <div class=\"desc\">{{user?.email}}</div>\n                        <div class=\"desc\">{{user?.role}}</div>\n                    </div>\n                    <div class=\"bottom\">\n                      <button type=\"button\" class=\"btn btn-primary btn-sm\" data-toggle=\"modal\" data-target=\"#myModal\">\n                        <span class=\"fa fa-edit\"></span> Update your profile\n                      </button>\n                        \n                    </div>\n                </div>\n                \n            </div>\n    \t</div>\n    </div>\n  </div>\n\n\n\n\n<!-- Modal -->\n<div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n  <div class=\"modal-dialog\" role=\"document\">\n    <form (ngSubmit) = \"updateUser()\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n          <h4 class=\"modal-title\" id=\"myModalLabel\">Editing your profile..</h4>\n        </div>\n        <div class=\"modal-body\">\n\n          <div class=\"form-group\">\n            <label>Name</label>\n            <p>{{user?.profile?.name}}</p>\n            <input type=\"text\" class=\"form-control\" name=\"name\" [(ngModel)] = \"user.profile.name\" />\n          </div>\n\n          <div class=\"form-group\">\n            <label>Email</label>\n            <input type=\"text\" class=\"form-control\" name=\"email\" [(ngModel)]=\"user.email\"/>\n          </div>\n          \n        </div>\n\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Close</button>\n          <button class=\"btn btn-success\" type=\"submit\" >Update User</button>\n        </div>\n      </div>\n    </form>\n  </div>\n</div>\n\n\n"
+
+/***/ },
+
+/***/ 695:
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(391);
@@ -866,5 +927,5 @@ module.exports = __webpack_require__(391);
 
 /***/ }
 
-},[694]);
+},[695]);
 //# sourceMappingURL=main.bundle.map
