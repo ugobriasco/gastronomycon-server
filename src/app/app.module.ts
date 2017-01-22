@@ -22,6 +22,7 @@ import { LoginComponent } from './auth/login.component';
 import { SignupComponent } from './auth/signup.component';
 import { ItemsComponent } from './items/items.component';
 import { SearchPipe} from './items/items.filterItem.pipe';
+import { OrderBy } from './shared/pipes/orderby.pipe';
 
 
 
@@ -37,7 +38,8 @@ import { SearchPipe} from './items/items.filterItem.pipe';
     LoginComponent,
     SignupComponent,
     ItemsComponent,
-    SearchPipe
+    SearchPipe,
+    OrderBy 
     
   ],
   imports: [

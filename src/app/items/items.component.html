@@ -16,7 +16,7 @@
     <hr>
 
     <div class="row">
-	    	<div class="col-md-6 lib-item" *ngFor ="let item of ( items | search:query.value)">
+	    	<div class="col-md-6 lib-item" *ngFor ="let item of items | search:query.value | orderBy : ['-_id'] ">
 	            <div class="lib-panel">
 	                <div class="row box-shadow">
 	                    <div class="col-md-6 lib-img-wrapper">
