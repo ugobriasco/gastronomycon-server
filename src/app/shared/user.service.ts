@@ -10,27 +10,26 @@ export class UserService {
 	
 	constructor(private http: Http){}
 
+
+	//public routes
+
+
 	getUser(): Observable<Object>{ //get an Id and returns an Observable of a selected user
 
-		let headers = new Headers();
-		let token = localStorage.getItem('auth_token');
-		headers.append('Content-Type', 'application/json');
-		headers.append('Authorization', `Bearer ${token}`);
+		let myId = this.token2user();
 
-		let myId = localStorage.getItem('userID');
-
-		return this.http.get(`${this.MyUsersUrl}/${myId}`, {headers})  //usage of ES6 template-string backticks
+		return this.http.get(`${this.MyUsersUrl}/${myId}`)  //usage of ES6 template-string backticks
 		.map(res => res.json().data)
 		.catch(this.handleError);
 	}
 
+
+
+	//protected routes
+
 	updateUser(user): Observable<Object>{
 
-
-		let headers = new Headers();
-		let token = localStorage.getItem('auth_token');
-		headers.append('Content-Type', 'application/json');
-		headers.append('Authorization', `Bearer ${token}`);
+		let headers = this.setHeaders();
 
 		let myId = localStorage.getItem('userID');
 
@@ -40,7 +39,31 @@ export class UserService {
 
 	}
 
+	deleteUser(user): Observable<Object>{
+		let headers = this.setHeaders();
+
+		return this.http.delete(`${this.MyUsersUrl}/${user._id}`, {headers})
+		.map(res => res.json())
+		.catch(this.handleError);
+
+	}
+
+
 	
+
+	private setHeaders(){
+		let headers = new Headers();
+		let token = localStorage.getItem('auth_token');
+		headers.append('Content-Type', 'application/json');
+		headers.append('Authorization', `Bearer ${token}`);
+
+		return headers;
+
+	}
+
+	private token2user(){
+		return localStorage.getItem('userID');
+	}
 
 	//Error handling from API
 	private handleError(err){
