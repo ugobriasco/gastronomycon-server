@@ -1,16 +1,19 @@
 //vendor
-var express 			= require('express'),
-	expressValidator 	= require('express-validator'),
-	mongoose 			= require('mongoose'),
-	path				= require('path'),
-	bodyParser 			= require('body-parser'),
-	passport 			= require('passport');
+const express 			   = require('express'),
+	expressValidator 	 = require('express-validator'),
+	mongoose 			     = require('mongoose'),
+	path				       = require('path'),
+	bodyParser 			   = require('body-parser'),
+	passport 			     = require('passport');
 
 //config
 var app			= express(),
-	port 		= process.env.PORT || 3000;
+    port 		= process.env.PORT || 3000;
+
+const cfg = require('./server/cfg');
+
 mongoose.Promise = global.Promise; //handles moongose promise deprecation
-mongoose.connect('mongodb://localhost:27017/grocerybot');
+mongoose.connect(cfg.db.local);
 
 
 //Enable CORS
