@@ -48,3 +48,8 @@ exports.deleteUser = function(req, res) {
         res.json("user: " +objID +' removed');
     });
 }
+
+exports,isAdmin = function(req, res){
+    let user = getUser();
+    if(user.role === 'Admin') return next();
+}

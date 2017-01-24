@@ -17,8 +17,8 @@ export class UserService {
 	getUser(): Observable<Object>{ //get an Id and returns an Observable of a selected user
 
 		let myId = this.token2user();
-
-		return this.http.get(`${this.MyUsersUrl}/${myId}`)  //usage of ES6 template-string backticks
+		let headers = this.setHeaders();
+		return this.http.get(`${this.MyUsersUrl}/${myId}`, {headers} )  //usage of ES6 template-string backticks
 		.map(res => res.json().data)
 		.catch(this.handleError);
 	}
@@ -42,6 +42,7 @@ export class UserService {
 	deleteUser(user): Observable<Object>{
 		let headers = this.setHeaders();
 
+
 		return this.http.delete(`${this.MyUsersUrl}/${user._id}`, {headers})
 		.map(res => res.json())
 		.catch(this.handleError);
@@ -52,11 +53,10 @@ export class UserService {
 	
 
 	private setHeaders(){
-		let headers = new Headers();
+		var headers = new Headers();
 		let token = localStorage.getItem('auth_token');
 		headers.append('Content-Type', 'application/json');
-		headers.append('Authorization', `Bearer ${token}`);
-
+		headers.append('Authorization', `bearer ${token}`);
 		return headers;
 
 	}

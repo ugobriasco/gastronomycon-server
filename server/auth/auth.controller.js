@@ -94,14 +94,7 @@ exports.isAuthenticated = function(req, res, next){
 		});
 	}
 	else {
-		return res.status(401).json({message: 'no token provided'});
-	}
-}
-
-exports.userFromToken = function(req, res, next){
-	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['bearer'];
-	if(token){
-		jwt.verify(token, cfg.secret)
+		return res.status(401).json({message: 'no token provided', headers: req.headers});
 	}
 }
 

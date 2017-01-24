@@ -9,24 +9,19 @@ var itemCtrl		= require('../item/item.controller'),
 var router=express.Router();
 
 router.route('/item')
-//.post(jwtAuthCtrl.isAuthenticated ,itemCtrl.postItem)
-//.get(jwtAuthCtrl.isAuthenticated ,itemCtrl.getItems);
-	.post(itemCtrl.postItem)
+	.post(jwtAuthCtrl.isAuthenticated, itemCtrl.postItem)
 	.get(itemCtrl.getAllItems);
-
 router.route('/item/:objID')
 	.get(itemCtrl.getItem)
-	.put(itemCtrl.putItem)
-	.delete(itemCtrl.deleteItem)
+	.put(jwtAuthCtrl.isAuthenticated, itemCtrl.putItem)
+	.delete(jwtAuthCtrl.isAuthenticated, itemCtrl.deleteItem)
 
 router.route('/user')
-	.get(userCtrl.getAllUsers)
-	.post(userCtrl.postUser);
+	.get(jwtAuthCtrl.isAuthenticated,userCtrl.getAllUsers)
 router.route('/user/:objID')
-	.get(userCtrl.getUser)
-	.post(userCtrl.postUser)
-	.put(userCtrl.updateUser)
-	.delete(userCtrl.deleteUser);
+	.get(jwtAuthCtrl.isAuthenticated, userCtrl.getUser)
+	.put(jwtAuthCtrl.isAuthenticated ,userCtrl.updateUser)
+	.delete(jwtAuthCtrl.isAuthenticated ,userCtrl.deleteUser);
 
 router.route('/login')
 	.post(jwtAuthCtrl.postLogin);
