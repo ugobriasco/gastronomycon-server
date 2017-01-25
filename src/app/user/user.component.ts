@@ -12,7 +12,8 @@ import {User} from './user.model';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  user: any;
+  user: any = {};
+  a_user: any = {};
   successMessage: string = '';
   errorMessage: string = '';
 
@@ -20,7 +21,10 @@ export class UserComponent implements OnInit {
 
   ngOnInit(){
   	this.init();
-  	this.service.getUser().subscribe(user => this.user = user);
+   
+  	this.service.getUser().subscribe(a_user => this.a_user = a_user);
+    console.log(this.a_user);
+
     
   }
 

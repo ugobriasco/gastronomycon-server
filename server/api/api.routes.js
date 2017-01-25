@@ -17,7 +17,7 @@ router.route('/item/:objID')
 	.delete(jwtAuthCtrl.isAuthenticated, itemCtrl.deleteItem);
 	
 router.route('/user')
-	.get(jwtAuthCtrl.isAuthenticated,userCtrl.getAllUsers)
+	.get(userCtrl.getAllUsers);
 router.route('/user/:objID')
 	.get(jwtAuthCtrl.isAuthenticated, userCtrl.getUser)
 	.put(jwtAuthCtrl.isAuthenticated ,userCtrl.updateUser)

@@ -9,7 +9,7 @@
                       <img alt="" src="{{user?.profile?.cover}}" onError="this.src='http://lorempixel.com/850/280/nature/4/'">
                     </div>
                     <div class="avatar">
-                        <img alt="" src="{{user?.profile?.avata}}" onError="this.src= './assets/img/default-avatar.png';">
+                        <img alt="" src="{{user?.profile?.avatar}}" onError="this.src= './assets/img/default-avatar.png';">
                     </div>
                     <div class="info">
                         <div class="title">
@@ -49,7 +49,6 @@
 
           <div class="form-group">
             <label>Name</label>
-            <p>{{user?.profile?.name}}</p>
             <input type="text" class="form-control" name="name" [(ngModel)] = "user.profile.name" />
           </div>
 

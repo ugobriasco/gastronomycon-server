@@ -55,9 +55,10 @@ exports.postSignUp = function(req, res){
 		if(err) throw err;
 		if(existingUser) return res.status(422).send({msg: 'email already in use'});
 
-		let user = new User();
-			user.email = req.body.email;
-			user.password = req.body.password;
+		let user = new User({
+			email: req.body.email,
+			password : req.body.password
+		});
 
 		user.save(function(err){
 			if(err) throw err;
