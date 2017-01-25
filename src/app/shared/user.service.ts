@@ -56,7 +56,8 @@ export class UserService {
 		var headers = new Headers();
 		let token = localStorage.getItem('auth_token');
 		headers.append('Content-Type', 'application/json');
-		headers.append('Authorization', `bearer ${token}`);
+		headers.append('authorization', `Bearer ${token}`);
+		//headers.append('x-access-token', token)
 		return headers;
 
 	}

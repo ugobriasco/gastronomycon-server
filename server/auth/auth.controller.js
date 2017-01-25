@@ -81,7 +81,13 @@ generateToken = function(user) {
 }
 
 exports.isAuthenticated = function(req, res, next){
-	var token = req.body.token || req.query.token || req.headers['x-access-token'] || req.headers['bearer'];
+
+	if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
+		var token = req.headers.authorization.split(' ')[1];
+		console.log(token)
+	} else {
+		var token = req.body.token || req.query.token || req.headers['x-access-token'];
+	}
 
 	if(token){
 		jwt.verify(token,cfg.secret, function(err, decoded){
