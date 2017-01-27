@@ -27,7 +27,6 @@ export class UserService {
 
 
 	//protected routes
-
 	updateUser(user): Observable<User>{
 
 		let headers = this.setHeaders();
@@ -49,6 +48,11 @@ export class UserService {
 		.catch(this.handleError);
 
 	}
+
+	getAllUsers(): Observable<User[]>{
+		return this.http.get(this.MyUsersUrl).map(res => res.json().data).catch(this.handleError);
+	}
+
 
 
 	

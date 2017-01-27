@@ -25,6 +25,7 @@ import { SearchPipe} from './items/items.filterItem.pipe';
 import { OrderBy } from './shared/pipes/orderby.pipe';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { AdminComponent } from './admin/admin.component';
 
 
 
@@ -43,7 +44,8 @@ import { FooterComponent } from './shared/footer/footer.component';
     SearchPipe,
     OrderBy,
     NavbarComponent,
-    FooterComponent 
+    FooterComponent,
+    AdminComponent 
     
   ],
   imports: [

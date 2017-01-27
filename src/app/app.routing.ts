@@ -7,6 +7,7 @@ import { SignupComponent } from './auth/signup.component';
 import { LoginComponent } from './auth/login.component';
 import { UserComponent } from './user/user.component';
 import { ItemsComponent } from './items/items.component';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
 {
@@ -33,6 +34,10 @@ export const routes: Routes = [
 {
 	path: 'items', 
 	component: ItemsComponent
+},
+{
+	path: 'admin', 
+	component: AdminComponent
 },
 
 
