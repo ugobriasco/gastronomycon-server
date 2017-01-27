@@ -4,6 +4,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 
 import {UserService} from '../shared/user.service';
 import {User} from './user.model';
+declare var jQuery:any;
 
 
 @Component({
@@ -40,11 +41,15 @@ export class UserComponent implements OnInit {
   	.subscribe(
   		user => {
   			this.successMessage = 'Profile updated';
+        this.clearMessages();
+        jQuery("#editModal").modal("hide");
         
   		},
   		err => {
   			this.errorMessage = err;
   			console.log(err);
+        this.clearMessages();
+        jQuery("#editModal").modal("hide");
   		}
 
 
@@ -62,6 +67,13 @@ export class UserComponent implements OnInit {
         cover: ''
       }
     }
+  }
+
+  private clearMessages() {
+    setTimeout(() => {
+      this.successMessage = '';
+      this.errorMessage   = '';
+    }, 3000);
   }
 
 
