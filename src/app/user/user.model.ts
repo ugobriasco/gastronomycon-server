@@ -1,8 +1,19 @@
 export class User {
 	constructor(
-		public id?: String, //optional
 		public email: String,
-		public role?: String
+		public role: String,
+		public password: String,
+		public profile: Profile
 		){}
 	
 }
+
+export class Profile {
+    constructor(
+    	public name: String,
+        public avatar: String, 
+        public cover: String
+        
+    ){}
+}
+

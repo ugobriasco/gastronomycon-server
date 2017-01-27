@@ -12,18 +12,22 @@ import {User} from './user.model';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  user: any = {};
-  a_user: any = {};
+
+  user: User;
+  
   successMessage: string = '';
   errorMessage: string = '';
 
   constructor(private service: UserService){}
 
   ngOnInit(){
+
   	this.init();
-   
-  	this.service.getUser().subscribe(a_user => this.a_user = a_user);
-    console.log(this.a_user);
+    console.log(this.user);
+  	this.service.getUser().subscribe(user => {
+      this.user = user;
+    });
+    
 
     
   }
@@ -51,6 +55,7 @@ export class UserComponent implements OnInit {
     this.user = {
       email: '',
       role: '',
+      password: '',
       profile: {
         name: '',
         avatar: '',

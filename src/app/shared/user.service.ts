@@ -2,6 +2,7 @@ import { Injectable} from '@angular/core';
 import { Http , Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/subject';
+import {User} from '../user/user.model';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
 	//public routes
 
 
-	getUser(): Observable<Object>{ //get an Id and returns an Observable of a selected user
+	getUser(): Observable<User>{ //get an Id and returns an Observable of a selected user
 
 		let myId = this.token2user();
 		let headers = this.setHeaders();
@@ -27,7 +28,7 @@ export class UserService {
 
 	//protected routes
 
-	updateUser(user): Observable<Object>{
+	updateUser(user): Observable<User>{
 
 		let headers = this.setHeaders();
 
@@ -39,7 +40,7 @@ export class UserService {
 
 	}
 
-	deleteUser(user): Observable<Object>{
+	deleteUser(user): Observable<User>{
 		let headers = this.setHeaders();
 
 

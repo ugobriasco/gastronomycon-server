@@ -21,7 +21,7 @@ router.route('/user')
 router.route('/user/:objID')
 	.get(jwtAuthCtrl.isAuthenticated, userCtrl.getUser)
 	.put(jwtAuthCtrl.isAuthenticated ,userCtrl.updateUser)
-	.delete(jwtAuthCtrl.isAuthenticated ,userCtrl.deleteUser);
+	.delete(userCtrl.deleteUser);
 
 router.route('/login')
 	.post(jwtAuthCtrl.postLogin);
