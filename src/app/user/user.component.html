@@ -19,12 +19,13 @@
                         <div class="desc">{{user?.role}}</div>
                     </div>
                     <div class="bottom">
-                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal">
-                        <span class="fa fa-edit"></span> Update your profile
-                      </button>
+                      
                         
                     </div>
                 </div>
+                <button type="button" class="btn btn-primary btn-sm center-block" data-toggle="modal" data-target="#editModal">
+                        <span class="fa fa-edit"></span> Update your profile
+                </button>
                 
             </div>
     	</div>
@@ -56,6 +57,20 @@
             <label>Email</label>
             <input type="text" class="form-control" name="email" [(ngModel)]="user.email"/>
           </div>
+
+          <div class="form-group">
+            <label>Avatar</label>
+            <input type="text" class="form-control" name="avatar" [(ngModel)]="user.profile.avatar"/>
+          </div>
+
+          <div class="form-group">
+            <label>Cover</label>
+            <input type="text" class="form-control" name="cover" [(ngModel)]="user.profile.cover"/>
+          </div>
+
+
+
+
           
         </div>
 
