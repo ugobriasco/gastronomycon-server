@@ -26,6 +26,8 @@ import { OrderBy } from './shared/pipes/orderby.pipe';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AdminComponent } from './admin/admin.component';
+import { UserListComponent } from './user/user-list/user-list.component';
+
 
 
 
@@ -45,7 +47,9 @@ import { AdminComponent } from './admin/admin.component';
     OrderBy,
     NavbarComponent,
     FooterComponent,
-    AdminComponent 
+    AdminComponent,
+    UserListComponent,
+     
     
   ],
   imports: [

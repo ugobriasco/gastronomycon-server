@@ -12,12 +12,15 @@ import {User} from '../user/user.model';
 })
 export class AdminComponent implements OnInit {
 
-	users :User[];
+	users:User[] = [];
 
   constructor(private service: UserService) { }
 
   ngOnInit() {
-	this.service.getAllUsers().subscribe(users => this.users);
+
+  	this.service.getAllUsers().subscribe( http_users => this.users = http_users);
+	
+
   }
 
 }

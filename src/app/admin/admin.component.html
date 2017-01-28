@@ -1,13 +1,10 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-4">
-			some links
+			profile
 		</div>
 		<div class="col-md-8">
-			<ul *ngFor = "let user of users">
-				<li>{{user?.profile?.name}}</li>
-				
-			</ul>
+		<app-user-list></app-user-list>
 		</div>
 	</div>
 </div>

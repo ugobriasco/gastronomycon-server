@@ -24,6 +24,12 @@ export class UserService {
 		.catch(this.handleError);
 	}
 
+	getAllUsers(): Observable<User[]>{
+		return this.http.get(this.MyUsersUrl)
+		.map(res => res.json().data)
+		.catch(this.handleError);
+	}
+
 
 
 	//protected routes
@@ -49,9 +55,7 @@ export class UserService {
 
 	}
 
-	getAllUsers(): Observable<User[]>{
-		return this.http.get(this.MyUsersUrl).map(res => res.json().data).catch(this.handleError);
-	}
+	
 
 
 
