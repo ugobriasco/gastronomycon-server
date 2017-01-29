@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { AuthService } from '../shared/auth.service';
 
+
 @Component({
   selector: 'app-signup',
   template: `
@@ -19,6 +20,11 @@ import { AuthService } from '../shared/auth.service';
 		 	<input type="password" class="form-control" name="password" [(ngModel)] = "credentials.password"/>
 	 	</div>
 
+	 	<div class="form-group jumbotron">
+		 	<label>Signup Code</label>
+		 	<input type="text" class="form-control" name="signupCode" [(ngModel)] = "credentials.signupCode"/>
+	 	</div>
+
 
 	 	<!--messages-->
 		<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
@@ -34,7 +40,7 @@ import { AuthService } from '../shared/auth.service';
 })
 export class SignupComponent implements OnInit {
 
-	credentials = {email: '', password:''};
+	credentials = {email: '', password:'', signupCode: ''};
 	errorMessage: string = '';
 
 
@@ -42,14 +48,21 @@ export class SignupComponent implements OnInit {
 
 
   ngOnInit() {
+
   }
 
   signup(){
-  	this.service.signup(this.credentials.email, this.credentials.password)
+  	this.service.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
   	.subscribe(
   		data => {this.router.navigate(['']); console.log(data);}, 
-  		err => {this.errorMessage = err; console.log(err);}
+  		err => {this.errorMessage = err; console.log(err); this.clearMessages();}
   	);
+  }
+
+  private clearMessages() {
+    setTimeout(() => {
+      this.errorMessage   = '';
+    }, 3000);
   }
 
 }

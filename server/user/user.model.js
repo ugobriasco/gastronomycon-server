@@ -11,18 +11,13 @@ var UserSchema = new mongoose.Schema({
   facebook: String,
   tokens: Array,
 
+
   profile: {
     name: String,
     avatar: String,
     cover: String,
   	},
   	role: {
-		type: String,
-		enum: ['User', 'Admin'],
-		default: 'User'
-	},
-
-	role: {
 		type: String,
 		enum: ['User', 'Admin'],
 		default: 'User'

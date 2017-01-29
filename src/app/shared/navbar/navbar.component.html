@@ -20,11 +20,16 @@
         <ul class="nav navbar-nav navbar-right">
         <li *ngIf="!isLoggedIn"><a routerLink="/signup">Sign Up</a></li>
         <li *ngIf="!isLoggedIn"><a routerLink="/login">Login</a></li>
+
+        <li *ngIf="isLoggedIn"><a href="/items">Items</a></li>
         <li *ngIf="isLoggedIn" class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Welcome back! <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+                  <img src="{{user?.profile?.avatar}}" class="round-image" onError="this.src= './assets/img/default-avatar.png';" alt="">
+                  <span class="caret"></span>
+                </a>
                 <ul class="dropdown-menu">
                   <li><a href="/profile">Profile</a></li>
-                  <li><a href="/items">Items</a></li>
+                  <li *ngIf="isAdmin"><a href="/admin">Admin</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a (click)="logout()" class="pointer">Logout</a></li>
                 </ul>

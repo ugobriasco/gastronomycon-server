@@ -49,6 +49,10 @@ exports.postSignUp = function(req, res){
 	if(!req.body.email || !req.body.password){
 		return res.status(422).json({message: 'Please fill out all fields'});
 	}
+	if(cfg.signupCode){
+		if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a "signupCode" is required in the request. Please provide it!'});
+		if(req.body.signupCode != cfg.signupCode) return res.status(401).json({message: 'wrong signupCode'});
+	}
 	
 
 	User.findOne({email: req.body.email}, function(err, existingUser){

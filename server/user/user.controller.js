@@ -39,6 +39,7 @@ exports.updateUser = function(req, res) {
     });
 }
 
+
 exports.deleteUser = function(req, res) {
     var objID = req.params.objID;
     var update = req.body;

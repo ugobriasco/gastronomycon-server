@@ -29,8 +29,8 @@ import { Observable } from 'rxjs/Observable';
 		.catch(this.handleError);
 	}
 
-	signup(email: string, password: string): Observable<String>{
-		return this.http.post(`${this.authUrl}/signup`,{email, password})
+	signup(email: string, password: string, signupCode: string): Observable<String>{
+		return this.http.post(`${this.authUrl}/signup`,{email, password, signupCode})
 		.map( res => res.json())
 		.do( res => {
 			if(res.token){ this.setToken(res.token);}
@@ -57,7 +57,6 @@ import { Observable } from 'rxjs/Observable';
 		localStorage.setItem('userID', userID);
 		this.loggedIn = true;
 	}
-
 
 	private handleError(err) {
 	    let errMessage: string;

@@ -4,6 +4,8 @@ import { Http } 				from '@angular/http';
 import { AuthService } 			from '../auth.service';
 import { UserService } 			from '../user.service';
 
+
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -16,12 +18,26 @@ export class NavbarComponent implements OnInit {
 		private router: Router
 		){}
 
-  	ngOnInit() {
-  	}
+	user: any;
+	userRole: string;
 
-	userId= this.authService.getUserID();
+
+  	ngOnInit() {
+  	this.userService.getUser().subscribe(user => {
+      this.user = user;
+      this.userRole = this.user.role;
+    });
+  	}
+  	
 	get isLoggedIn() {
 		return this.authService.isLoggedIn();
+
+	}
+
+	get isAdmin(){
+		if(this.userRole == 'Admin') return true;
+		else return false;
+
 	}
 
 	logout(){
