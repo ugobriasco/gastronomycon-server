@@ -25,7 +25,9 @@ export class UserService {
 	}
 
 	getAllUsers(): Observable<User[]>{
-		return this.http.get(this.MyUsersUrl)
+		let myId = this.token2user();
+		let headers = this.setHeaders();
+		return this.http.get(this.MyUsersUrl, {headers})
 		.map(res => res.json().data)
 		.catch(this.handleError);
 	}
