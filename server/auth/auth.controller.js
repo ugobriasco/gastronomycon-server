@@ -90,7 +90,7 @@ exports.isAuthenticated = function(req, res, next){
 	} else {
 		var token = req.body.token || req.query.token || req.headers['x-access-token'];
 	}
-
+	
 	if(token){
 		jwt.verify(token,cfg.secret, function(err, decoded){
 			if(err){res.status(401).json({message: 'Failed autenthicate token'});}
@@ -105,6 +105,18 @@ exports.isAuthenticated = function(req, res, next){
 		return res.status(401).json({message: 'no token provided', headers: req.headers});
 	}
 }
+
+exports.isAdmin = function(req, res, next){
+
+
+	if(req.decoded._doc.role ==='Admin'){ 
+		next();
+	} else {
+		res.status(401).json({message: 'the user has no admin rights'});
+	}
+
+}
+
 
 
 

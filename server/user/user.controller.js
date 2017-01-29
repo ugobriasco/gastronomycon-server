@@ -16,7 +16,7 @@ exports.postUser = function(req, res){
 exports.getAllUsers = function(req,res){
 	User.find(function(err, users){
 		if(err) throw err;
-		res.json(users);
+		res.json({data: users});
 	});
 }
 
@@ -47,9 +47,4 @@ exports.deleteUser = function(req, res) {
         if(err) res.send(err);
         res.json("user: " +objID +' removed');
     });
-}
-
-exports,isAdmin = function(req, res){
-    let user = getUser();
-    if(user.role === 'Admin') return next();
 }

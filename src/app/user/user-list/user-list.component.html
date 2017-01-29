@@ -1,8 +1,26 @@
 
-<div>
-	<p>List of users</p>
-	<ul *ngFor = "let user of users">
-		<li>{{user?.email}}</li>
-	</ul>
-</div>
+	<div *ngFor = "let user of users">
+		<div class="card hovercard">
+                    <div class="cardheader">
+                      <img alt="" src="{{user?.profile?.cover}}" onError="this.src='http://lorempixel.com/850/280/nature/4/'">
+                    </div>
+                    <div class="avatar">
+                        <img alt="" src="{{user?.profile?.avatar}}" onError="this.src= './assets/img/default-avatar.png';">
+                    </div>
+                    <div class="info">
+                        <div class="title">
+                            {{user?.profile?.name}}
+                        </div>
+                        <div class="desc">{{user?.email}}</div>
+                        <div class="desc">{{user?.role}}</div>
+                    </div>
+                    <div class="bottom">
+                      
+                        
+                    </div>
+            </div>
+	</div>
+
+
+
 
