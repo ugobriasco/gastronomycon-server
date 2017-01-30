@@ -29,12 +29,13 @@ export class AdminService {
 	}
 
 
-	getSignupCode(){
+	getSignupCode(): Observable<Object>{
 		let headers = this.setHeaders();
-		this.http.get(`${this.settingsUrl}/signupCode`, {headers})
+		return this.http.get(`${this.settingsUrl}/signupCode`, {headers})
 		.map(res => res.json().data)
 		.catch(this.handleError);
 	}
+
 
 
 	private setHeaders(){
