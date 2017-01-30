@@ -14,6 +14,7 @@ import { routing } from './app.routing';
 import { AuthService } from './shared/auth.service';
 import { UserService } from './shared/user.service';
 import { ItemsService } from './items/items.service';
+import { AdminService } from './shared/admin.service';
 
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -27,6 +28,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+
 
 
 
@@ -61,7 +63,8 @@ import { UserListComponent } from './user/user-list/user-list.component';
   providers: [
     AuthService,
     UserService,
-    ItemsService
+    ItemsService,
+    AdminService
   ],
   bootstrap: [AppComponent]
 })

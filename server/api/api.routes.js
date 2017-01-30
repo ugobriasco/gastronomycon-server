@@ -4,6 +4,7 @@ var itemCtrl		= require('../item/item.controller'),
 	userCtrl 		= require('../user/user.controller'),
 	//basicAuthCtrl 	= require('../auth/basic/basic.controller'),
 	jwtAuthCtrl 	= require('../auth/auth.controller');
+	settingCtrl 	=require('../setting/setting.controller');
 
 
 var router=express.Router();
@@ -28,6 +29,14 @@ router.route('/login')
 
 router.route('/signup')
 	.post(jwtAuthCtrl.postSignUp);
+
+router.route('/settings')
+	.post(settingCtrl.postSetting)
+	.get(settingCtrl.getAllSettings);
+router.route('/settings/:name')
+	.get(settingCtrl.getSetting)
+	.delete(settingCtrl.deleteSetting)
+	.put(settingCtrl.putSetting);
 
 
 

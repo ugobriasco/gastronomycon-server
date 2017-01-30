@@ -3,6 +3,8 @@ import { Observable } from 'rxjs/Observable';
 import {Router, ActivatedRoute} from '@angular/router';
 
 import {UserService} from '../shared/user.service';
+import {AdminService} from '../shared/admin.service';
+
 import {User} from '../user/user.model';
 
 @Component({
@@ -13,12 +15,15 @@ import {User} from '../user/user.model';
 export class AdminComponent implements OnInit {
 
 	users:User[] = [];
+	signupCode = 'aa';
 
-  constructor(private service: UserService) { }
+  constructor(private userService: UserService, private adminService: AdminService ) { }
 
   ngOnInit() {
 
-  	this.service.getAllUsers().subscribe( http_users => this.users = http_users);
+  	this.userService.getAllUsers().subscribe( http_users => this.users = http_users);
+  	//this.adminService.getSignupCode().subscribe(http_setting => this.signupCode = http_setting);
+
 	
 
   }
