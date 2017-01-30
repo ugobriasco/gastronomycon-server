@@ -40,11 +40,13 @@ exports.getSetting = function(req, res){
 	});
 }
 
-exports.deleteSetting = function(req, res){
-	Setting.findOneAndRemove({'name': req.params.name}, function(err, res){
-		if(err) throw err;
-		res.json({message: 'setting -' + req.body.name +'- was removed'});
 
-	});
+
+exports.deleteSetting = function(req, res) {
+
+    Setting.findByIdAndRemove(req.params.objID, function(err, user){
+        if(err) res.send(err);
+        res.json("setting: " +req.params.objID +' removed');
+    });
 }
 

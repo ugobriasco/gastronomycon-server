@@ -34,10 +34,10 @@ router.route('/settings')
 	.post(settingCtrl.postSetting)
 	.get(settingCtrl.getAllSettings);
 router.route('/settings/:name')
-	.get(settingCtrl.getSetting)
-	.delete(settingCtrl.deleteSetting)
+	.get(settingCtrl.getSetting)	
 	.put(settingCtrl.putSetting);
-
+router.route('/settings/:objID')
+	.delete(settingCtrl.deleteSetting);
 
 
 router.get('/', function(req, res){
