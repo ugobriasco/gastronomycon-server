@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {UserService} from '../../shared/user.service';
 import {User} from '../user.model';
+import {AdminService} from '../../shared/admin.service';
 
 @Component({
   selector: 'app-user-list',
@@ -12,14 +13,14 @@ import {User} from '../user.model';
 export class UserListComponent implements OnInit {
 
 users:User[] = [];
+isAdmin = false;
 
-  constructor(private service: UserService) { }
+  constructor(private userService: UserService, private adminService: AdminService) { }
 
   ngOnInit() {
 
-  	this.service.getAllUsers().subscribe( http_users => this.users = http_users);
-	
-
+  	this.userService.getAllUsers().subscribe( http_users => this.users = http_users);
+  	
   }
 
 

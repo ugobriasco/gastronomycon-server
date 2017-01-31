@@ -15,6 +15,7 @@ exports.putSetting = function(req, res){
 	Setting.findOne({'name': req.params.name}, function(err, setting){
 		if(err) throw err;
 		setting.value = req.body.value;
+		setting.enabled = req.body.enabled;
 
 		setting.save(function(err){
 			if(err) throw err;
