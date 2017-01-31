@@ -15,7 +15,9 @@ import {User} from '../user/user.model';
 export class AdminComponent implements OnInit {
 
 	users:User[] = [];
-	signupCode = {'name':'','value':''};
+	signupCode = {'name':'aa','value':'aa', 'enabled': true};
+  errorMessage = '';
+  successMessage = '';
 
   constructor(private userService: UserService, private adminService: AdminService ) { }
 
@@ -24,6 +26,24 @@ export class AdminComponent implements OnInit {
   	this.adminService.getSignupCode().subscribe(http_setting => this.signupCode = http_setting);
 
   }
+
+  // setSignupCode(){
+  //   this.errorMessage = '';
+  //   this.successMessage = '';
+
+  //   this.adminService.setSignupCode(this.signupCode.value, this.signupCode.enabled)
+  //   .subscribe(
+  //     signupCode => {
+  //       this.successMessage = 'signupCode modified';
+  //       this.clearMessages();
+  //   },
+  //   err =>{
+  //     this.errorMessage = err;
+  //     console.log(err);
+  //     this.clearMessage();
+  //   });
+
+  // };
 
 
 

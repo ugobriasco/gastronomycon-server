@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { AuthService } from '../shared/auth.service';
+import { AdminService } from '../shared/admin.service';
+
 
 
 @Component({
@@ -20,7 +22,7 @@ import { AuthService } from '../shared/auth.service';
 		 	<input type="password" class="form-control" name="password" [(ngModel)] = "credentials.password"/>
 	 	</div>
 
-	 	<div class="form-group jumbotron">
+	 	<div class="form-group jumbotron" *ngIf="code.enabled">
 		 	<label>Signup Code</label>
 		 	<input type="text" class="form-control" name="signupCode" [(ngModel)] = "credentials.signupCode"/>
 	 	</div>
@@ -42,17 +44,19 @@ export class SignupComponent implements OnInit {
 
 	credentials = {email: '', password:'', signupCode: ''};
 	errorMessage: string = '';
+	code = {'name':'aa','value':'aa', 'enabled': true};
 
 
-  constructor( private service: AuthService, private router: Router) { }
+  constructor( private authService: AuthService, private adminService: AdminService,private router: Router) { }
 
 
   ngOnInit() {
-
+  	this.adminService.getSignupCode().subscribe(http_setting => this.code = http_setting);
+  	console.log(this.code);
   }
 
   signup(){
-  	this.service.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
+  	this.authService.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
   	.subscribe(
   		data => {this.router.navigate(['']); console.log(data);}, 
   		err => {this.errorMessage = err; console.log(err); this.clearMessages();}

@@ -9,18 +9,18 @@ export class AdminService {
 
 	private settingsUrl ='http://localhost:3000/api/settings';
 
-	setSignupCode(value): void{
+	setSignupCode(value, enabled): void{
 
 		let headers = this.setHeaders();
 		this.http.get(`${this.settingsUrl}/signupCode`, {headers})
 		.map(res => {
 			if(!res.json().data) {
-				let setting = {'name': 'signupCode', 'value': value}
+				let setting = {'name': 'signupCode', 'value': value, 'enabled': enabled}
 				this.http.post(this.settingsUrl, setting ,{headers})
 				.map(res => res.json())
 				.catch(this.handleError);
 			} else {
-				this.http.put(`${this.settingsUrl}/signupCode`, {'value': value},{headers})
+				this.http.put(`${this.settingsUrl}/signupCode`, {'value': value, 'enabled': enabled},{headers})
 				.map(res => res.json())
 				.catch(this.handleError);
 			}
@@ -29,7 +29,7 @@ export class AdminService {
 	}
 
 
-	getSignupCode(): Observable<{'name', 'value'}>{
+	getSignupCode(): Observable<{'name', 'value', 'enabled'}>{
 		let headers = this.setHeaders();
 		return this.http.get(`${this.settingsUrl}/signupCode`, {headers})
 		.map(res => res.json().data)
