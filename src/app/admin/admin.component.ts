@@ -27,6 +27,12 @@ export class AdminComponent implements OnInit {
 
   }
 
+  setSignupCode(){
+    console.log(this.signupCode);
+    return this.signupCode;
+
+  }
+
   // setSignupCode(){
   //   this.errorMessage = '';
   //   this.successMessage = '';

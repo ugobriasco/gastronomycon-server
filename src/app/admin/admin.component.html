@@ -1,9 +1,9 @@
 <div class="container">
 	<div class="row">
 		
-		<div class="col-md-6 col-md-offset-1">
+		<div class="col-md-8">
 			<div *ngIf="signupCode">
-				<form action="">
+				<form (ngSubmit) = "setSignupCode()">
 					<label>{{signupCode?.name}}</label>
 					<div class="input-group">
 				      <input type="text" class="form-control" name="value" [(ngModel)] = "signupCode.value" />
@@ -12,7 +12,7 @@
 				      </span>
 				    </div>
 				    <br>
-				    <button class="btn btn-md btn-primary pull-right"><i class="fa fa-floppy-o"></i></button>
+				    <button class="btn btn-md btn-primary pull-right" type="submit">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
 				</form>
 			</div>
 		</div>
