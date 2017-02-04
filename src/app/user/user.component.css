@@ -206,7 +206,7 @@
     margin-bottom: -50px;
 }
 
-.card.hovercard .avatar img {
+.card.hovercard .avatar img, .pic-round img {
     width: 100px;
     height: 100px;
     max-width: 100px;
@@ -247,3 +247,5 @@
 .container{
     margin-bottom: 200px
 }
+
+

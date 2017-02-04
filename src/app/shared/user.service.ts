@@ -45,16 +45,19 @@ export class UserService {
 
 
 	//protected routes
-	updateUser(user): Observable<User>{
-
+	updateCurrentUser(user): Observable<User>{
 		let headers = this.setHeaders();
-
 		let myId = localStorage.getItem('userID');
-
 		return this.http.put(`${this.MyUsersUrl}/${myId}`, user, {headers})
 		.map(res => res.json())
 		.catch(this.handleError);
+	}
 
+	updateUser(user): Observable<User>{
+		let headers = this.setHeaders();
+		return this.http.put(`${this.MyUsersUrl}/${user._id}`, user, {headers})
+		.map(res => res.json())
+		.catch(this.handleError);
 	}
 
 	deleteUser(user): Observable<User>{

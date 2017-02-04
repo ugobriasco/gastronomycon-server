@@ -37,7 +37,7 @@ export class UserComponent implements OnInit {
   	this.errorMessage = '';
   	this.successMessage = '';
 
-  	this.service.updateUser(this.user)
+  	this.service.updateCurrentUser(this.user)
   	.subscribe(
   		user => {
   			this.successMessage = 'Profile updated';
