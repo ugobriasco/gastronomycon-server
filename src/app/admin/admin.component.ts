@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
   constructor(private userService: UserService, private adminService: AdminService ) { }
 
   ngOnInit() {
-  	this.userService.getAllUsers().subscribe( http_users => this.users = http_users);
+  	
   	this.adminService.getSignupCode().subscribe(http_setting => this.signupCode = http_setting);
 
   }

@@ -1,4 +1,5 @@
 
+
 	<div *ngFor = "let user of users">
 		<div class="card hovercard">
                     <div class="cardheader">
@@ -13,13 +14,49 @@
                         </div>
                         <div class="desc">{{user?.email}}</div>
                         <div class="desc">{{user?.role}}</div>
+
                     </div>
                     <div class="bottom">
-                      
-                        
+                        <div *ngIf =" isAdmin" class="btn-group">
+                            <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#editModal"(click) = "selectUser(this.user)"><i class="fa fa-cog"></i></button>
+                        </div>
                     </div>
             </div>
 	</div>
+
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="Edit User">
+  <div class="modal-dialog" role="document" *ngIf ="$user">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Edit user rights</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-8">
+            <p>Set Role</p>
+            <div class="btn-group btn-toggle"> 
+              <button class="btn btn-sm btn-default">ON</button>
+              <button class="btn btn-sm btn-primary active">OFF</button>
+            </div>
+            <hr>
+          </div>
+          <div class="col-md-4">
+            <p><strong>User:</strong> {{$user?.profile?.name}}</p>
+            <p><strong>Email:</strong> {{$user?.email}}</p>
+            <p><strong>Role:</strong> {{$user?.role}}
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 
