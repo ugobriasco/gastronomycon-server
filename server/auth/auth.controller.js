@@ -11,7 +11,28 @@ const 	async = require('async'),
 		jwt = require('jsonwebtoken');
 
 const User = require('../user/user.model');
+const Setting = require('../setting/setting.model');
+
+
 const cfg = require('../cfg');
+
+
+getSignupCode = function(){
+	if(cfg.signupCode) return cfg.signupCode;
+
+	let signupCode;
+
+	Setting.findOne({name: 'signupCode'}, function(err, signupCode){
+		if(err) throw err;
+		if(signupCode.enabled = true && signupCode.value){
+			res.json(signupCode);
+		}
+
+	});
+
+}
+
+
 
 /**
  * Given valid credentials returns jwt
@@ -46,12 +67,15 @@ exports.postLogin = function(req, res){
 
 
 exports.postSignUp = function(req, res){
+
+
+
 	if(!req.body.email || !req.body.password){
 		return res.status(422).json({message: 'Please fill out all fields'});
 	}
-	if(cfg.signupCode){
-		if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a "signupCode" is required in the request. Please provide it!'});
-		if(req.body.signupCode != cfg.signupCode) return res.status(401).json({message: 'wrong signupCode'});
+	if(getSignupCode()){
+		if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a -signupCode- is required in the request. Please provide it!'});
+		if(req.body.signupCode != getSignupCode()) return res.status(401).json({message: 'wrong signupCode'});
 	}
 	
 
@@ -120,6 +144,8 @@ exports.isAdmin = function(req, res, next){
 	}
 
 }
+
+
 
 
 
