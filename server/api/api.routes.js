@@ -28,7 +28,7 @@ router.route('/login')
 	.post(jwtAuthCtrl.postLogin);
 
 router.route('/signup')
-	.post(jwtAuthCtrl.postSignUp);
+	.post(jwtAuthCtrl.validateSignupCode,jwtAuthCtrl.postSignUp);
 
 router.route('/settings')
 	.post(settingCtrl.postSetting)

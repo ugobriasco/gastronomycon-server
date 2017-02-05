@@ -71,17 +71,15 @@ exports.postLogin = function(req, res){
 
 exports.postSignUp = function(req, res){
 
-	
 
 	if(!req.body.email || !req.body.password){
 		return res.status(422).json({message: 'Please fill out all fields'});
 	}
-	if(cfg.signupCode){
-		if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a -signupCode- is required in the request. Please provide it!'});
-		if(req.body.signupCode != cfg.signupCode) return res.status(401).json({message: 'wrong signupCode'});
-	}
+	// if(cfg.signupCode){
+	// 	if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a -signupCode- is required in the request. Please provide it!'});
+	// 	if(req.body.signupCode != cfg.signupCode) return res.status(401).json({message: 'wrong signupCode'});
+	// }
 	
-
 	User.findOne({email: req.body.email}, function(err, existingUser){
 		if(err) throw err;
 		if(existingUser) return res.status(422).send({msg: 'email already in use'});
@@ -107,21 +105,84 @@ exports.postSignUp = function(req, res){
 }
 
 
-checkSignupCode = function(req, res, next){
-	Setting.findOne({'name': 'signupCode'}, function(err, setting){
-		if(err) throw err;
-		if(setting.enabled == false) {
-			console.log(setting);
-			next();
+exports._postSignUp = function(req, res){
+
+	var validateRequest = new Promise(
+		function(resolve,reject){
+			Setting.findOne({'name': 'signupCode'}, function(err, setting){
+				if(err) throw err;
+				if(setting.enabled == true) {
+					console.log(setting);
+					resolve(setting);
+					
+
+				}
+				else return res.status(201).json({message: "signupCode not enabled"});
+			})
+
+
+		});
+
+	validateRequest.then(
+		function(req, res){
+
+
+			if(!req.body.email || !req.body.password){
+				return res.status(422).json({message: 'Please fill out all fields'});
+			}
+			if(cfg.signupCode){
+				if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a -signupCode- is required in the request. Please provide it!'});
+				if(req.body.signupCode != cfg.signupCode) return res.status(401).json({message: 'wrong signupCode'});
+			}
+			
+			User.findOne({email: req.body.email}, function(err, existingUser){
+				if(err) throw err;
+				if(existingUser) return res.status(422).send({msg: 'email already in use'});
+
+				let user = new User({
+					email: req.body.email,
+					password : req.body.password,
+					profile : {name: ''}
+				});
+
+				// user.save(function(err){
+				// 	if(err) throw err;
+				// 	res.status(201).json({
+			 //          token: generateToken(user),
+			 //          user: user
+			 //        });
+				// });	
+				// 
+			console.log('new user');
+			res.status(201).json({message: 'it works'})
+
+			});
 		}
-		else return res.status(201).json({message: "signupCode not enabled"});
-	});
+
+	);
+
 }
 
 
 
 
 
+
+
+
+
+
+exports.validateSignupCode = function(req, res, next){
+	Setting.findOne({'name': 'signupCode'}, function(err, setting){
+		if(err) throw err;
+		if(setting.enabled == false || !setting) next();
+		else {
+			if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a -signupCode- is required in the request. Please provide it!'});
+			if(req.body.signupCode != setting.value) return res.status(401).json({message: 'wrong signupCode'});
+			else next();
+		}
+	});
+}
 
 
 
