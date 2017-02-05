@@ -29,7 +29,16 @@ export class AdminComponent implements OnInit {
 
   setSignupCode(){
     console.log(this.signupCode);
-    return this.signupCode;
+    let setting = {
+      "value": this.signupCode.value,
+      "enabled": this.signupCode.enabled
+
+    }
+    this.adminService.setSignupCode(setting)
+    .subscribe(
+      signupCode => {console.log(signupCode);},
+      err => {console.log(err);}
+      );
 
   }
 

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http , Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/subject';
+
 
 @Injectable()
 export class AdminService {
@@ -9,22 +11,12 @@ export class AdminService {
 
 	private settingsUrl ='http://localhost:3000/api/settings';
 
-	setSignupCode(value, enabled): void{
-
+	setSignupCode(setting): Observable<{'name', 'value', 'enabled'}>{
 		let headers = this.setHeaders();
-		this.http.get(`${this.settingsUrl}/signupCode`, {headers})
-		.map(res => {
-			if(!res.json().data) {
-				let setting = {'name': 'signupCode', 'value': value, 'enabled': enabled}
-				this.http.post(this.settingsUrl, setting ,{headers})
-				.map(res => res.json())
-				.catch(this.handleError);
-			} else {
-				this.http.put(`${this.settingsUrl}/signupCode`, {'value': value, 'enabled': enabled},{headers})
-				.map(res => res.json())
-				.catch(this.handleError);
-			}
-		})
+		//let setting = {'enabled': enabled, 'value': value};
+		console.log(setting);
+		return this.http.put(`${this.settingsUrl}/signupCode`,setting, {headers})
+		.map(res => res.json().data)
 		.catch(this.handleError);
 	}
 
