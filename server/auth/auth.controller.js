@@ -17,19 +17,22 @@ const Setting = require('../setting/setting.model');
 const cfg = require('../cfg');
 
 
-getSignupCode = function(){
-	if(cfg.signupCode) return cfg.signupCode;
+getSignupCode = function(req, res){
+	//if(cfg.signupCode) return cfg.signupCode;
 
-	let signupCode;
-
-	Setting.findOne({name: 'signupCode'}, function(err, signupCode){
+	Setting.findOne({name: 'signupCode'}, function(err, code){
 		if(err) throw err;
-		if(signupCode.enabled = true && signupCode.value){
-			res.json(signupCode);
-		}
-
+		res.json(code);
 	});
 
+}
+
+exports.getAllItems = function(req, res){
+	Item.find(function(err, items){
+		if(err)throw err;
+		res.json({data: items});
+
+	});
 }
 
 
@@ -68,14 +71,14 @@ exports.postLogin = function(req, res){
 
 exports.postSignUp = function(req, res){
 
-
+	
 
 	if(!req.body.email || !req.body.password){
 		return res.status(422).json({message: 'Please fill out all fields'});
 	}
-	if(getSignupCode()){
+	if(cfg.signupCode){
 		if(!req.body.signupCode) return res.status(422).json({message: 'In order to limit the number of users of this application a -signupCode- is required in the request. Please provide it!'});
-		if(req.body.signupCode != getSignupCode()) return res.status(401).json({message: 'wrong signupCode'});
+		if(req.body.signupCode != cfg.signupCode) return res.status(401).json({message: 'wrong signupCode'});
 	}
 	
 
@@ -89,18 +92,37 @@ exports.postSignUp = function(req, res){
 			profile : {name: ''}
 		});
 
-		user.save(function(err){
-			if(err) throw err;
-			res.status(201).json({
-	          token: generateToken(user),
-	          user: user
-	        });
-		});	
+		// user.save(function(err){
+		// 	if(err) throw err;
+		// 	res.status(201).json({
+	 //          token: generateToken(user),
+	 //          user: user
+	 //        });
+		// });	
+		// 
+	console.log('new user');
+	res.status(201).json({message: 'it works'})
 
 	});
-	
-
 }
+
+
+checkSignupCode = function(req, res, next){
+	Setting.findOne({'name': 'signupCode'}, function(err, setting){
+		if(err) throw err;
+		if(setting.enabled == false) {
+			console.log(setting);
+			next();
+		}
+		else return res.status(201).json({message: "signupCode not enabled"});
+	});
+}
+
+
+
+
+
+
 
 
 
