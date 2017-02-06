@@ -9,36 +9,47 @@ import { AdminService } from '../shared/admin.service';
   selector: 'app-signup',
   template: `
 	<div class="container">
-		<form (ngSubmit) ="signup()">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<form (ngSubmit) ="signup()">
 
-		<h1>Join Us!</h1>
+					<h1>Join Us!</h1>
 
-		 <div class="form-group">
-		 	<label>Email</label>
-		 	<input type="text" class="form-control" name="email" [(ngModel)] = "credentials.email"/>
-	 	</div>
-	 	<div class="form-group">
-		 	<label>Password</label>
-		 	<input type="password" class="form-control" name="password" [(ngModel)] = "credentials.password"/>
-	 	</div>
+					 <div class="form-group">
+					 	<label>Email</label>
+					 	<input type="text" class="form-control" name="email" [(ngModel)] = "credentials.email"/>
+				 	</div>
+				 	<div class="form-group">
+					 	<label>Password</label>
+					 	<input type="password" class="form-control" name="password" [(ngModel)] = "credentials.password"/>
+				 	</div>
 
-	 	<div class="form-group jumbotron" *ngIf="code.enabled">
-		 	<label>Signup Code</label>
-		 	<input type="text" class="form-control" name="signupCode" [(ngModel)] = "credentials.signupCode"/>
-	 	</div>
+				 	<div class="form-group" *ngIf="code.enabled">
+					 	<label>Signup Code</label>
+					 	<input type="text" class="form-control" name="signupCode" [(ngModel)] = "credentials.signupCode"/>
+				 	</div>
 
 
-	 	<!--messages-->
-		<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+				 	<!--messages-->
+					<div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
 
-	 	<div>
-	 		<button type="submit"class="btn btn-primary">Signup</button>
-	 	</div>
-		</form>
+				 	<div>
+				 		<button type="submit"class="btn btn-primary">Signup</button>
+				 	</div>
+				</form>
+			</div>
+		</div>
+		
 	</div>
 
   `,
-  styles: [``]
+  styles: [`
+	.container{
+  		margin-top: 5%;
+  		
+  	}
+
+  `]
 })
 export class SignupComponent implements OnInit {
 

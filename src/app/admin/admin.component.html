@@ -6,10 +6,10 @@
 				<form (ngSubmit) = "setSignupCode()">
 					<label>{{signupCode?.name}}</label>
 					<div class="input-group">
-				      <input type="text" class="form-control" name="value" [(ngModel)] = "signupCode.value" />
-				      <span class="input-group-addon">
+					<span class="input-group-addon checkbox-success">
 				        <input type="checkbox" name="enabled" [(ngModel)] ="signupCode.enabled" />
-				      </span>
+				     </span>
+				     <input [disabled]="!signupCode.enabled" type="text" class="form-control" name="value" [(ngModel)] = "signupCode.value" />
 				    </div>
 				    <br>
 				    <button class="btn btn-md btn-primary pull-right" type="submit">Save <i class="fa fa-floppy-o" aria-hidden="true"></i></button>

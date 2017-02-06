@@ -6,6 +6,7 @@ var itemCtrl		= require('../item/item.controller'),
 	jwtAuthCtrl 	= require('../auth/auth.controller');
 	settingCtrl 	=require('../setting/setting.controller');
 
+//todo set productive routes
 
 var router=express.Router();
 
@@ -19,6 +20,7 @@ router.route('/item/:objID')
 	
 router.route('/user')
 	.get(jwtAuthCtrl.isAuthenticated, jwtAuthCtrl.isAdmin ,userCtrl.getAllUsers);
+	//.get(jwtAuthCtrl.isAuthenticated,userCtrl.getAllUsers);
 router.route('/user/:objID')
 	.get(jwtAuthCtrl.isAuthenticated, userCtrl.getUser)
 	.put(jwtAuthCtrl.isAuthenticated ,userCtrl.updateUser)
