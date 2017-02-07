@@ -67,6 +67,7 @@ export class SignupComponent implements OnInit {
   }
 
   signup(){
+  	
   	this.authService.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
   	.subscribe(
   		data => {this.router.navigate(['']); console.log(data);}, 
@@ -79,5 +80,7 @@ export class SignupComponent implements OnInit {
       this.errorMessage   = '';
     }, 3000);
   }
+
+  
 
 }
