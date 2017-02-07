@@ -66,13 +66,9 @@ exports.postLogin = function(req, res){
 
 
 exports.postSignUp = function(req, res){
-
-
 	if(!req.body.email || !req.body.password){
 		return res.status(422).json({message: 'Please fill out all fields'});
 	}
-
-	
 	User.findOne({email: req.body.email}, function(err, existingUser){
 		if(err) throw err;
 		if(existingUser) return res.status(422).send({msg: 'email already in use'});
@@ -83,21 +79,19 @@ exports.postSignUp = function(req, res){
 			profile : {name: ''}
 		});
 
-		// user.save(function(err){
-		// 	if(err) throw err;
-		// 	res.status(201).json({
-	 //          token: generateToken(user),
-	 //          user: user
-	 //        });
-		// });	
-		// 
+		user.save(function(err){
+			if(err) throw err;
+			res.status(201).json({
+	          token: generateToken(user),
+	          user: user
+	        });
+		});	
+		
 	console.log('new user');
 	res.status(201).json({message: 'it works'})
 
 	});
 }
-
-
 
 exports.validateSignupCode = function(req, res, next){
 	Setting.findOne({'name': 'signupCode'}, function(err, setting){
@@ -110,6 +104,74 @@ exports.validateSignupCode = function(req, res, next){
 		}
 	});
 }
+
+
+exports.postUpdatePassword = (req, res, next) => {
+
+
+
+
+}
+
+
+
+exports.postForgot = (req, res, next) => {
+	async.waterfall([
+		function createRandomToken(done){
+			crypto.randomBytes(16, (err, buf) => {
+				const token = buf.toString('hex');
+				done(err, token);
+			});
+		},
+		function setRandomToken(token, done){
+			User.findOne({ email: req.body.email}, (err, user) => {
+				if(err) return done(err);
+				if(!user) return res.status(422).send({msg: 'this email does not exit'});
+
+				user.passwordResetToken = token;
+				user.passwordResetExpires = Date.now() +36000000;
+				user.save((err) => {
+					done(err, token, user);
+				});
+
+				}
+			})
+		},
+		function sendForgotPasswordEmail(token, user, done){
+			const transporter = nodemailer.createTransport({
+				service: 'sendGrid',
+				auth: {
+					user: process.env.SENDGRID_USER
+					pass: process.env.SENDGRID_PASSWORD
+				}
+
+			});
+			const mailOptions = {
+				to: user.email,
+				from: 'noreply@matchyourtie.com',
+				subject: 'Reset your password on Grocerybot',
+				text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+          Please click on the following link, or paste this into your browser to complete the process:\n\n
+          http://${req.headers.host}/reset/${token}\n\n
+          If you did not request this, please ignore this email and your password will remain unchanged.\n`
+			};
+			transporter.sendMail(mailOptions, (err) => {
+				res.json({message: `An e-mail has been sent to ${user.email} with further instructions.`});
+				done(err);
+			});
+		} 
+
+	],(err) => {
+			if(err) return next(err);
+	});
+}
+
+
+
+
+
+
+//stati
 
 
 exports.isAuthenticated = function(req, res, next){
@@ -137,8 +199,6 @@ exports.isAuthenticated = function(req, res, next){
 }
 
 exports.isAdmin = function(req, res, next){
-
-
 	if(req.decoded._doc.role ==='Admin'){ 
 		next();
 	} else {
