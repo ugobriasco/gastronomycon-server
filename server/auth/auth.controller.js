@@ -12,25 +12,17 @@ const 	async = require('async'),
 
 const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
-
-
 const cfg = require('../cfg');
+
+/**
+ * generate a jwt using given secret
+ */
 
 generateToken = function(user) {  
   return jwt.sign(user, cfg.secret, {
     expiresIn: 10080 // in seconds
   });
 }
-
-
-exports.getAllItems = function(req, res){
-	Item.find(function(err, items){
-		if(err)throw err;
-		res.json({data: items});
-
-	});
-}
-
 
 
 /**
@@ -125,10 +117,6 @@ exports.postUpdatePassword = (req, res, next) => {
 			});
 		}
 	});
-
-
-
-
 }
 
 
@@ -184,7 +172,46 @@ exports.postForgot = (req, res, next) => {
 	});
 }
 
-
+exports.postReset = (req,res,next) => {
+	async.waterfall([
+		function resetPassword(done){
+			User.findOne({passwordResetToken: req.params.token})
+			.where('passwordResetExpires').gt(Date.now())
+			.exec( (err, user) => {
+				if(err) return next(err);
+				if(user) return res.status(401).json({msg: 'Password reset token is invalid or has expired.'});
+					user.password = req.body.password;
+					user.passwordResetToken = undefined;
+					user.passwordResetExpires = undefined;
+					user.save((err) => {
+						if(err) return next(err);
+						done(err, user);
+					});
+			});
+		},
+		function sendResetPasswordEmail(user, done){
+			const transporter = nodemailer.createTransport({
+				service: 'sendGrid',
+				auth: {
+					user: process.env.SENDGRID_USER
+					pass: process.env.SENDGRID_PASSWORD
+				}
+			});
+			const mailOptions = {
+				to: user.email,
+				from: 'noreply@matchyourtie.com',
+				subject: 'Your Grocerybot password has been changed',
+				text: `Hello,\n\nThis is a confirmation that the password for your account ${user.email} has just been changed.\n`
+			};
+			transporter.sendMail(mailOptions, (err) => {
+				res.json({msg: 'Success! Your password has been changed.'});
+				done(err);
+			});
+		}
+	], (err) =>{
+		if(err) return next(err);
+	});
+}
 
 
 
