@@ -106,7 +106,25 @@ exports.validateSignupCode = function(req, res, next){
 }
 
 
+//psw management
+
+
 exports.postUpdatePassword = (req, res, next) => {
+	if(!req.body.email){
+		return res.status(400).json({message: 'Please fill out all fields'});
+	}
+
+	User.findOne({email: req.body.email}, (err, user) => {
+		if(err) return next(err);
+		if(!user){ res.status(401).json({message: 'no user found', email: req.body.email});
+		} else {
+			user.password = req.body.password;
+			user.save((err) => {
+				if(err) return next(err);
+				res.status(201).json({msg: 'password has been changed'});
+			});
+		}
+	});
 
 
 
