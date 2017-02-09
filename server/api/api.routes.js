@@ -2,8 +2,8 @@ var express = require('express');
 
 var itemCtrl		= require('../item/item.controller'),
 	userCtrl 		= require('../user/user.controller'),
-	//basicAuthCtrl 	= require('../auth/basic/basic.controller'),
-	jwtAuthCtrl 	= require('../auth/auth.controller');
+	//basicuthCtrl 	= require('../auth/basic/basic.controller'),
+	authCtrl 	= require('../auth/auth.controller');
 	settingCtrl 	=require('../setting/setting.controller');
 
 //todo set productive routes
@@ -11,26 +11,31 @@ var itemCtrl		= require('../item/item.controller'),
 var router=express.Router();
 
 router.route('/item')
-	.post(jwtAuthCtrl.isAuthenticated, itemCtrl.postItem)
+	.post(authCtrl.isAuthenticated, itemCtrl.postItem)
 	.get(itemCtrl.getAllItems);
 router.route('/item/:objID')
 	.get(itemCtrl.getItem)
-	.put(jwtAuthCtrl.isAuthenticated, itemCtrl.putItem)
-	.delete(jwtAuthCtrl.isAuthenticated, itemCtrl.deleteItem);
+	.put(authCtrl.isAuthenticated, itemCtrl.putItem)
+	.delete(authCtrl.isAuthenticated, itemCtrl.deleteItem);
 	
 router.route('/user')
-	.get(jwtAuthCtrl.isAuthenticated, jwtAuthCtrl.isAdmin ,userCtrl.getAllUsers);
-	//.get(jwtAuthCtrl.isAuthenticated,userCtrl.getAllUsers);
+	.get(authCtrl.isAuthenticated, authCtrl.isAdmin ,userCtrl.getAllUsers);
+	//.get(authCtrl.isAuthenticated,userCtrl.getAllUsers);
 router.route('/user/:objID')
-	.get(jwtAuthCtrl.isAuthenticated, userCtrl.getUser)
-	.put(jwtAuthCtrl.isAuthenticated ,userCtrl.updateUser)
+	.get(authCtrl.isAuthenticated, userCtrl.getUser)
+	.put(authCtrl.isAuthenticated ,userCtrl.updateUser)
 	.delete(userCtrl.deleteUser);
 
 router.route('/login')
-	.post(jwtAuthCtrl.postLogin);
-
+	.post(authCtrl.postLogin);
 router.route('/signup')
-	.post(jwtAuthCtrl.validateSignupCode,jwtAuthCtrl.postSignUp);
+	.post(authCtrl.validateSignupCode,authCtrl.postSignUp);
+router.route('/reset/:token')
+	.post(authCtrl.postReset);
+router.route('/forgot')
+	.post(authCtrl.postForgot);
+
+
 
 router.route('/settings')
 	.post(settingCtrl.postSetting)

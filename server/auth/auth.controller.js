@@ -140,14 +140,14 @@ exports.postForgot = (req, res, next) => {
 					done(err, token, user);
 				});
 
-				}
-			})
+				
+			});
 		},
 		function sendForgotPasswordEmail(token, user, done){
 			const transporter = nodemailer.createTransport({
 				service: 'sendGrid',
 				auth: {
-					user: process.env.SENDGRID_USER
+					user: process.env.SENDGRID_USER,
 					pass: process.env.SENDGRID_PASSWORD
 				}
 
@@ -193,7 +193,7 @@ exports.postReset = (req,res,next) => {
 			const transporter = nodemailer.createTransport({
 				service: 'sendGrid',
 				auth: {
-					user: process.env.SENDGRID_USER
+					user: process.env.SENDGRID_USER,
 					pass: process.env.SENDGRID_PASSWORD
 				}
 			});
