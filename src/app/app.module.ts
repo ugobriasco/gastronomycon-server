@@ -29,6 +29,7 @@ import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+import { ResetPasswordComponent} from './auth/reset-password.component';
 
 
 
@@ -52,6 +53,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
     FooterComponent,
     AdminComponent,
     UserListComponent,
+    ResetPasswordComponent
      
     
   ],
