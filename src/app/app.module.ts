@@ -30,6 +30,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { ResetPasswordComponent} from './auth/reset-password.component';
+import { ApiDocComponent } from './landing/pages/api-doc/api-doc.component';
 
 
 
@@ -53,7 +54,8 @@ import { ResetPasswordComponent} from './auth/reset-password.component';
     FooterComponent,
     AdminComponent,
     UserListComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ApiDocComponent
      
     
   ],

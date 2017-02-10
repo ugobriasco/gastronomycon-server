@@ -8,6 +8,7 @@ import { LoginComponent } from './auth/login.component';
 import { UserComponent } from './user/user.component';
 import { ItemsComponent } from './items/items.component';
 import { AdminComponent } from './admin/admin.component';
+import { ApiDocComponent } from './landing/pages/api-doc/api-doc.component';
 
 export const routes: Routes = [
 {
@@ -38,6 +39,10 @@ export const routes: Routes = [
 {
 	path: 'admin', 
 	component: AdminComponent
+},
+{
+	path: 'api', 
+	component: ApiDocComponent
 },
 
 
