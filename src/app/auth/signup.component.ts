@@ -16,13 +16,17 @@ import { AdminService } from '../shared/admin.service';
 					<h1>Join Us!</h1>
 
 					 <div class="form-group">
-					 	<label>Email</label>
-					 	<input type="text" class="form-control" name="email" [(ngModel)] = "credentials.email"/>
+					 	
+					 	<input type="text" class="form-control" name="email" placeholder="Email"[(ngModel)] = "credentials.email"/>
 				 	</div>
 				 	<div class="form-group">
-					 	<label>Password</label>
-					 	<input type="password" class="form-control" name="password" [(ngModel)] = "credentials.password"/>
+					 	
+					 	<input type="password" class="form-control" placeholder="Super secret password" name="password" [(ngModel)] = "credentials.psw1"/>
 				 	</div>
+           <div class="form-group" *ngIf ="credentials.psw1">
+             
+             <input type="password" class="form-control" placeholder="Repeat password"name="password" [(ngModel)] = "credentials.password"/>
+           </div>
 
 				 	<div class="form-group" *ngIf="code.enabled">
 					 	<label>Signup Code</label>
@@ -53,9 +57,9 @@ import { AdminService } from '../shared/admin.service';
 })
 export class SignupComponent implements OnInit {
 
-	credentials = {email: '', password:'', signupCode: ''};
+	credentials = {email: '', psw1:'', password:'', signupCode: ''};
 	errorMessage: string = '';
-	code = {'name':'aa','value':'aa', 'enabled': true};
+	code = {'name':'','value':'', 'enabled': true};
 
 
   constructor( private authService: AuthService, private adminService: AdminService,private router: Router) { }
@@ -63,11 +67,13 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
   	this.adminService.getSignupCode().subscribe(http_setting => this.code = http_setting);
-  	console.log(this.code);
+  	
   }
 
   signup(){
-  	this.validateEmail(this.credentials.email);
+
+    if(this.credentials.psw1 != this.credentials.password) return this.errorMessage = "The passwords are not matching";
+  	
   	this.authService.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
   	.subscribe(
   		data => {this.router.navigate(['']); console.log(data);}, 
@@ -81,14 +87,5 @@ export class SignupComponent implements OnInit {
     }, 3000);
   }
 
-  private validateEmail(email){
-  	
-  	var  EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
-
-  	if(email == 5) {
-  		return this.errorMessage = "incorrect email format";
-  	}
-
-  }
-
+  
 }
