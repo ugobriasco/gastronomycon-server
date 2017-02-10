@@ -67,7 +67,7 @@ export class SignupComponent implements OnInit {
   }
 
   signup(){
-  	
+  	this.validateEmail(this.credentials.email);
   	this.authService.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
   	.subscribe(
   		data => {this.router.navigate(['']); console.log(data);}, 
@@ -81,6 +81,14 @@ export class SignupComponent implements OnInit {
     }, 3000);
   }
 
-  
+  private validateEmail(email){
+  	
+  	var  EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
+
+  	if(email == 5) {
+  		return this.errorMessage = "incorrect email format";
+  	}
+
+  }
 
 }

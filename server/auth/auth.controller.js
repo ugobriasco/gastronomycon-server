@@ -73,14 +73,12 @@ exports.postSignUp = function(req, res){
 
 		user.save(function(err){
 			if(err) throw err;
+			console.log('new user');
 			res.status(201).json({
 	          token: generateToken(user),
 	          user: user
 	        });
 		});	
-		
-	console.log('new user');
-	res.status(201).json({message: 'it works'})
 
 	});
 }
@@ -100,7 +98,6 @@ exports.validateSignupCode = function(req, res, next){
 
 //psw management
 
-
 exports.postUpdatePassword = (req, res, next) => {
 	if(!req.body.email){
 		return res.status(400).json({message: 'Please fill out all fields'});
@@ -118,8 +115,6 @@ exports.postUpdatePassword = (req, res, next) => {
 		}
 	});
 }
-
-
 
 exports.postForgot = (req, res, next) => {
 	async.waterfall([
@@ -217,7 +212,6 @@ exports.postReset = (req,res,next) => {
 
 
 //stati
-
 
 exports.isAuthenticated = function(req, res, next){
 
