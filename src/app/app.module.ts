@@ -25,6 +25,8 @@ import { SignupComponent } from './auth/signup.component';
 import { ItemsComponent } from './items/items.component';
 import { SearchPipe} from './items/items.filterItem.pipe';
 import { OrderBy } from './shared/pipes/orderby.pipe';
+import { PrettyJsonPipe} from './shared/pipes/prettyjson.pipe';
+
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { AdminComponent } from './admin/admin.component';
@@ -50,6 +52,7 @@ import { ApiDocComponent } from './landing/pages/api-doc/api-doc.component';
     ItemsComponent,
     SearchPipe,
     OrderBy,
+    PrettyJsonPipe,
     NavbarComponent,
     FooterComponent,
     AdminComponent,

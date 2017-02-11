@@ -1,26 +1,45 @@
 <div class="container">
 <h1>API Documentation</h1>
 <hr>
+<section>
 	<div class="row">
-		<div class="col-md-12 well">
-			<h3>Port:3000</h3>
+		<div class="col-md-12">
+			<h3>Public routes on port :3000</h3>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-4 col-sm-4">
-			<div class="list-group">
-			  <button type="button" class="list-group-item"><span class="label label-success">GET</span> all items</button>
-			  <button type="button" class="list-group-item"><span class="label label-success">GET</span> single item</button> 
+	<div class="row" *ngIf="apiDoc">
+		<div class="col-md-3 col-sm-3 col-xs-3">
+			<div class="list-group" *ngFor = "let route of apiDoc">
+			  <button type="button" class="list-group-item" (click) = "selectRoute(route)"><span class="label" [ngClass] = "getReqTypeColor(route.req.type)" >{{route?.req?.type}}</span><span class="pull-right text-uppercase"> {{route?.name}}</span></button>
 			</div>					
 		</div>
-		<div class="col-md-8 col-sm-8">
-			<div class="col-md-6 col-sm-6">
-				<p>Response</p>
-			</div>
-			<div class="col-md-6 col-sm-6">
-				<p>Response</p>
+		<div *ngIf ="$route">
+			<div class="col-md-9 col-sm-9 col-xs-9">
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading justify">
+							<strong>Request</strong>
+							<p class="text-success">{{$route?.req?.params}}</p>
+
+						</div>
+						<div class="panel-body justify"*ngIf = "$route.req.body">
+							<pre [innerHTML]="$route.req.body | prettyjson"></pre>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<strong>Response</strong>
+							<p [ngClass]="getResStatusColor($route?.res?.status)">{{$route?.res?.status}}</p>
+						</div>
+					</div>
+						<pre [innerHTML]="$route.res.body | prettyjson"></pre>		
+				</div>
 			</div>
 		</div>
 		
 	</div>
+</section>
 </div>
+

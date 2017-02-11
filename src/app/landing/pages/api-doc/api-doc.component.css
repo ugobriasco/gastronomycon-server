@@ -1,0 +1,18 @@
+.justify {
+ 
+  word-wrap: break-word;
+
+  /* Required for text-overflow to do anything 
+   text-overflow: ellipsis-word;
+  white-space: nowrap;
+  overflow: hidden;*/
+}
+
+pre {outline: 0px solid #ccc; padding: 5px; margin: 5px; background-color: white;}
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+
+strong{color:black;}
