@@ -1,15 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http , Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/subject';
+import { APP_CONFIG, IAppConfig } from '../app.config';
+
 
 
 @Injectable()
 export class AdminService {
-	
-	constructor(private http: Http) {}
 
-	private settingsUrl ='http://localhost:3000/api/settings';
+	private settingsUrl = '';
+	
+	constructor(
+		private http: Http, 
+		@Inject(APP_CONFIG) private config: IAppConfig
+		){
+		this.settingsUrl = config.apiEndpoint + 'settings';
+
+	}
+
+
 
 	setSignupCode(setting): Observable<{'name', 'value', 'enabled'}>{
 		let headers = this.setHeaders();

@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { APP_CONFIG, IAppConfig } from '../app.config';
 
 
 
 @Injectable() export class AuthService{
-	private authUrl: string = 'http://localhost:3000/api';
+	private authUrl = '';
 	private loggedIn: boolean = false;
 	private userID: string = '';
 
-	constructor(private http: Http){
+	constructor(private http: Http, @Inject(APP_CONFIG) private config: IAppConfig){
+		this.authUrl = config.apiEndpoint;
 		this.loggedIn = !!localStorage.getItem('auth_token');
 		this.userID = localStorage.getItem('userID');
 	}
