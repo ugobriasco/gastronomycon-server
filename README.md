@@ -8,22 +8,22 @@ Visit the [official page](http://gbot.matchyourtie.com), collaborate to the proj
 ##Release Notes
 The v. 0.0.1-alpha1 of Grocerybot includes
 
-* Full user management
-** email service
-** basic profile
-* Full item-list management
-** supports the following languages: DE, PL, IT
-* REST API
-** API Documentation
-** JWT autentification compliant with the [ietf standards](https://tools.ietf.org/html/rfc6750 )
-* User Signup limitations option
++ Full user management
+..+ email service
+..+ basic profile
++ Full item-list management
+..+ supports the following languages: DE, PL, IT
++ REST API
+..+ API Documentation
+..+ JWT autentification compliant with the [ietf standards](https://tools.ietf.org/html/rfc6750 )
++ User Signup limitations option
 
 ##Framework
 This a MEAN stack application, using angular2. It requires:
-* [mongo](https://docs.mongodb.com/getting-started/shell/)
-* [node](https://nodejs.org/en/)
-* [express](http://expressjs.com/)
-* [angular2](http://www.eloquentwebapp.com/setting-angular-2-environment-using-typescript-npm-webpack/)
++ [mongo](https://docs.mongodb.com/getting-started/shell/)
++ [node](https://nodejs.org/en/)
++ [express](http://expressjs.com/)
++ [angular2](http://www.eloquentwebapp.com/setting-angular-2-environment-using-typescript-npm-webpack/)
 
 It supports [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
 
