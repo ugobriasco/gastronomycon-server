@@ -1,31 +1,42 @@
-# GrocerybotYy
+# Grocerybot
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
+##Intro
+Grocerybot is a server-side application for suppoprting multilingual grocery lists. It provides and handle a customizable list of grocery products accessable via REST API.
+Visit the [official page](http://gbot.matchyourtie.com), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+##Release Notes
+The v. 0.0.1-alpha1 of Grocerybot includes
 
-## Code scaffolding
+*Full user management
+** email service
+** basic profile
+*Full item list management
+** supports the following languages: DE, PL, IT
+* REST API
+** API Documentation
+* User Signup limitations option
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
+##Framework
+This a MEAN stack application, using angular2. It requires:
+* [mongo](https://docs.mongodb.com/getting-started/shell/)
+* [node](https://nodejs.org/en/)
+* [express](http://expressjs.com/)
+* [angular2](http://www.eloquentwebapp.com/setting-angular-2-environment-using-typescript-npm-webpack/)
 
-## Build
+It supports [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### Development server
+Start the server side with `node server` and it is accessable via port `3000`
+In a separate tab, start the client with `ng serve`.Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Running unit tests
+### Setup
+For seting up the root user, it is required to send a `POST` request to `http://localhost:3000/api/signup` with the following reqest:
+`{'email':'root@root.com','passowrd':'root','role: admin'}` (remove the entry point 'role' after the root user have been created)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Frontend Test
+* Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+* Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 Before running the tests make sure you are serving the app via `ng serve`.
 
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Client Build
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.

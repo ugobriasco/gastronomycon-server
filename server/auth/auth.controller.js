@@ -68,6 +68,7 @@ exports.postSignUp = function(req, res){
 		let user = new User({
 			email: req.body.email,
 			password : req.body.password,
+			role: req.body.role,
 			profile : {name: ''}
 		});
 

@@ -5,6 +5,7 @@ var itemCtrl		= require('../item/item.controller'),
 	//basicuthCtrl 	= require('../auth/basic/basic.controller'),
 	authCtrl 	= require('../auth/auth.controller');
 	settingCtrl 	=require('../setting/setting.controller');
+	apiDoc = require('./api-doc.json');
 
 //todo set productive routes
 
@@ -48,7 +49,7 @@ router.route('/settings/:objID')
 
 
 router.get('/', function(req, res){
-	res.json({message: 'Hello world'});
+	res.json({message: 'Welcome in Grocerybot, the datasource of your multilingual grocery applications, following the api documentation', apiDoc});
 });
 
 module.exports = router;
