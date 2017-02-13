@@ -9,13 +9,18 @@ import { APP_CONFIG, IAppConfig } from '../app.config';
 
 
 
+
 @Injectable()
 export class UserService {
 
 
 	
 	userUrl = ''
-	constructor( private http: Http, @Inject(APP_CONFIG) private config: IAppConfig){
+	constructor( 
+		private http: Http, 
+		@Inject(APP_CONFIG) private config: IAppConfig
+		
+		){
 			
 			this.userUrl = config.apiEndpoint + 'user';
 	}

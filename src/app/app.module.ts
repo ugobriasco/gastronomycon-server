@@ -11,11 +11,13 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/throw';
 
+import { APP_CONFIG, AppConfig } from './app.config';
 import { routing } from './app.routing';
 import { AuthService } from './shared/auth.service';
 import { UserService } from './shared/user.service';
 import { ItemsService } from './items/items.service';
 import { AdminService } from './shared/admin.service';
+
 
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -69,10 +71,13 @@ import { ApiDocComponent } from './landing/pages/api-doc/api-doc.component';
     routing
   ],
   providers: [
+    { provide: APP_CONFIG, useValue: AppConfig },
     AuthService,
     UserService,
     ItemsService,
     AdminService
+    
+    
   ],
   bootstrap: [AppComponent]
 })

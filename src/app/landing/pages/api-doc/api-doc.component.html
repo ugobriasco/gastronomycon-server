@@ -1,14 +1,15 @@
 <div class="container">
-<h1>API Documentation</h1>
+
+<div class="page-header">
+    <h1>API Documentation</h1>
+    <small>Public endpoints under:<pre>{{apiUrl}}</pre></small> 
+  </div>
+  
 <hr>
 <section>
-	<div class="row">
-		<div class="col-md-12">
-			<h3>Public routes on port :3000</h3>
-		</div>
-	</div>
 	<div class="row" *ngIf="apiDoc">
 		<div class="col-md-3 col-sm-3 col-xs-3">
+			
 			<div class="list-group" *ngFor = "let route of apiDoc">
 			  <button type="button" class="list-group-item" (click) = "selectRoute(route)"><span class="label" [ngClass] = "getReqTypeColor(route.req.type)" >{{route?.req?.type}}</span><span class="pull-right text-uppercase"> {{route?.name}}</span></button>
 			</div>					

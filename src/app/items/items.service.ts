@@ -1,15 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http , Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/subject';
+import { APP_CONFIG, IAppConfig } from '../app.config';
+
 
 @Injectable()
 export class ItemsService {
 
-	private itemsUrl: string = 'http://localhost:3000/api/item'
+	private itemsUrl: string = ''
 	private selectedItem: string = '';
 
-  constructor(private http: Http) {}
+  constructor(private http: Http,@Inject(APP_CONFIG) private config: IAppConfig) {
+    this.itemsUrl = config.apiEndpoint + 'item';
+  }
 
   getItems(): Observable<Object[]> {
   	return this.http.get(this.itemsUrl)

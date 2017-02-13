@@ -8,7 +8,8 @@ import { Http }      from '@angular/http';
 })
 export class ApiDocComponent implements OnInit {
 
-	private apiUrl: string = 'http://localhost:3000/api/';
+	apiUrl: string = 'http://localhost:3000/api/';
+  //apiUrlo = '';
 
 	apiDoc = [];
 	route = [];
@@ -19,7 +20,11 @@ export class ApiDocComponent implements OnInit {
 
   constructor(private http: Http) {
   	this.http.get(this.apiUrl)
-  	.subscribe(res => {this.apiDoc = res.json().apiDoc; console.log(this.apiDoc)});
+  	.subscribe(res => {
+      this.apiDoc = res.json().apiDoc.endpoints;
+      //this.apiUrlo = res.json().apiDoc.apiUrl; 
+      //console.log(this.apiUrl)
+    });
 
    }
 

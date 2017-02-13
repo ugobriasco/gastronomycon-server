@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
   login(){
   	this.service.login(this.credentials.email, this.credentials.password)
   	.subscribe(
-  		data => {this.router.navigate(['']); console.log(data);}, 
+  		data => {this.router.navigate(['items']); console.log(data);}, 
   		err => {this.errorMessage = err; console.log(err);}
   	);
   }
