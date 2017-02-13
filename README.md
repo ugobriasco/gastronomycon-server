@@ -1,19 +1,21 @@
 # Grocerybot
 
 ##Intro
-Grocerybot is a server-side application for suppoprting multilingual grocery lists. It provides and handle a customizable list of grocery products accessable via REST API.
+Grocerybot is a server-side application for suppoprting multilingual grocery lists. It provides and handles a customizable list of grocery products accessable via REST API.
+
 Visit the [official page](http://gbot.matchyourtie.com), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
 
 ##Release Notes
 The v. 0.0.1-alpha1 of Grocerybot includes
 
-*Full user management
+* Full user management
 ** email service
 ** basic profile
-*Full item list management
+* Full item-list management
 ** supports the following languages: DE, PL, IT
 * REST API
 ** API Documentation
+** JWT autentification compliant with the [ietf standards](https://tools.ietf.org/html/rfc6750 )
 * User Signup limitations option
 
 ##Framework
@@ -30,7 +32,8 @@ Start the server side with `node server` and it is accessable via port `3000`
 In a separate tab, start the client with `ng serve`.Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Setup
-For seting up the root user, it is required to send a `POST` request to `http://localhost:3000/api/signup` with the following reqest:
+Install the dependancies with `npm install`.
+Create the root user, by sending a `POST` request to `http://localhost:3000/api/signup` with the following body:
 `{'email':'root@root.com','passowrd':'root','role: admin'}` (remove the entry point 'role' after the root user have been created)
 
 ### Frontend Test
