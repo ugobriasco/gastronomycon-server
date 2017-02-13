@@ -8,15 +8,15 @@ Visit the [official page](http://gbot.matchyourtie.com), collaborate to the proj
 ##Release Notes
 The v. 0.0.1-alpha1 of Grocerybot includes
 
-+ Full user management
+1. Full user management
 ..+ email service
 ..+ basic profile
-+ Full item-list management
-..+ supports the following languages: DE, PL, IT
-+ REST API
+2. Full item-list management
+..+ it supports the following languages: DE, PL, IT
+3. REST API
 ..+ API Documentation
 ..+ JWT autentification compliant with the [ietf standards](https://tools.ietf.org/html/rfc6750 )
-+ User Signup limitations option
+4. User Signup limitations option
 
 ##Framework
 This a MEAN stack application, using angular2. It requires:
