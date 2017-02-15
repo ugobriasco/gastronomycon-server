@@ -72,7 +72,7 @@ import { ApiDocComponent } from './landing/pages/api-doc/api-doc.component';
     routing
   ],
   providers: [
-    { provide: APP_CONFIG, useValue: AppConfig },
+    { provide: APP_CONFIG, useValue: AppConfig }, //global cfg
     AuthService,
     UserService,
     ItemsService,
