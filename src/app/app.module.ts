@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -17,6 +17,7 @@ import { AuthService } from './shared/auth.service';
 import { UserService } from './shared/user.service';
 import { ItemsService } from './items/items.service';
 import { AdminService } from './shared/admin.service';
+import { ValidationService } from './shared/validation.service';
 
 
 import { AppComponent } from './app.component';
@@ -75,7 +76,8 @@ import { ApiDocComponent } from './landing/pages/api-doc/api-doc.component';
     AuthService,
     UserService,
     ItemsService,
-    AdminService
+    AdminService,
+    ValidationService
     
     
   ],
