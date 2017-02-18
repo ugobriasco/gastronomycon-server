@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { AuthService } from '../shared/auth.service';
 import { AdminService } from '../shared/admin.service';
+import { ValidationService } from '../shared/validation.service';
 
 
 
@@ -23,11 +24,11 @@ import { AdminService } from '../shared/admin.service';
 				 	</div>
 				 	<div class="form-group">
 					 	
-					 	<input type="password" class="form-control" placeholder="Super secret password" name="password" [(ngModel)] = "credentials.psw1"/>
+					 	<input type="password" class="form-control" placeholder="Super secret password" name="psw1" [(ngModel)] = "credentials.psw1"/>
 				 	</div>
            <div class="form-group" *ngIf ="credentials.psw1">
              
-             <input type="password" class="form-control" placeholder="Repeat password"name="password" [(ngModel)] = "credentials.password"/>
+             <input type="password" class="form-control" placeholder="Repeat password" name="psw2" [(ngModel)] = "credentials.psw2"/>
            </div>
 
 				 	<div class="form-group" *ngIf="code.enabled">
@@ -59,12 +60,18 @@ import { AdminService } from '../shared/admin.service';
 })
 export class SignupComponent implements OnInit {
 
-	credentials = {email: '', psw1:'', password:'', signupCode: ''};
+	credentials = {email: '', psw1:'', psw2:'', signupCode: ''};
 	errorMessage: string = '';
 	code = {'name':'','value':'', 'enabled': true};
 
 
-  constructor( private authService: AuthService, private adminService: AdminService,private router: Router) { }
+  constructor( 
+  	private router: Router,
+  	private authService: AuthService, 
+  	private adminService: AdminService,
+  	private valService: ValidationService
+
+  	) { }
 
 
   ngOnInit() {
@@ -74,9 +81,11 @@ export class SignupComponent implements OnInit {
 
   signup(){
 
-    if(this.credentials.psw1 != this.credentials.password) return this.errorMessage = "The passwords are not matching";
+  	if(this.valService.emailValidator(this.credentials.email) == false) return this.errorMessage ="The email is not valid";
+  	if(this.credentials.psw1 =="") return this.errorMessage ="Please enter a password";
+    if(this.credentials.psw1 != this.credentials.psw2) return this.errorMessage = "The passwords are not matching";
   	
-  	this.authService.signup(this.credentials.email, this.credentials.password, this.credentials.signupCode)
+  	this.authService.signup(this.credentials.email, this.credentials.psw1, this.credentials.signupCode)
   	.subscribe(
   		data => {this.router.navigate(['']); console.log(data);}, 
   		err => {this.errorMessage = err; console.log(err); this.clearMessages();}
