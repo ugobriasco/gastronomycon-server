@@ -4,6 +4,7 @@ footer, .page-wrap:after {
 
 /*Footer*/
 footer {
+	position: relative;
 
   background-color: #f5f5f5;
   border-top: 1px solid #E7E7E7;

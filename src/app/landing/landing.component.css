@@ -37,6 +37,11 @@
 
 header {
   position: realtive;
-  padding-top:80px; 
+  padding-top:80px;
+
 }
 
+body {
+  margin-top: 300px;
+  height:1000px;
+}
