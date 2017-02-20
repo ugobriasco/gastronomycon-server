@@ -41,7 +41,7 @@ export const routes: Routes = [
 	component: AdminComponent
 },
 {
-	path: 'api', 
+	path: 'documentation', 
 	component: ApiDocComponent
 },
 
