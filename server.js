@@ -40,7 +40,7 @@ app.use('/api', api);
 
 
 app.get('*', function(req, res){
-  res.send('what???', 404);
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
 

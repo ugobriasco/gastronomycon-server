@@ -5,7 +5,10 @@ footer, .page-wrap:after {
 /*Footer*/
 footer {
 
-  background-color: #f5f5f5;
-  border-top: 1px solid #E7E7E7;
+	padding-top: 30px;
+	
+
+  	background-color: #f5f5f5;
+  	border-top: 1px solid #E7E7E7;
 
 }
