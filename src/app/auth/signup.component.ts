@@ -80,7 +80,6 @@ export class SignupComponent implements OnInit {
   }
 
   signup(){
-
   	if(this.valService.emailValidator(this.credentials.email) == false) return this.errorMessage ="The email is not valid";
   	if(this.credentials.psw1 =="") return this.errorMessage ="Please enter a password";
     if(this.credentials.psw1 != this.credentials.psw2) return this.errorMessage = "The passwords are not matching";
