@@ -21,7 +21,7 @@ router.route('/item/:objID')
 	
 router.route('/user')
 	.get(authCtrl.isAuthenticated, authCtrl.isAdmin ,userCtrl.getAllUsers);
-	//.get(authCtrl.isAuthenticated,userCtrl.getAllUsers);
+	//.get(userCtrl.getAllUsers);
 router.route('/user/:objID')
 	.get(authCtrl.isAuthenticated, userCtrl.getUser)
 	.put(authCtrl.isAuthenticated ,userCtrl.updateUser)

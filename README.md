@@ -33,8 +33,15 @@ In a separate tab, start the client with `ng serve`.Navigate to `http://localhos
 
 ### Setup
 Install the dependancies with `npm install`.
-Create the root user, by sending a `POST` request to `http://localhost:3000/api/signup` with the following body:
-`{'email':'root@root.com','passowrd':'root','role: admin'}` (remove the entry point 'role' after the root user have been created)
+Create the root user, by sending a `POST` request to `http://localhost:3000/api/signup` with the following body (x-www-form-urlencoded):
+`{"email":"root@root.com","passowrd":"root","role": "Admin"}` (remove the entry point 'role' after the root user have been created)
+
+Optional -  SignupCode
+In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be switch off by an admin user.
+In order to set it up, make the followingg request:
+
+`POST http://localhost/api/settings`
+`{"name": "signupCode", "value": "foo"}`
 
 ### Frontend Test
 * Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).

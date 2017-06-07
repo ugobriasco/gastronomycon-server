@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable, Inject } from '@angular/core';
 import { Http }      from '@angular/http';
+import { APP_CONFIG, IAppConfig } from '../../../app.config';
 
 @Component({
   selector: 'app-api-doc',
@@ -8,7 +9,7 @@ import { Http }      from '@angular/http';
 })
 export class ApiDocComponent implements OnInit {
 
-	apiUrl: string = 'http://localhost:3000/api/';
+	apiUrl: string;
   //apiUrlo = '';
 
 	apiDoc = [];
@@ -18,13 +19,17 @@ export class ApiDocComponent implements OnInit {
 
 
 
-  constructor(private http: Http) {
+  constructor(private http: Http,  @Inject(APP_CONFIG) private config: IAppConfig) {
+
+    this.apiUrl = config.apiEndpoint;
   	this.http.get(this.apiUrl)
   	.subscribe(res => {
       this.apiDoc = res.json().apiDoc.endpoints;
       //this.apiUrlo = res.json().apiDoc.apiUrl; 
       //console.log(this.apiUrl)
     });
+
+
 
    }
 
