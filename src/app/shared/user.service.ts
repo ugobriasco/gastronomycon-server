@@ -6,34 +6,19 @@ import {User} from '../user/user.model';
 import { APP_CONFIG, IAppConfig } from '../app.config';
 
 
-
-
-
-
 @Injectable()
 export class UserService {
-
-
 	
-	userUrl = ''
+	private userUrl = '';
+
 	constructor( 
 		private http: Http, 
 		@Inject(APP_CONFIG) private config: IAppConfig
-		
-		){
-			
+		){		
 			this.userUrl = config.apiEndpoint + 'user';
-	}
-
-
-
-	//public routes
-
+		}
 
 	getUser(): Observable<User>{ //get an Id and returns an Observable of a selected user
-
-		
-
 		let myId = this.token2user();
 		let headers = this.setHeaders();
 		return this.http.get(`${this.userUrl}/${myId}`, {headers} )  //usage of ES6 template-string backticks
@@ -44,24 +29,19 @@ export class UserService {
 	
 	getUserFromId(id:string): Observable<User>{
 		let myId = this.token2user();
-		let headers = this.setHeaders();
-		
+		let headers = this.setHeaders();		
 		return this.http.get(`${this.userUrl}/${id}`)
 		.map(res => res.json)
 		.catch(this.handleError);
 	}
 
-	getAllUsers(): Observable<User[]>{
-		
+	getAllUsers(): Observable<User[]>{	
 		let headers = this.setHeaders();
 		return this.http.get(this.userUrl, {headers})
 		.map(res => res.json().data)
 		.catch(this.handleError);
 	}
 
-
-
-	//protected routes
 	updateCurrentUser(user): Observable<User>{
 		let headers = this.setHeaders();
 		let myId = localStorage.getItem('userID');
