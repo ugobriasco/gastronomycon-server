@@ -39,13 +39,13 @@ router.route('/forgot')
 
 
 router.route('/settings')
-	.post(settingCtrl.postSetting)
-	.get(settingCtrl.getAllSettings);
+	.post(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.postSetting)
+	.get(authCtrl.isAuthenticated, authCtrl.isAdmin,settingCtrl.getAllSettings);
 router.route('/settings/:name')
-	.get(settingCtrl.getSetting)	
-	.put(settingCtrl.putSetting);
+	.get(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.getSetting)	
+	.put(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.putSetting);
 router.route('/settings/:objID')
-	.delete(settingCtrl.deleteSetting);
+	.delete(authCtrl.isAuthenticated, authCtrl.isAdmin,settingCtrl.deleteSetting);
 
 
 router.get('/', function(req, res){
