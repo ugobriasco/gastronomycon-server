@@ -3,7 +3,7 @@
 ##Intro
 Grocerybot is a server-side application for suppoprting multilingual grocery lists. It provides and handles a customizable list of grocery products accessable via REST API.
 
-Visit the [official page](http://gbot.matchyourtie.com), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
+Visit the [official page](http://46.101.201.71:3000), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
 
 ##Release Notes
 The v. 0.0.1-alpha1 of Grocerybot includes
