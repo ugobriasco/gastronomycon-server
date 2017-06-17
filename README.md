@@ -1,12 +1,12 @@
 # Grocerybot
 
-##Intro
+## Intro
 Grocerybot is a server-side application for suppoprting multilingual grocery lists. It provides and handles a customizable list of grocery products accessable via REST API.
 
 Visit the [official page](http://46.101.201.71:3000), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
 
-##Release Notes
-The v. 0.0.1-alpha1 of Grocerybot includes
+## Release Notes
+The v. 0.0.1 of Grocerybot includes
 
 1. Full user management
 ..+ email service
@@ -18,7 +18,7 @@ The v. 0.0.1-alpha1 of Grocerybot includes
 ..+ JWT autentification compliant with the [ietf standards](https://tools.ietf.org/html/rfc6750 )
 4. User Signup limitations option
 
-##Framework
+## Framework
 This a MEAN stack application, using angular2. It requires:
 + [mongo](https://docs.mongodb.com/getting-started/shell/)
 + [node](https://nodejs.org/en/)
@@ -28,7 +28,8 @@ This a MEAN stack application, using angular2. It requires:
 It supports [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
 
 ### Development server
-Start the server side with `node server` and it is accessable via port `3000`
+Start the server side with `node server` and it is accessable via port `3000`.
+
 In a separate tab, start the client with `ng serve`.Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ### Setup
