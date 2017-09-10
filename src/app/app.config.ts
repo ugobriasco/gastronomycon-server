@@ -8,6 +8,6 @@ export interface IAppConfig {
 
 export const AppConfig: IAppConfig = {    
     //apiEndpoint: "http://46.101.201.71:3000/api/" 
-    //apiEndpoint: "http://localhost:3000/api/"
-    apiEndpoint: "http://gb.matchyourtie.com:3000/api/"   
+    apiEndpoint: "http://localhost:3000/api/"
+    //apiEndpoint: "http://gb.matchyourtie.com:3000/api/"   
 };
