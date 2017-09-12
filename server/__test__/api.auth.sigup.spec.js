@@ -1,43 +1,32 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
-
-
-let should = chai.should();
-
-const host = "http://localhost:3000/api";
-const signupCode = "foo";
+const should = chai.should();
+const t  = require('./testdata');
 
 chai.use(chaiHttp);
+
+const host = t.host;
+const signupCode = t.signupCode;
+
 
 let testUser = {
 	email: `${new Date().toISOString()}@test.com`,
 	password: new Date().toISOString(),
-	token: ''
+	token: '',
+	id: '',
 }
-
-let admin = {
-	email: "foo",
-	password: "foo",
-	token: ''
-}
-//get token
-chai.request(host)
-	  .post('/login')
-	  .set('content-type', 'application/x-www-form-urlencoded') 
-	  .send({email: admin.email, password: admin.password})
-	  .end((err, res) => {
-	    admin.token = `Bearer ${res.body.token}`;
-	});
 
 describe('/signup', () =>{
 
-	after(function(){
-
-		//remove test user
+	after((done) => {		
+		let token = t.getAdminToken();
 		chai.request(host)
 			.delete(`/user/${testUser.id}`)
-		 	.set('Authorization', admin.token);
+		    .set('Authorization', token )
+		    .end((err, res) => {
+		    	done();
+		    });
 	});
 
 	it('it should register a new user returning a 201 and a token', (done) => {
@@ -53,8 +42,7 @@ describe('/signup', () =>{
 			res.body.should.be.a('object');
 			res.body.should.have.property('token');
 			testUser.token = res.body.token;
-			testUser.id = res.boy.user._id;
-			console.log(testUser);
+			testUser.id = res.body.user._id;
 			done();
 		});
 	});
@@ -123,5 +111,26 @@ describe('/signup', () =>{
 			done();
 		});
 	});
+
+	it('it should not register a user with role Admin, sending back a 422', (done) =>{
+
+		let badUser = {
+			email: `${new Date().toISOString()}@test.com`,
+			password: new Date().toISOString(),
+			role: 'Admin',
+		}
+
+		chai.request(host)
+		.post('/signup')
+		.send(badUser)
+		.end((err, res) => {
+			res.should.have.status(422);
+			res.body.should.not.have.property('token');
+			done();
+		});
+
+	});
+
+
 });
 
