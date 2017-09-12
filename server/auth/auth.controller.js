@@ -252,6 +252,17 @@ exports.isAdmin = function(req, res, next){
 }
 
 
+//Protects the acces to the user profile from exernal CRUDS - admins are allowed
+exports.isAccountOwner = function(req, res, next){
+	if( req.params.objID === req.decoded._doc._id || req.decoded._doc.role === 'Admin' ){
+		next();
+	} else {
+		res.status(401).json({message: 'the user has not the rights'});
+	}
+	
+}
+
+
 
 
 

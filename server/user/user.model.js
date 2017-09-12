@@ -17,10 +17,10 @@ var UserSchema = new mongoose.Schema({
     avatar: String,
     cover: String,
   	},
-  	role: {
-		type: String,
-		enum: ['User', 'Admin'],
-		default: 'User'
+	role: {
+  	type: String,
+  	enum: ['User', 'Admin'],
+  	default: 'User'
 	},
 //	resetPasswordToken: {type: String},
 //	resetPasswordExpires: {type: Date},

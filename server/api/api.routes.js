@@ -20,12 +20,30 @@ router.route('/item/:objID')
 	.delete(authCtrl.isAuthenticated, itemCtrl.deleteItem);
 	
 router.route('/user')
-	.get(authCtrl.isAuthenticated, authCtrl.isAdmin ,userCtrl.getAllUsers);
-	//.get(userCtrl.getAllUsers);
+	.get(
+		authCtrl.isAuthenticated, 
+		authCtrl.isAdmin,
+		userCtrl.getAllUsers
+	);
+	
 router.route('/user/:objID')
-	.get(authCtrl.isAuthenticated, userCtrl.getUser)
-	.put(authCtrl.isAuthenticated ,userCtrl.updateUser)
-	.delete(userCtrl.deleteUser);
+	.get(
+		authCtrl.isAuthenticated, 
+		authCtrl.isAccountOwner, 
+		userCtrl.getUser
+	)
+	.put(
+		authCtrl.isAuthenticated,
+		authCtrl.isAccountOwner, 
+		userCtrl.updateUser
+	)
+	.delete(
+		authCtrl.isAuthenticated, 
+		authCtrl.isAccountOwner, 
+		userCtrl.deleteUser
+	);
+
+
 
 router.route('/login')
 	.post(authCtrl.postLogin);
