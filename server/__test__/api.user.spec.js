@@ -1,3 +1,4 @@
+const async = require('async');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
@@ -9,7 +10,7 @@ chai.use(chaiHttp);
 const host = t.host;
 
 
-describe('/user', () =>{
+describe('/user & /user/:ObjID', () =>{
 
 	
 	//create a test user
@@ -19,39 +20,53 @@ describe('/user', () =>{
 
 	//get admin token and user token
 	before((done) => {
-		chai.request(host)
-		  	.post('/login')
-		  	.set('content-type', 'application/x-www-form-urlencoded') 
-		  	.send({email: 'foo', password: 'foo'})
-		  	.end((err, res) => {
-		    	admin.token = `Bearer ${res.body.token}`;
-
-		    	chai.request(host)
+		async.series([
+			getAdminToken = (cb) => {
+				chai.request(host)
+				  	.post('/login')
+				  	.set('content-type', 'application/x-www-form-urlencoded') 
+				  	.send({email: 'foo', password: 'foo'})
+				  	.end((err, res) => {
+				    	admin.token = `Bearer ${res.body.token}`;
+				    	cb();
+				    	
+					});
+			},
+			getUserToken = (cb) => {
+				chai.request(host)
 				  	.post('/login')
 				  	.set('content-type', 'application/x-www-form-urlencoded') 
 				  	.send({email: user.email, password: user.password})
 				  	.end((err, res) => {
 				    	user.token = `Bearer ${res.body.token}`;
-				    	done();
+				    	cb();
+				    	
 					});
-			});
+			}
+		], done);
+
 	});
 	
-
 	//delete the testuser
-	after((done) => {		
-		let token = t.getAdminToken();
-		chai.request(host)
-			.delete(`/user/${user.id}`)
-		    .set('Authorization', token )
-		    .end((err, res) => {
-		    	chai.request(host)
-				.delete(`/user/${user1.id}`)
-			    .set('Authorization', token )
+	after((done) => {
+		async.series([
+			deleteUser = (cb) => {
+				chai.request(host)
+				.delete(`/user/${user.id}`)
+			    .set('Authorization', admin.token )
 			    .end((err, res) => {
-			    	done();
+			    	cb();
 		    	});
-		    });
+			},
+			deleteUser1 = (cb) => {
+				chai.request(host)
+				.delete(`/user/${user1.id}`)
+			    .set('Authorization', admin.token )
+			    .end((err, res) => {
+			    	cb();
+		    	});
+			},
+		], done);
 	});
 
 	describe('A user with role USER', () => {
@@ -130,12 +145,63 @@ describe('/user', () =>{
 							});
 					});
 			});
-			it('should not PUT the profile of another user');
-			it('should NOT be able to change the ROLE');
+			it('should not PUT the profile of another user', (done) => {
+
+				chai.request(host)
+					.put(`/user/${user1.id}`)
+					.set('Authorization', user.token)
+					.send({profile:{name: 'Mr Red'}})
+					.end((er,res) => {
+						res.should.have.status(401);
+						chai.request(host)
+							.get(`/user/${user1.id}`)
+							.set('Authorization', admin.token)
+							.end((err, res) =>{
+								expect(res.body.data.profile.name).to.not.equal('Mr Red');
+								done();
+							});
+
+					})
+
+			});
+			it('should NOT be able to change the ROLE', (done) => {
+				chai.request(host)
+					.put(`/user/${user.id}`)
+					.set('Authorization', user.token)
+					.send({role: 'Admin'})
+					.end((err,res) => {
+						chai.request(host)
+							.get(`/user/${user1.id}`)
+							.set('Authorization', admin.token)
+							.end((err, res) =>{
+								expect(res.body.data.role).to.not.equal('Admin');
+								done();
+							});
+
+					});
+			});
 		});
 
 		describe('DELETE', () => {
-			it('should not be able to delete another user');
+			it('should not be able to delete another user', (done) => {
+				chai.request(host)
+					.delete(`/user/${user1.id}`)
+					.set('Authorization', user.token)
+					.end((err,res) => {
+						res.should.have.status(401);
+						chai.request(host)
+							.get(`/user/${user1.id}`)
+							.set('Authorization', admin.token)
+							.end((err, res) =>{
+								res.should.have.status(200);
+				            	res.body.data.should.be.a('object');
+				            	expect(res.body.data._id).to.equal(user1.id);
+				            	done();
+							});
+
+					})
+
+			});
 		})
 
 	});
@@ -165,12 +231,80 @@ describe('/user', () =>{
 			});
 		});
 		describe('PUT', () => {
-			it('should PUT his profile');
-			it('should change the role of a user');
-			it('should be able to change the ROLE of another user');
+			it('should change the ROLE of a user', (done) => {
+				chai.request(host)
+					.put(`/user/${user.id}`)
+					.set('Authorization', admin.token)
+					.send({role: 'Admin'})
+					.end((err,res) => {
+						chai.request(host)
+							.get(`/user/${user.id}`)
+							.set('Authorization', admin.token)
+							.end((err, res) =>{
+								expect(res.body.data.role).to.equal('Admin');
+								done();
+							});
+
+					});
+
+			});
+			// FROM NOW ON USER HAS ROLE ADMIN
+			it('should PUT his profile', (done) => {
+				chai.request(host)
+					.put(`/user/${user.id}`)
+					.set('Authorization', user.token)
+					.send({profile:{name: 'Mr Flop'}})
+					.end((err,res) =>{
+						res.should.have.status(200);
+						chai.request(host)
+							.get(`/user/${user.id}`)
+							.set('Authorization', user.token)
+							.end((err,res) =>{
+								expect(res.body.data.profile.name).to.equal('Mr Flop');
+								done();
+
+							});
+					});
+			});
 		});
 		describe('DELETE', () =>{
-			it('should be able to DELETE a user');
+
+			it('should be able to DELETE another user', (done) => {
+
+				//as the token encodes the role, it has to regenerated
+				async.series([
+					refreshToken = (cb) => {
+						chai.request(host)
+							.post('/login')
+						    .set('content-type', 'application/x-www-form-urlencoded') 
+						    .send({email: user.email, password: user.password})
+						    .end((err, res) => {
+							    user.token = `Bearer ${res.body.token}`;
+							    cb();
+							});
+					},
+					deleteUser1 = (cb) => {
+						chai.request(host)
+							.delete(`/user/${user1.id}`)
+							.set('Authorization', user.token)
+							.end((err,res) => {
+								res.should.have.status(200);
+								cb();
+							});
+					},
+					checkUser1 = (cb) => {
+						chai.request(host)
+							.get(`/user/${user1.id}`)
+							.set('Authorization', admin.token)
+							.end((err, res) =>{
+								res.should.have.status(404);
+				            	cb();
+							});
+					}
+				], done)
+				
+
+			});
 		});
 
 		

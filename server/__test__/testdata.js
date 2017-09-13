@@ -15,7 +15,7 @@ exports.createBasicUser = function(){
 
 	let user = {
 		email: `${new Date().toISOString()}@test.com`,
-		password: new Date().toISOString(),
+		password: 'foo',
 		token: '',
 		id: '',
 		role: 'User',
@@ -31,19 +31,4 @@ exports.createBasicUser = function(){
 	});
 
 	return user
-}
-
-
-exports.getAdminToken = function(){
-	let _token ='';
-	chai.request(host)
-	  	.post('/login')
-	  	.set('content-type', 'application/x-www-form-urlencoded') 
-	  	.send({email: 'foo', password: 'foo'})
-	  	.end((err, res) => {
-	    	_token = `Bearer ${res.body.token}`;
-		});
-
-	console.log(_token);
-	return _token;
 }

@@ -1,3 +1,4 @@
+const async = require('async');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
@@ -19,14 +20,29 @@ let testUser = {
 
 describe('/signup', () =>{
 
-	after((done) => {		
-		let token = t.getAdminToken();
-		chai.request(host)
-			.delete(`/user/${testUser.id}`)
-		    .set('Authorization', token )
-		    .end((err, res) => {
-		    	done();
-		    });
+	after((done) => {
+		let admin = {};
+		async.series([
+			getAdminToken = (cb) => {
+				chai.request(host)
+				  	.post('/login')
+				  	.set('content-type', 'application/x-www-form-urlencoded') 
+				  	.send({email: 'foo', password: 'foo'})
+				  	.end((err, res) => {
+				    	admin.token = `Bearer ${res.body.token}`;
+				    	cb();
+				    	
+					});
+			},
+			deleteTestUser = (cb) => {
+				chai.request(host)
+					.delete(`/user/${testUser.id}`)
+				    .set('Authorization', admin.token)
+				    .end((err, res) => {
+				    	cb();
+				    });
+			}
+		], done);
 	});
 
 	it('it should register a new user returning a 201 and a token', (done) => {

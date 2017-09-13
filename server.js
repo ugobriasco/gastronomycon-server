@@ -43,16 +43,31 @@ app.get('*', function(req, res){
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
+app.get('/api/*', function(req, res){
+  res.status(404);
+});
+
+// api.get('*', function(req, res){
+//   res.status(404).status('route not found');
+// });
+
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'dist/index.html'));
 // });
 
 // catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-// var err = new Error('Not Found');
-// err.status = 404;
-// next(err);
+// app.use(function(req, res, nex) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+// app.use(function(err, req, res, next) {
+//   if(err.status !== 404) {
+//     return next();
+//   }
+//   res.status(404).send(err.message || '** no unicorns up here **');
 // });
 
 //app.use('/lib', express.static(__dirname + '/node_modules'));
