@@ -44,7 +44,6 @@ router.route('/user/:objID')
 	);
 
 
-
 router.route('/login')
 	.post(authCtrl.postLogin);
 router.route('/signup')
@@ -68,6 +67,10 @@ router.route('/settings/:objID')
 
 router.get('/', function(req, res){
 	res.json({message: 'Welcome in Grocerybot, the datasource of your multilingual grocery applications, following the api documentation', apiDoc});
+});
+
+router.all('*', function(req, res){
+	res.status(404).send({message: '** no hunicorns here**'});
 });
 
 module.exports = router;
