@@ -18,12 +18,26 @@ exports.postItem = function(req, res){
 	});
 }
 
-exports.getAllItems = function(req, res){
+//deprecated
+getAllItems = function(req, res){
 	Item.find(function(err, items){
 		if(err)throw err;
 		res.json({data: items});
 
 	});
+}
+
+exports.queryItems = function(req, res){
+
+	if(req.query.id){
+		res.send('route unnder construction'); 
+	} else {
+		Item.find(function(err, items){
+			if(err)throw err;
+			res.json({data: items});
+		});
+	}
+
 }
 
 exports.getItem = function(req, res){
@@ -33,6 +47,9 @@ exports.getItem = function(req, res){
 
 	});
 }
+
+
+
 
 exports.deleteItem = function(req, res){
 	Item.findByIdAndRemove(req.params.objID, function(err){

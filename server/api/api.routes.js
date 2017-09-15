@@ -13,7 +13,7 @@ var router=express.Router();
 
 router.route('/item')
 	.post(authCtrl.isAuthenticated, itemCtrl.postItem)
-	.get(itemCtrl.getAllItems);
+	.get(itemCtrl.queryItems)
 router.route('/item/:objID')
 	.get(itemCtrl.getItem)
 	.put(authCtrl.isAuthenticated, itemCtrl.putItem)
