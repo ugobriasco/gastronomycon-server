@@ -45,7 +45,7 @@ exports.updateUser = function(req, res) {
             }); 
         });
     } else {
-        res.status(404).send({message: 'No user no user found'});
+        res.status(404).send({message: 'No user found'});
     }
    
 }
