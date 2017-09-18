@@ -1,15 +1,20 @@
-var express = require('express');
+const express = require('express');
 
-var itemCtrl		= require('../item/item.controller'),
-	userCtrl 		= require('../user/user.controller'),
-	//basicuthCtrl 	= require('../auth/basic/basic.controller'),
-	authCtrl 	= require('../auth/auth.controller');
-	settingCtrl 	=require('../setting/setting.controller');
-	apiDoc = require('./api-doc.json');
+const itemCtrl = require('../item/item.controller');
+const userCtrl = require('../user/user.controller');
+const authCtrl 	= require('../auth/auth.controller');
+const settingCtrl =require('../setting/setting.controller');
+const listCtrl = require('../list/list.controller');
+const apiDoc = require('./api-doc.json');
 
-//todo set productive routes
+const router=express.Router();
 
-var router=express.Router();
+router.get('/', function(req, res){
+	res.json({message: 'Welcome in Grocerybot, the datasource of your multilingual grocery applications, following the api documentation', apiDoc});
+});
+
+
+
 
 router.route('/item')
 	.post(authCtrl.isAuthenticated, itemCtrl.postItem)
@@ -18,6 +23,7 @@ router.route('/item/:objID')
 	.get(itemCtrl.getItem)
 	.put(authCtrl.isAuthenticated, itemCtrl.putItem)
 	.delete(authCtrl.isAuthenticated, itemCtrl.deleteItem);
+
 	
 router.route('/user')
 	.get(
@@ -25,6 +31,7 @@ router.route('/user')
 		authCtrl.isAdmin,
 		userCtrl.getAllUsers
 	);
+
 	
 router.route('/user/:objID')
 	.get(
@@ -42,6 +49,19 @@ router.route('/user/:objID')
 		authCtrl.isAccountOwner, 
 		userCtrl.deleteUser
 	);
+
+router.route('/list')
+	.get(listCtrl.getAllLists)
+	.post(listCtrl.postList);
+router.route('/list/:objID')
+	.delete(listCtrl.deleteList)
+	.put(listCtrl.replaceListItems);
+
+
+router.route('/list/share/:objID')
+	.post(listCtrl.shareList);
+// router.route('/list/:objID/unshare')
+// 	.post(listCtrl.unshareList);
 
 
 router.route('/login')
@@ -65,12 +85,12 @@ router.route('/settings/:objID')
 	.delete(authCtrl.isAuthenticated, authCtrl.isAdmin,settingCtrl.deleteSetting);
 
 
-router.get('/', function(req, res){
-	res.json({message: 'Welcome in Grocerybot, the datasource of your multilingual grocery applications, following the api documentation', apiDoc});
-});
 
 router.all('*', function(req, res){
 	res.status(404).send({message: '** no hunicorns here**'});
 });
+
+
+
 
 module.exports = router;
