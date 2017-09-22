@@ -1,10 +1,10 @@
 //vendor
-const express 			   = require('express'),
-	expressValidator 	 = require('express-validator'),
-	mongoose 			     = require('mongoose'),
-	path				       = require('path'),
-	bodyParser 			   = require('body-parser'),
-	passport 			     = require('passport');
+const express 			   = require('express');
+const validate = require('express-validation');
+const mongoose 			     = require('mongoose');
+const path				       = require('path');
+const bodyParser 			   = require('body-parser');
+const passport 			     = require('passport');
 
 //config
 var app			= express(),
@@ -38,7 +38,6 @@ var api 		= require('./server/api/api.routes');
 app.use(express.static(path.join(__dirname, 'dist'))); //Expose /client
 app.use('/api', api);
 
-
 app.get('*', function(req, res){
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
@@ -46,6 +45,23 @@ app.get('*', function(req, res){
 app.get('/api/*', function(req, res){
   res.status(404);
 });
+
+
+//Error handling
+app.use((err, req, res, next) => {
+  if (err instanceof validate.ValidationError) {
+    res.status(err.status).json(err);
+  } else {
+    res.status(500)
+      .json({
+        status: err.status,
+        message: err.message
+      });
+  }
+});
+
+
+
 
 // api.get('*', function(req, res){
 //   res.status(404).status('route not found');
