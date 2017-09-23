@@ -12,7 +12,8 @@
     "test-client": "ng test",
     "server-start": "nodemon server",
     "server-test": "mocha ./server/*/__test__/*.spec.js --recursive || true",
-    "server-coverage": "clear && mocha ./server/*/__test__/*.spec.js --recursive && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html "
+    "server-coverage": "clear && mocha ./server/*/__test__/*.spec.js --recursive && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",
+    "preinstall": "rm-local-modules"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +49,7 @@
     "passport-local": "1.0.0",
     "protractor": "4.0.14",
     "reflect-metadata": "0.1.10",
+    "regex-collection": "file:local_modules/regex-collection",
     "rxjs": "5.0.1",
     "ts-helpers": "1.1.2",
     "ts-node": "1.7.3",
@@ -72,6 +74,7 @@
     "karma-jasmine": "1.1.0",
     "karma-remap-istanbul": "0.2.2",
     "protractor": "4.0.9",
+    "rm-local-modules": "0.0.2",
     "sinon": "^3.2.1",
     "sinon-express-mock": "^1.3.1",
     "sinon-mongoose": "^2.0.2",

@@ -1,0 +1,9 @@
+{
+  "name": "regex-collection",
+  "version": "0.0.0",
+  "description": "A collection of regular expressions",
+  "main": "index.js",
+  "author": "Ugo Briasco",
+  "license": "MIT",
+  "homepage": ""
+}
