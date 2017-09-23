@@ -1,4 +1,5 @@
-var User = require('./user.model');
+const User = require('./user.model');
+const userVal = require('./user.validation');
 
 exports.postUser = function(req, res){
 	// var user = new User({
@@ -15,48 +16,41 @@ exports.postUser = function(req, res){
 
 exports.getAllUsers = function(req,res){
 	User.find(function(err, users){
-		if(err) throw err;
+		if(err) res.status(500).send(err);
 		res.json({data: users});
 	});
 }
 
 exports.getUser = function(req, res) {
-    if (req.params.objID.match(/^[0-9a-fA-F]{24}$/)) {
-        User.findById(req.params.objID, (err, user) => {
-            if(err) res.status(404).send(err);
-            if(!user) res.status(404).send({message: 'No user found'});
-            else res.json({data: user});
-            
-        });
-    } else {
-       res.status(404).send({message: 'No user no user found'});
-    }
-         
+    User.findById(req.params.objID, (err, user) => {
+        if(err) res.status(500).send(err);
+        if(!user) res.status(404).send({message: 'No user found'});
+        else res.json({data: user});
+        
+    });
 }
 
+//to refactor: a put can modify everything
 exports.updateUser = function(req, res) {
-    if(req.params.objID.match(/^[0-9a-fA-F]{24}$/)){
-         User.findById(req.params.objID, (err, user) => {
-            if(err) res.status(404).send(err);
-            if(!user) res.status(404).send({message: 'No user found'});
-            Object.assign(user, req.body).save((err, user) => {
-                if(err) res.send(err);
-                res.json({ message: 'User updated!', user });
-            }); 
-        });
-    } else {
-        res.status(404).send({message: 'No user found'});
-    }
-   
+    User.findById(req.params.objID, (err, user) => {
+        if(err) res.status(500).send(err);
+        if(!user) res.status(404).send({message: 'No user found'});
+        Object.assign(user, req.body).save((err, user) => {
+            if(err) res.status(500).send(err);
+            res.json({ message: 'User updated!', user });
+        }); 
+    });   
 }
-
 
 exports.deleteUser = function(req, res) {
-    var objID = req.params.objID;
-    var update = req.body;
+    const objID = req.params.objID;
+    const update = req.body;
 
     User.findByIdAndRemove(objID, update, function(err, user){
-        if(err) res.send(err);
+        if(err) res.status(500).send(err);
+        if(!user) res.status(404).send({message: 'No user found'});
         res.json("user: " +objID +' removed');
     });
 }
+
+

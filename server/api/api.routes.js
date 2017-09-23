@@ -1,7 +1,9 @@
 const express = require('express');
+const validate = require('express-validation');
 
 const itemCtrl = require('../item/item.controller');
 const userCtrl = require('../user/user.controller');
+const userVal = require('../user/user.validation');
 const authCtrl 	= require('../auth/auth.controller');
 const settingCtrl =require('../setting/setting.controller');
 const listCtrl = require('../list/list.controller');
@@ -32,21 +34,24 @@ router.route('/user')
 		userCtrl.getAllUsers
 	);
 
-	
+
 router.route('/user/:objID')
 	.get(
+		validate(userVal.getUser), 
 		authCtrl.isAuthenticated, 
-		authCtrl.isAccountOwner, 
+		authCtrl.isAccountOwner,
 		userCtrl.getUser
 	)
 	.put(
+		validate(userVal.updateUser), 
 		authCtrl.isAuthenticated,
-		authCtrl.isAccountOwner, 
+		authCtrl.isAccountOwner,
 		userCtrl.updateUser
 	)
 	.delete(
+		validate(userVal.deleteUser), 
 		authCtrl.isAuthenticated, 
-		authCtrl.isAccountOwner, 
+		authCtrl.isAccountOwner,	
 		userCtrl.deleteUser
 	);
 
