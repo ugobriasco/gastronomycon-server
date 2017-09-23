@@ -1,4 +1,4 @@
-var Item = require('./item.model');
+const Item = require('./item.model');
 
 
 //endpoint for api/items
@@ -9,31 +9,29 @@ exports.postItem = function(req, res){
 	item.pic = req.body.pic;
 	item.name = req.body.name;
 
-	//ToDo robust input validation, as an inconsistant data will crash the client
-
 	item.save(function(err){
-		if(err)throw err;
+		if(err) res.status(500).send(err);
 		res.json({message: 'item added', data: item});
 
 	});
 }
 
 //deprecated
-getAllItems = function(req, res){
-	Item.find(function(err, items){
-		if(err)throw err;
-		res.json({data: items});
+// getAllItems = function(req, res){
+// 	Item.find(function(err, items){
+// 		if(err)throw err;
+// 		res.json({data: items});
 
-	});
-}
+// 	});
+// }
 
 exports.queryItems = function(req, res){
 
-	if(req.query.id){
-		res.send('route unnder construction'); 
-	} else {
+	if(req.query.id){//new routes
+		res.status(501).send('route under construction'); 
+	} else { //backcompatibility
 		Item.find(function(err, items){
-			if(err)throw err;
+			if(err) res.status(500).send(err);
 			res.json({data: items});
 		});
 	}
@@ -42,49 +40,35 @@ exports.queryItems = function(req, res){
 
 exports.getItem = function(req, res){
 	Item.findById(req.params.objID, function(err, item){
-		if(err) throw err;
+		if(err) res.status(500).send(err);
 		res.json({data: item});
 
 	});
 }
 
 
-
-
 exports.deleteItem = function(req, res){
 	Item.findByIdAndRemove(req.params.objID, function(err){
-		if(err) throw err;
+		if(err) res.status(500).send(err);
 		res.json({message: 'Item '+req.params.objID+' removed'})
 
 	});
 }
 
-exports.putItem = function(req, res){
+exports.updateItem = function(req, res){
 	Item.findById(req.params.objID, function(err, item){
-		if(err)throw err;
+		if(err) res.status(500).send(err);
 
 		item.type = req.body.type;
 		item.pic = req.body.pic;
 		item.name = req.body.name;
 
 		item.save(function(err){
-			if(err) throw err;
+			if(err) res.status(500).send(err);
 			res.json(item);
 
 		});
 	});
-
-
-	exports.updateUser = function(req, res) {
-    User.findById({_id: req.params.objID}, (err, user) => {
-        if(err) res.send(err);
-        Object.assign(user, req.body).save((err, user) => {
-            if(err) res.send(err);
-            res.json({ message: 'User updated!', user });
-        }); 
-    });
-}
-
 }
 
 

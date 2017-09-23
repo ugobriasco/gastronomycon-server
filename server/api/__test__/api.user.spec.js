@@ -113,15 +113,13 @@ describe('/user & /user/:ObjID', () =>{
 
 					});
 			});
-			it('should get a 500 if the params are inconsistant', (done) => {
-				
-
+			it('should get a 400 if the params are inconsistant', (done) => {
+		
 				chai.request(host)
 					.get(`/user/${user.id.slice(1,7)}`)
 					.set('Authorization', user.token)
 					.end((err,res) =>{
-						// res.should.have.status(400);
-						console.log(res);
+						res.should.have.status(400);
 						done();
 					});
 			})
@@ -200,6 +198,16 @@ describe('/user & /user/:ObjID', () =>{
 
 					});
 			});
+			it('should get a 400 if the params are inconsistant', (done) => {
+				chai.request(host)
+					.put(`/user/${user.id.slice(1,7)}`)
+					.set('Authorization', user.token)
+					.send({profile:{name: 'Mr Red'}})
+					.end((err,res) =>{
+						res.should.have.status(400);
+						done();
+					});
+			})
 		});
 
 		describe('DELETE', () => {
@@ -222,6 +230,16 @@ describe('/user & /user/:ObjID', () =>{
 					})
 
 			});
+
+			it('should get a 400 if the params are inconsistant', (done) => {
+				chai.request(host)
+					.put(`/user/${user.id.slice(1,7)}`)
+					.set('Authorization', user.token)
+					.end((err,res) =>{
+						res.should.have.status(400);
+						done();
+					});
+			})
 		})
 
 	});
@@ -248,6 +266,17 @@ describe('/user & /user/:ObjID', () =>{
 	            	expect(res.body.data._id).to.equal(user.id);
 	            	done();
 				});
+			});
+
+			it('should return 400 if the request has inconsistant params', (done) => {
+				chai.request(host)
+					.get(`/user/${user.id.slice(2,6)}`)
+					.set('Authorization', admin.token)
+					.send({profile:{name: 'Mr Flop'}})
+					.end((err, res) => {
+						res.should.have.status(400);
+						done();
+					});
 			});
 		});
 		describe('PUT', () => {
@@ -286,6 +315,17 @@ describe('/user & /user/:ObjID', () =>{
 							});
 					});
 			});
+
+			it('should return 400 if the request has inconsistant params', (done) => {
+					chai.request(host)
+						.put(`/user/${user.id.slice(2,6)}`)
+						.set('Authorization', user.token)
+						.send({profile:{name: 'Mr Flop'}})
+						.end((err, res) => {
+							res.should.have.status(400);
+							done();
+						});
+			});
 		});
 		describe('DELETE', () =>{
 
@@ -322,8 +362,16 @@ describe('/user & /user/:ObjID', () =>{
 							});
 					}
 				], done)
-				
+			});
 
+			it('should return 400 if the request has inconsistant params', (done) => {
+					chai.request(host)
+						.delete(`/user/${user.id.slice(2,6)}`)
+						.set('Authorization', user.token)
+						.end((err, res) => {
+							res.should.have.status(400);
+							done();
+						});
 			});
 		});
 

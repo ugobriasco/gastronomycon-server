@@ -2,8 +2,11 @@ const express = require('express');
 const validate = require('express-validation');
 
 const itemCtrl = require('../item/item.controller');
+const itemVal = require('../item/item.validation');
+
 const userCtrl = require('../user/user.controller');
 const userVal = require('../user/user.validation');
+
 const authCtrl 	= require('../auth/auth.controller');
 const settingCtrl =require('../setting/setting.controller');
 const listCtrl = require('../list/list.controller');
@@ -19,12 +22,30 @@ router.get('/', function(req, res){
 
 
 router.route('/item')
-	.post(authCtrl.isAuthenticated, itemCtrl.postItem)
-	.get(itemCtrl.queryItems)
+	.post(
+		validate(itemVal.postItem), 
+		authCtrl.isAuthenticated, 
+		itemCtrl.postItem
+	)
+	.get(
+		validate(itemVal.queryItems), 
+		itemCtrl.queryItems
+	);
 router.route('/item/:objID')
-	.get(itemCtrl.getItem)
-	.put(authCtrl.isAuthenticated, itemCtrl.putItem)
-	.delete(authCtrl.isAuthenticated, itemCtrl.deleteItem);
+	.get(
+		validate(itemVal.getItem),
+		itemCtrl.getItem
+	)
+	.put(
+		validate(itemVal.updateItem),
+		authCtrl.isAuthenticated, 
+		itemCtrl.updateItem
+	)
+	.delete(
+		validate(itemVal.deleteItem),
+		authCtrl.isAuthenticated,
+		itemCtrl.deleteItem
+	);
 
 	
 router.route('/user')
@@ -33,8 +54,6 @@ router.route('/user')
 		authCtrl.isAdmin,
 		userCtrl.getAllUsers
 	);
-
-
 router.route('/user/:objID')
 	.get(
 		validate(userVal.getUser), 
@@ -61,10 +80,8 @@ router.route('/list')
 router.route('/list/:objID')
 	.delete(listCtrl.deleteList)
 	.put(listCtrl.replaceListItems);
-
-
-router.route('/list/share/:objID')
-	.post(listCtrl.shareList);
+// router.route('/list/share/:objID')
+// 	.post(listCtrl.shareList);
 // router.route('/list/:objID/unshare')
 // 	.post(listCtrl.unshareList);
 
