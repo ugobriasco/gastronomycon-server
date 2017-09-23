@@ -50,7 +50,7 @@ app.get('/api/*', function(req, res){
 //Error handling
 app.use((err, req, res, next) => {
   if (err instanceof validate.ValidationError) {
-    res.status(err.status).json(err);
+    res.status(err.status).json({message: err.errors});
   } else {
     res.status(500)
       .json({
