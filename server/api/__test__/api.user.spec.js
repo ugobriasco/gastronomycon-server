@@ -113,6 +113,18 @@ describe('/user & /user/:ObjID', () =>{
 
 					});
 			});
+			it('should get a 500 if the params are inconsistant', (done) => {
+				
+
+				chai.request(host)
+					.get(`/user/${user.id.slice(1,7)}`)
+					.set('Authorization', user.token)
+					.end((err,res) =>{
+						// res.should.have.status(400);
+						console.log(res);
+						done();
+					});
+			})
 		});
 
 		describe('PUT', () => {
