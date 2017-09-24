@@ -46,3 +46,6 @@ Run `npm test` to execute the unit and integration tests. It requires the follow
 In order to check the current test coverage, run `npm coverage`. It requires [Istanbul](https://istanbul.js.org/)
 
 Before running the tests make sure you are serving the app via `npm start`.
+
+### License
+[MIT](https://github.com/ugobriasco/grocerybot-server/blob/master/LICENSE.md)
