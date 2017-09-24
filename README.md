@@ -1,4 +1,5 @@
 # Grocerybot
+=============
 
 ## Intro
 This is the server-side application of Grocerybot - a microservice for multilingual grocery lists. It provides and handles a customizable list of grocery products, accessable via REST API. The default client application can be found [here](https://github.com/ugobriasco/grocerybot-cli).
@@ -24,13 +25,16 @@ This a RESTful API based on:
 + [node](https://nodejs.org/en/)
 + [express](http://expressjs.com/)
 
-### Development server
+## Usage
+Please refer to the [API documentation](http://gb.matchyourtie.com/documentation) for released versions, or check [here](https://github.com/ugobriasco/grocerybot-server/blob/master/server/api/api-doc.json).
+
+## Development server
 Start the server side with `npm start` and it is accessable via port `3000`(it requires a target mongo database running). The API documentation is accessable under `http://localhost:3000/api/`
 
 ### Setup
 Install the dependancies with `npm install`.
 Create the root user, by sending a `POST` request to `http://localhost:3000/api/signup` with the following body (x-www-form-urlencoded):
-`{"email":"root@root.com","passowrd":"root","role": "Admin"}` (remove the entry point 'role' in the `postSignUp` method under `./server/auth/auth.controller` after the root user has been created)
+`{"email":"root@root.com","passowrd":"root","role": "Admin"}` (remove the entry point 'role' in the [`postSignUp`](https://github.com/ugobriasco/grocerybot-server/blob/master/server/auth/auth.controller.js) method, after the root user has been created)
 
 Optional -  SignupCode
 In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be created by an admin user as following:
@@ -43,9 +47,12 @@ Run `npm test` to execute the unit and integration tests. It requires the follow
 *  [Chai](http://chaijs.com).
 *  [Sinon](http://sinonjs.org).
 
-In order to check the current test coverage, run `npm coverage`. It requires [Istanbul](https://istanbul.js.org/)
+In order to check the current test coverage, run `npm coverage`, which requires [Istanbul](https://istanbul.js.org/).
 
 Before running the tests make sure you are serving the app via `npm start`.
 
-### License
+## Contributing
+In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
+
+## License
 [MIT](https://github.com/ugobriasco/grocerybot-server/blob/master/LICENSE.md)
