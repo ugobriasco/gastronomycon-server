@@ -6,7 +6,6 @@ before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -q
   - sudo apt-get install gcc g++ -y
-  - npm install mocha -g
 env:
   - TRAVIS=travis CXX=g++
 services:
@@ -14,4 +13,4 @@ services:
 install:
   - npm install
 script:
-  - sudo $(which npm) test
+  - ./node_modules/mocha/bin/_mocha ./server/*/__test__/*.spec.js --recursive || true
