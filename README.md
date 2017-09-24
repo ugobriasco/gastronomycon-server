@@ -1,5 +1,5 @@
 # Grocerybot
-=============
+[![Build Status](https://travis-ci.org/ugobriasco/grocerybot-server.svg?branch=master)](https://travis-ci.org/ugobriasco/grocerybot-server)
 
 ## Intro
 This is the server-side application of Grocerybot - a microservice for multilingual grocery lists. It provides and handles a customizable list of grocery products, accessable via REST API. The default client application can be found [here](https://github.com/ugobriasco/grocerybot-cli).
