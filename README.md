@@ -1,7 +1,7 @@
 # Grocerybot
 
 ## Intro
-Grocerybot is a server-side application for suppoprting multilingual grocery lists. It provides and handles a customizable list of grocery products accessable via REST API.
+This is the server-side application of Grocerybot - a microservice for multilingual grocery lists. It provides and handles a customizable list of grocery products, accessable via REST API. The default client application can be found [here](https://github.com/ugobriasco/grocerybot-cli).
 
 Visit the [official page](http://46.101.201.71:3000), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
 
@@ -19,35 +19,30 @@ The v. 0.0.1 of Grocerybot includes
 4. User Signup limitations option
 
 ## Framework
-This a MEAN stack application, using angular2. It requires:
+This a RESTful API based on:
 + [mongo](https://docs.mongodb.com/getting-started/shell/)
 + [node](https://nodejs.org/en/)
 + [express](http://expressjs.com/)
-+ [angular2](http://www.eloquentwebapp.com/setting-angular-2-environment-using-typescript-npm-webpack/)
-
-It supports [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.22-1.
 
 ### Development server
-Start the server side with `node server` and it is accessable via port `3000`.
-
-In a separate tab, start the client with `ng serve`.Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Start the server side with `npm start` and it is accessable via port `3000`(it requires a target mongo database running). The API documentation is accessable under `http://localhost:3000/api/`
 
 ### Setup
 Install the dependancies with `npm install`.
 Create the root user, by sending a `POST` request to `http://localhost:3000/api/signup` with the following body (x-www-form-urlencoded):
-`{"email":"root@root.com","passowrd":"root","role": "Admin"}` (remove the entry point 'role' after the root user have been created)
+`{"email":"root@root.com","passowrd":"root","role": "Admin"}` (remove the entry point 'role' in the `postSignUp` method under `./server/auth/auth.controller` after the root user has been created)
 
 Optional -  SignupCode
-In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be switch off by an admin user.
-In order to set it up, make the followingg request:
-
+In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be created by an admin user as following:
 `POST http://localhost/api/settings`
 `{"name": "signupCode", "value": "foo"}`
 
-### Frontend Test
-* Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-* Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+### Test
+Run `npm test` to execute the unit and integration tests. It requires the following ftramework:
+*  [Mocha](https://mochajs.org/).
+*  [Chai](http://chaijs.com).
+*  [Sinon](http://sinonjs.org).
 
-### Client Build
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+In order to check the current test coverage, run `npm coverage`. It requires [Istanbul](https://istanbul.js.org/)
+
+Before running the tests make sure you are serving the app via `npm start`.
