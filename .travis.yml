@@ -8,8 +8,8 @@ node_js:
 #   - sudo apt-get install gcc g++ -y
 # env:
 #   - TRAVIS=travis CXX=g++
-# services:
-#   - mongodb
+services:
+  - mongodb
 # install:
 #   - npm install
 # script:
