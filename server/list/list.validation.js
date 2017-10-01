@@ -13,35 +13,40 @@ module.exports = {
 
 	getList:{
 		params:{
-			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+			//userID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
 		}
 		
 	},
 
 	deleteList:{
 		params:{
-			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+			//userID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
 		}
 
 	},
 
 	replaceListItem:{
 		params:{
-			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+			//userID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
 		},
 		body:{
 			data: Joi.array()
 		}
-	}
+	},
 	shareList:{
 		params:{
-			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+			//userID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
 		}
-	}
+	},
 
 	unshareList:{
 		params:{
-			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+			objID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+			//userID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
 		}
 	}
 
