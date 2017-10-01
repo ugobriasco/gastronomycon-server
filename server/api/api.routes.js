@@ -9,7 +9,10 @@ const userVal = require('../user/user.validation');
 
 const authCtrl 	= require('../auth/auth.controller');
 const settingCtrl =require('../setting/setting.controller');
+
 const listCtrl = require('../list/list.controller');
+const listVal = require('../list/list.validation');
+
 const apiDoc = require('./api-doc.json');
 
 const router=express.Router();
@@ -54,7 +57,7 @@ router.route('/user')
 		authCtrl.isAdmin,
 		userCtrl.getAllUsers
 	);
-router.route('/user/:objID')
+router.route('/user/:userID')
 	.get(
 		validate(userVal.getUser), 
 		authCtrl.isAuthenticated, 
@@ -75,11 +78,38 @@ router.route('/user/:objID')
 	);
 
 router.route('/list')
-	.get(listCtrl.getAllLists)
-	.post(listCtrl.postList);
+	.get(
+		//authCtrl.isAuthenticated,
+		//authCtrl.isAdmin,
+		listCtrl.getAllLists
+	)
+	.post(
+		validate(listVal.postList),
+		authCtrl.isAuthenticated,
+		listCtrl.postList
+	);
 router.route('/list/:objID')
-	.delete(listCtrl.deleteList)
-	.put(listCtrl.replaceListItems);
+	.get(
+		validate(listCtrl.getList),
+		authCtrl.isAuthenticated,
+		listCtrl.loadList,
+		listCtrl.isListOwner,
+		listCtrl.getList
+	)
+	.delete(
+		validate(listVal.deleteList),
+		authCtrl.isAuthenticated,
+		listCtrl.isListOwner,
+		listCtrl.deleteList
+	)
+	.put(
+		validate(listVal.replaceListItem),
+		authCtrl.isAuthenticated,
+		listCtrl.loadList,
+		listCtrl.isListOwner,
+		listCtrl.replaceListItems
+	);
+
 // router.route('/list/share/:objID')
 // 	.post(listCtrl.shareList);
 // router.route('/list/:objID/unshare')
