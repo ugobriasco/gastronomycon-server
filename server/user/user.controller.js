@@ -1,5 +1,4 @@
 const User = require('./user.model');
-const userVal = require('./user.validation');
 
 exports.postUser = function(req, res){
 	// var user = new User({
@@ -22,7 +21,7 @@ exports.getAllUsers = function(req,res){
 }
 
 exports.getUser = function(req, res) {
-    User.findById(req.params.objID, (err, user) => {
+    User.findById(req.params.userID, (err, user) => {
         if(err) res.status(500).send(err);
         if(!user) res.status(404).send({message: 'No user found'});
         else res.json({data: user});
@@ -32,7 +31,7 @@ exports.getUser = function(req, res) {
 
 //to refactor: a put can modify everything
 exports.updateUser = function(req, res) {
-    User.findById(req.params.objID, (err, user) => {
+    User.findById(req.params.userID, (err, user) => {
         if(err) res.status(500).send(err);
         if(!user) res.status(404).send({message: 'No user found'});
         Object.assign(user, req.body).save((err, user) => {
@@ -43,13 +42,12 @@ exports.updateUser = function(req, res) {
 }
 
 exports.deleteUser = function(req, res) {
-    const objID = req.params.objID;
-    const update = req.body;
+    const userID = req.params.userID;
 
-    User.findByIdAndRemove(objID, update, function(err, user){
+    User.findByIdAndRemove(userID, function(err, user){
         if(err) res.status(500).send(err);
         if(!user) res.status(404).send({message: 'No user found'});
-        res.json("user: " +objID +' removed');
+        else res.json("user: " +userID +' removed');
     });
 }
 
