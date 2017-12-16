@@ -6,7 +6,7 @@ module.exports = {
 	
 	postList:{
 		body:{
-			ownerID: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+			ownerID: Joi.string().regex(/^[0-9a-fA-F]{24}$/),
 			data: Joi.array()
 		}
 	},
