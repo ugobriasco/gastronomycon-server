@@ -8,9 +8,13 @@ exports.postList = (req, res) => {
 
 	let message = 'list created';
 
-	req.body.ownerID 
-	? list.ownerID = req.body.ownerID
-	: res.status(400).send({message: 'no ownerID defined'});
+	if(req.decoded._doc._id){
+		list.ownerID = req.body.req.decoded._doc._id
+	} else if (req.body.ownerID){
+		list.ownerID = req.body.ownerID
+	} else {
+		res.status(400).send({message: 'no ownerID defined'});
+	}
 
 	req.body.data 
 	? list.items.push(req.body.data) 

@@ -1,14 +1,8 @@
-//Login 	+
-//sign up 	+
-//logout 		
-//forgot password
-
-
-const 	async = require('async'),
-		crypto = require('crypto'),
-		nodemailer = require('nodemailer'),
-		passport = require('passport'),
-		jwt = require('jsonwebtoken');
+const async = require('async');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
@@ -17,25 +11,17 @@ const cfg = require('../cfg');
 /**
  * generate a jwt using given secret
  */
-
-generateToken = function(user) {  
+generateToken = function(user) {
   return jwt.sign(user, cfg.secret, {
     expiresIn: 10080 // in seconds
   });
 }
 
-
-/**
- * Given valid credentials returns jwt
- * @param  {String} req.body.email
- * @param  {String} res.body.password
- * @return {json}     message, token
- */
 exports.postLogin = function(req, res){
 	if(!req.body.email || !req.body.password){
 		return res.status(400).json({message: 'Please fill out all fields'});
 	}
-	
+
 	User.findOne({
 		email: req.body.email
 	}, function(err, user){
@@ -79,7 +65,7 @@ exports.postSignUp = function(req, res){
 	          token: generateToken(user),
 	          user: user
 	        });
-		});	
+		});
 
 	});
 }
@@ -94,9 +80,9 @@ exports.validateSignupCode = function(req, res, next){
 				if(req.body.signupCode != setting.value) return res.status(401).json({message: 'wrong signupCode'});
 				else next();
 			}
-		} 
+		}
 		else next();
-		
+
 	});
 }
 
@@ -111,7 +97,7 @@ exports.postUpdatePassword = (req, res, next) => {
 	User.findOne({email: req.body.email}, (err, user) => {
 		if(err) return next(err);
 		if(!user){ res.status(401).json({message: 'no user found', email: req.body.email});
-		} else {
+	 } else {
 			user.password = req.body.password;
 			user.save((err) => {
 				if(err) return next(err);
@@ -140,7 +126,7 @@ exports.postForgot = (req, res, next) => {
 					done(err, token, user);
 				});
 
-				
+
 			});
 		},
 		function sendForgotPasswordEmail(token, user, done){
@@ -165,7 +151,7 @@ exports.postForgot = (req, res, next) => {
 				res.json({message: `An e-mail has been sent to ${user.email} with further instructions.`});
 				done(err);
 			});
-		} 
+		}
 
 	],(err) => {
 			if(err) return next(err);
@@ -222,11 +208,11 @@ exports.isAuthenticated = function(req, res, next){
 
 	if(req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer'){
 		var token = req.headers.authorization.split(' ')[1];
-		
+
 	} else {
 		var token = req.body.token || req.query.token || req.headers['x-access-token'];
 	}
-	
+
 	if(token){
 		jwt.verify(token,cfg.secret, function(err, decoded){
 			if(err){res.status(401).json({message: 'Failed autenthicate token'});}
@@ -243,7 +229,7 @@ exports.isAuthenticated = function(req, res, next){
 }
 
 exports.isAdmin = function(req, res, next){
-	if(req.decoded._doc.role ==='Admin'){ 
+	if(req.decoded._doc.role ==='Admin'){
 		next();
 	} else {
 		res.status(401).json({message: 'the user has no admin rights'});
@@ -254,16 +240,13 @@ exports.isAdmin = function(req, res, next){
 
 //Protects the acces to the user profile from exernal CRUDS - admins are allowed
 exports.isAccountOwner = function(req, res, next){
-	if( req.params.objID === req.decoded._doc._id || req.decoded._doc.role === 'Admin' ){
-		next();
-	} else {
+	if(
+		req.params.userID === req.decoded._doc._id ||
+		req.body.userID == req.decoded._doc._id ||
+		req.decoded._doc.role === 'Admin'
+		) next();
+	else {
 		res.status(401).json({message: 'the user has not the rights'});
 	}
-	
+
 }
-
-
-
-
-
-
