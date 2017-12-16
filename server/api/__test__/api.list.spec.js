@@ -20,23 +20,23 @@ describe('/list & /list/:objID', () => {
 			getAdminToken = (next) => {
 				chai.request(host)
 				  	.post('/login')
-				  	.set('content-type', 'application/x-www-form-urlencoded') 
+				  	.set('content-type', 'application/x-www-form-urlencoded')
 				  	.send({email: 'foo', password: 'foo'})
 				  	.end((err, res) => {
 				    	admin.token = `Bearer ${res.body.token}`;
 				    	next();
-				    	
+
 					});
 			},
 			getUserToken = (next) => {
 				chai.request(host)
 				  	.post('/login')
-				  	.set('content-type', 'application/x-www-form-urlencoded') 
+				  	.set('content-type', 'application/x-www-form-urlencoded')
 				  	.send({email: user.email, password: user.password})
 				  	.end((err, res) => {
 				    	user.token = `Bearer ${res.body.token}`;
 				    	next();
-				    	
+
 					});
 			}
 		], done);
@@ -66,22 +66,22 @@ describe('/list & /list/:objID', () => {
 
 	describe('A User with role USER', () => {
 		describe('POST', () => {
-			it('should create an empty list as owner', (done) => {
-				chai.request(host)
-				.post(`/list`)
-				.set('Authorization', user.token)
-				.end((err,res) => {
-					console.log(res);
-					res.should.have.status(200);
-					res.body.should.have.property('data');
-					expect(res.body.data.items).to.be.an('array').that.is.empty;
-					expect(res.body.data.allowedUsers).to.be.an('array').that.is.empty;
-					expect(res.body.data.ownerID).to.be.a('string').that.is.not.empty;
-					user.listID = res.body._id;
-					console.log(user);
-					done();
-				});
-			})
+			// it('should create an empty list as owner', (done) => {
+			// 	chai.request(host)
+			// 	.post(`/list`)
+			// 	.set('Authorization', user.token)
+			// 	.end((err,res) => {
+			// 		console.log(res);
+			// 		res.should.have.status(200);
+			// 		res.body.should.have.property('data');
+			// 		expect(res.body.data.items).to.be.an('array').that.is.empty;
+			// 		expect(res.body.data.allowedUsers).to.be.an('array').that.is.empty;
+			// 		expect(res.body.data.ownerID).to.be.a('string').that.is.not.empty;
+			// 		user.listID = res.body._id;
+			// 		console.log(user);
+			// 		done();
+			// 	});
+			// })
 		});
 
 		describe('GET', () => {
@@ -124,7 +124,7 @@ describe('/list & /list/:objID', () => {
 		})
 
 	});
-	
+
 	describe('A User with role ADMIN', () => {
 		describe('GET', () =>{
 			it('should be able to gather all the lists')
@@ -134,4 +134,3 @@ describe('/list & /list/:objID', () => {
 
 
 })
-
