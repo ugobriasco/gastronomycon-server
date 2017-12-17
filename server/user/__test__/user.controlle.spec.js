@@ -1,0 +1,1 @@
+const userCtrl = '../user.controller';
