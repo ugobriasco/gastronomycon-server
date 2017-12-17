@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'prettier',
+  extends: "prettier",
   globals: {
     describe: true,
     beforeEach: true,
