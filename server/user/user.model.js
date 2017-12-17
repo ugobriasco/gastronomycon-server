@@ -1,51 +1,43 @@
-var mongoose = require('mongoose'),
-	bcrypt = require('bcrypt-nodejs');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 
+const UserSchema = new mongoose.Schema(
+  {
+    email: { type: String, unique: true, required: true },
+    password: { type: String, required: true },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    facebook: String,
+    tokens: Array,
+    profile: {
+      name: String,
+      avatar: String,
+      cover: String
+    },
+    role: {
+      type: String,
+      enum: ['User', 'Admin'],
+      default: 'User'
+    }
+  },
+  {
+    timestamps: true
+  }
+);
 
-var UserSchema = new mongoose.Schema({
-	email: {type: String, unique: true},
-	password: String,
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-
-  facebook: String,
-  tokens: Array,
-
-
-  profile: {
-    name: String,
-    avatar: String,
-    cover: String,
-  	},
-	role: {
-  	type: String,
-  	enum: ['User', 'Admin'],
-  	default: 'User'
-	},
-//	resetPasswordToken: {type: String},
-//	resetPasswordExpires: {type: Date},
-},{timestamps: true});
-
-
-/**
- * Password hash middleware.
- */
-
-
-
-UserSchema.pre('save', function(callback) {
-  var user = this;
-  if (!user.isModified('password')) return callback();
+// Password hash middleware.
+UserSchema.pre('save', done => {
+  const user = this;
+  if (!user.isModified('password')) return done();
   bcrypt.genSalt(5, function(err, salt) {
-    if (err) return callback(err);
+    if (err) return done(err);
     bcrypt.hash(user.password, salt, null, function(err, hash) {
-      if (err) return callback(err);
+      if (err) return done(err);
       user.password = hash;
-      callback();
+      done();
     });
   });
 });
-
 
 UserSchema.methods.verifyPassword = function(password, cb) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
@@ -64,7 +56,10 @@ UserSchema.methods.gravatar = function gravatar(size) {
   if (!this.email) {
     return `https://gravatar.com/avatar/?s=${size}&d=retro`;
   }
-  const md5 = crypto.createHash('md5').update(this.email).digest('hex');
+  const md5 = crypto
+    .createHash('md5')
+    .update(this.email)
+    .digest('hex');
   return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 
