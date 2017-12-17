@@ -39,16 +39,15 @@ UserSchema.pre("save", done => {
   });
 });
 
-UserSchema.methods.verifyPassword = function(password, cb) {
+// Verify password.
+UserSchema.methods.verifyPassword = function(password, done) {
   bcrypt.compare(password, this.password, function(err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
+    if (err) return done(err);
+    done(null, isMatch);
   });
 };
 
-/**
- * Helper method for getting user's gravatar.
- */
+// Helper method for getting user's gravatar.
 UserSchema.methods.gravatar = function gravatar(size) {
   if (!size) {
     size = 200;
