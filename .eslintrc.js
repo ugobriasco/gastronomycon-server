@@ -1,5 +1,6 @@
 module.exports = {
   extends: 'prettier',
+  env: { node: true },
   globals: {
     describe: true,
     beforeEach: true,
@@ -8,5 +9,8 @@ module.exports = {
     expect: true,
     should: true,
     afterEach: true
+  },
+  parserOptions: {
+    ecmaVersion: 6
   }
 };
