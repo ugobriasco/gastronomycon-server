@@ -76,16 +76,16 @@ describe('🍱  The Item Component', () => {
   });
 
   describe('item controller', () => {
-    it('should get a list of items', done => {
-      const mockRes = _data;
-      const ItemMock = sinon
-        .mock(Item)
-        .expects('find')
-        .yields(null, mockRes);
-
-      console.log(ItemMock);
-      done();
-    });
+    // it('should get a list of items', done => {
+    //   const mockRes = _data;
+    //   const ItemMock = sinon
+    //     .mock(Item)
+    //     .expects('find')
+    //     .yields(null, mockRes);
+    //
+    //   console.log(ItemMock);
+    //   done();
+    // });
     it('should return a list of items following certain params');
     it('should get a specific item');
     it('should post a new item');
