@@ -1,5 +1,5 @@
 module.exports = {
-  extends: "prettier",
+  extends: 'prettier',
   env: { node: true },
   globals: {
     describe: true,
@@ -11,6 +11,6 @@ module.exports = {
     afterEach: true
   },
   parserOptions: {
-    ecmaVersion: 6
+    ecmaVersion: 8
   }
 };

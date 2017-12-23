@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 
 /**
  * - type 					e.g. reis and reis speciality
- * 
+ *
  * - language 				e.g. en
  * -- name 					e.g. reis
  * -- sepcificity 			e.g. basmati
- * 
+ *
  * - shopping
  * --
  * -- reseller				e.g. Kaiser
@@ -14,24 +14,23 @@ var mongoose = require('mongoose');
  * -- currency				e.g. EUR
  */
 
-var ItemSchema = new mongoose.Schema({
-	type: String,
-	pic: String,
-	name: {
-		it: {
-			main: String,
-			spec: String
-		},
-		pl: {
-			main: String,
-			spec: String
-		},
-		de: {
-			main: String,
-			spec: String
-		},
-	}
-	
+const ItemSchema = new mongoose.Schema({
+  type: String,
+  pic: String,
+  name: {
+    it: {
+      main: String,
+      spec: String
+    },
+    pl: {
+      main: String,
+      spec: String
+    },
+    de: {
+      main: String,
+      spec: String
+    }
+  }
 });
 
 module.exports = mongoose.model('Item', ItemSchema);
