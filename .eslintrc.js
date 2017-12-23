@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'prettier',
+  extends: "prettier",
   env: { node: true },
   globals: {
     describe: true,
