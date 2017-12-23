@@ -24,7 +24,7 @@ const postItem = function(req, res) {
 // }
 
 const queryItems = function(req, res) {
-  if (req.query.id) {
+  if (req && req.query.id) {
     //new routes
     res.status(501).send('route under construction');
   } else {
