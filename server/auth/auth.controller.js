@@ -13,7 +13,7 @@ const cfg = require('../cfg');
  */
 
 generateToken = function(user) {
-  jwt.sign({ user }, cfg.secret, {
+  return jwt.sign({ user }, cfg.secret, {
     expiresIn: 10080 // in seconds
   });
 };
@@ -40,7 +40,7 @@ exports.postLogin = function(req, res) {
             res.status(401).json({ message: 'wrong password' });
           } else {
             res.status(201).json({
-              token: generateToken(user.email),
+              token: generateToken(user),
               user: user
             });
           }
