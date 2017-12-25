@@ -1,27 +1,29 @@
 //vendor
-const express 			   = require('express');
+const express = require('express');
 const validate = require('express-validation');
-const mongoose 			     = require('mongoose');
-const path				       = require('path');
-const bodyParser 			   = require('body-parser');
-const passport 			     = require('passport');
+const mongoose = require('mongoose');
+const path = require('path');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
 //config
-var app			= express(),
-    port 		= process.env.PORT || 3000;
+var app = express(),
+  port = process.env.PORT || 3000;
 
 const cfg = require('./server/cfg');
 
 mongoose.Promise = global.Promise; //handles moongose promise deprecation
 mongoose.connect(cfg.db.local);
 
-
 //Enable CORS
-app.all("/api/*", function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, Access-Control-Allow-Headers");
-  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
-  if (req.method.toLowerCase() !== "options") {
+app.all('/api/*', function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, Access-Control-Allow-Headers'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+  if (req.method.toLowerCase() !== 'options') {
     return next();
   }
   return res.sendStatus(204);
@@ -34,39 +36,33 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //routing
-var api 		= require('./server/api/api.routes');
+var api = require('./server/api/api.routes');
 app.use(express.static(path.join(__dirname, 'dist'))); //Expose /client
 app.use('/api', api);
 
-app.get('*', function(req, res){
+app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
-app.get('/api/*', function(req, res){
+app.get('/api/*', function(req, res) {
   res.status(404);
 });
-
 
 //Error handling
 app.use((err, req, res, next) => {
   if (err instanceof validate.ValidationError) {
-    res.status(err.status).json({message: err.errors});
+    res.status(err.status).json({ message: err.errors });
   } else {
-    res.status(500)
-      .json({
-        status: err.status,
-        message: err.message
-      });
+    res.status(500).json({
+      status: err.status,
+      message: err.message
+    });
   }
 });
-
-
-
 
 // api.get('*', function(req, res){
 //   res.status(404).status('route not found');
 // });
-
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, 'dist/index.html'));
@@ -89,20 +85,6 @@ app.use((err, req, res, next) => {
 //app.use('/lib', express.static(__dirname + '/node_modules'));
 //app.use('/env', express.static(__dirname + '/environments'));
 
-
-
-
-
 //launcher
 app.listen(port);
-console.log('wanna buy some paprika at port '+port+'?');
-
-
-
-
-
-
-
-
-
-
+console.log('wanna buy some paprika at port ' + port + '?');

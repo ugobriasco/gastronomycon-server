@@ -1,36 +1,36 @@
-const express = require("express");
-const validate = require("express-validation");
+const express = require('express');
+const validate = require('express-validation');
 
-const itemCtrl = require("../item/item.controller");
-const itemVal = require("../item/item.validation");
+const itemCtrl = require('../item/item.controller');
+const itemVal = require('../item/item.validation');
 
-const userCtrl = require("../user/user.controller");
-const userVal = require("../user/user.validation");
+const userCtrl = require('../user/user.controller');
+const userVal = require('../user/user.validation');
 
-const authCtrl = require("../auth/auth.controller");
-const settingCtrl = require("../setting/setting.controller");
+const authCtrl = require('../auth/auth.controller');
+const settingCtrl = require('../setting/setting.controller');
 
-const listCtrl = require("../list/list.controller");
-const listVal = require("../list/list.validation");
+const listCtrl = require('../list/list.controller');
+const listVal = require('../list/list.validation');
 
-const apiDoc = require("./api-doc.json");
+const apiDoc = require('./api-doc.json');
 
 const router = express.Router();
 
-router.get("/", function(req, res) {
+router.get('/', function(req, res) {
   res.json({
     message:
-      "Welcome in Grocerybot, the datasource of your multilingual grocery applications, following the api documentation",
+      'Welcome in Grocerybot, the datasource of your multilingual grocery applications, following the api documentation',
     apiDoc
   });
 });
 
 router
-  .route("/item")
+  .route('/item')
   .post(validate(itemVal.postItem), authCtrl.isAuthenticated, itemCtrl.postItem)
   .get(validate(itemVal.queryItems), itemCtrl.queryItems);
 router
-  .route("/item/:objID")
+  .route('/item/:objID')
   .get(validate(itemVal.getItem), itemCtrl.getItem)
   .put(
     validate(itemVal.updateItem),
@@ -44,10 +44,10 @@ router
   );
 
 router
-  .route("/user")
+  .route('/user')
   .get(authCtrl.isAuthenticated, authCtrl.isAdmin, userCtrl.getAllUsers);
 router
-  .route("/user/:userID")
+  .route('/user/:userID')
   .get(
     validate(userVal.getUser),
     authCtrl.isAuthenticated,
@@ -68,7 +68,7 @@ router
   );
 
 router
-  .route("/list")
+  .route('/list')
   .get(
     //authCtrl.isAuthenticated,
     //authCtrl.isAdmin,
@@ -80,7 +80,7 @@ router
     listCtrl.postList
   );
 router
-  .route("/list/:objID")
+  .route('/list/:objID')
   .get(
     validate(listCtrl.getList),
     authCtrl.isAuthenticated,
@@ -107,29 +107,29 @@ router
 // router.route('/list/:objID/unshare')
 // 	.post(listCtrl.unshareList);
 
-router.route("/login").post(authCtrl.postLogin);
-router.route("/signup").post(authCtrl.validateSignupCode, authCtrl.postSignUp);
-router.route("/reset/:token").post(authCtrl.postReset);
-router.route("/forgot").post(authCtrl.postForgot);
+router.route('/login').post(authCtrl.postLogin);
+router.route('/signup').post(authCtrl.validateSignupCode, authCtrl.postSignUp);
+router.route('/reset/:token').post(authCtrl.postReset);
+router.route('/forgot').post(authCtrl.postForgot);
 
 router
-  .route("/settings")
+  .route('/settings')
   .post(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.postSetting)
   .get(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.getAllSettings);
 router
-  .route("/settings/:name")
+  .route('/settings/:name')
   .get(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.getSetting)
   .put(authCtrl.isAuthenticated, authCtrl.isAdmin, settingCtrl.putSetting);
 router
-  .route("/settings/:objID")
+  .route('/settings/:objID')
   .delete(
     authCtrl.isAuthenticated,
     authCtrl.isAdmin,
     settingCtrl.deleteSetting
   );
 
-router.all("*", function(req, res) {
-  res.status(404).send({ message: "** no hunicorns here**" });
+router.all('*', function(req, res) {
+  res.status(404).send({ message: '** no hunicorns here**' });
 });
 
 module.exports = router;
