@@ -11,12 +11,13 @@ const cfg = require('../cfg');
 /**
  * generate a jwt using given secret
  */
+const generateToken = require('./token-generate');
 
-generateToken = function(user) {
-  return jwt.sign({ user }, cfg.secret, {
-    expiresIn: 10080 // in seconds
-  });
-};
+// generateToken = function(user) {
+//   return jwt.sign({ user }, cfg.secret, {
+//     expiresIn: 10080 // in seconds
+//   });
+// };
 
 exports.postLogin = function(req, res) {
   if (!req.body.email || !req.body.password) {
@@ -252,7 +253,8 @@ exports.isAuthenticated = function(req, res, next) {
 };
 
 exports.isAdmin = function(req, res, next) {
-  if (req.decoded._doc.role === 'Admin') {
+  console.log(req.decoded);
+  if (req.decoded.user.role === 'Admin') {
     next();
   } else {
     res.status(401).json({ message: 'the user has no admin rights' });
@@ -262,9 +264,9 @@ exports.isAdmin = function(req, res, next) {
 //Protects the acces to the user profile from exernal CRUDS - admins are allowed
 exports.isAccountOwner = function(req, res, next) {
   if (
-    req.params.userID === req.decoded._doc._id ||
-    req.body.userID == req.decoded._doc._id ||
-    req.decoded._doc.role === 'Admin'
+    req.params.userID === req.decoded.user._id ||
+    req.body.userID == req.decoded.user._id ||
+    req.decoded.user.role === 'Admin'
   )
     next();
   else {
