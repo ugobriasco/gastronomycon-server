@@ -7,13 +7,22 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 
 //config
-var app = express(),
-  port = process.env.PORT || 3000;
+const app = express();
+const port = process.env.PORT || 3000;
 
 const cfg = require('./server/cfg');
 
-mongoose.Promise = global.Promise; //handles moongose promise deprecation
-mongoose.connect(cfg.db.local);
+mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
+//handles mongoose.connect deprecation
+mongoose.connect(cfg.db.local, {
+  useMongoClient: true
+});
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+// mongodb connection open
+db.once('open', () => {
+  console.log(`Connected to Mongo at: ${new Date()}`);
+});
 
 //Enable CORS
 app.all('/api/*', function(req, res, next) {
