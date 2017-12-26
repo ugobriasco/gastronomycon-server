@@ -8,49 +8,45 @@ const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
 const cfg = require('../cfg');
 
-/**
- * generate a jwt using given secret
- */
 const generateToken = require('./token-generate');
+const findUser = require('./user-find');
 
-// generateToken = function(user) {
-//   return jwt.sign({ user }, cfg.secret, {
-//     expiresIn: 10080 // in seconds
-//   });
-// };
+// Given an email returns a user, if exists
+// async function findUser(email) {
+//   try {
+//     return await User.findOne({ email });
+//   } catch (e) {
+//     console.log(err);
+//     return;
+//   }
+// }
 
+// Log in the user if exists and gives the right psw
 exports.postLogin = function(req, res) {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({ message: 'Please fill out all fields' });
   }
-
-  User.findOne(
-    {
-      email: req.body.email
-    },
-    function(err, user) {
-      if (err) throw err;
-      if (!user) {
-        res
-          .status(401)
-          .json({ message: 'no user found', email: req.body.email });
-      } else {
-        user.verifyPassword(req.body.password, function(err, isMatch) {
-          if (err) throw err;
-          if (!isMatch) {
-            res.status(401).json({ message: 'wrong password' });
-          } else {
-            res.status(201).json({
-              token: generateToken(user),
-              user: user
-            });
-          }
+  findUser(req.body.email)
+    .then(user => {
+      if (!user)
+        return res.status(401).json({ message: 'authentication failed' });
+      return user;
+    })
+    .then(user =>
+      user.verifyPassword(req.body.password, function(err, isMatch) {
+        if (err) throw err;
+        if (!isMatch)
+          return res.status(401).json({ message: 'authentication failed' });
+        res.status(201).json({
+          token: generateToken(user),
+          user: user
         });
-      }
-    }
-  );
+      })
+    )
+    .catch(err => res.status(500).send(err));
 };
 
+//TODO refactor
 exports.postSignUp = function(req, res) {
   if (!req.body.email || !req.body.password) {
     return res.status(422).json({ message: 'Please fill out all fields' });
