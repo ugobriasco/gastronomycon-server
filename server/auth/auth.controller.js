@@ -46,32 +46,51 @@ exports.postLogin = function(req, res) {
     .catch(err => res.status(500).send(err));
 };
 
-//TODO refactor
 exports.postSignUp = function(req, res) {
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.email || !req.body.password)
     return res.status(422).json({ message: 'Please fill out all fields' });
-  }
-  User.findOne({ email: req.body.email }, function(err, existingUser) {
-    if (err) throw err;
-    if (existingUser)
-      return res.status(422).send({ msg: 'email already in use' });
 
-    let user = new User({
+  findUser(req.body.email).then(user => {
+    if (user) return res.status(422).send({ msg: 'email already in use' });
+
+    const newUser = new User({
       email: req.body.email,
       password: req.body.password,
       role: req.body.role, //to remove after root user
       profile: { name: '' }
     });
 
-    user.save(function(err) {
+    newUser.save(function(err) {
       if (err) throw err;
       console.log('new user');
       res.status(201).json({
         token: generateToken(user),
-        user: user
+        user: newUser
       });
     });
   });
+
+  // User.findOne({ email: req.body.email }, function(err, existingUser) {
+  //   if (err) throw err;
+  //   if (existingUser)
+  //     return res.status(422).send({ msg: 'email already in use' });
+  //
+  //   const user = new User({
+  //     email: req.body.email,
+  //     password: req.body.password,
+  //     role: req.body.role, //to remove after root user
+  //     profile: { name: '' }
+  //   });
+  //
+  //   user.save(function(err) {
+  //     if (err) throw err;
+  //     console.log('new user');
+  //     res.status(201).json({
+  //       token: generateToken(user),
+  //       user: user
+  //     });
+  //   });
+  // });
 };
 
 exports.validateSignupCode = function(req, res, next) {
