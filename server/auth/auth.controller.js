@@ -46,53 +46,35 @@ exports.postLogin = function(req, res) {
     .catch(err => res.status(500).send(err));
 };
 
+// Sign Up user via email
 exports.postSignUp = function(req, res) {
   if (!req.body.email || !req.body.password)
     return res.status(422).json({ message: 'Please fill out all fields' });
 
-  findUser(req.body.email).then(user => {
-    if (user) return res.status(422).send({ msg: 'email already in use' });
+  findUser(req.body.email)
+    .then(user => {
+      if (user) return res.status(422).send({ msg: 'email already in use' });
 
-    const newUser = new User({
-      email: req.body.email,
-      password: req.body.password,
-      role: req.body.role, //to remove after root user
-      profile: { name: '' }
-    });
-
-    newUser.save(function(err) {
-      if (err) throw err;
-      console.log('new user');
-      res.status(201).json({
-        token: generateToken(user),
-        user: newUser
+      const newUser = new User({
+        email: req.body.email,
+        password: req.body.password,
+        role: req.body.role, //to remove after root user
+        profile: { name: '' }
       });
-    });
-  });
 
-  // User.findOne({ email: req.body.email }, function(err, existingUser) {
-  //   if (err) throw err;
-  //   if (existingUser)
-  //     return res.status(422).send({ msg: 'email already in use' });
-  //
-  //   const user = new User({
-  //     email: req.body.email,
-  //     password: req.body.password,
-  //     role: req.body.role, //to remove after root user
-  //     profile: { name: '' }
-  //   });
-  //
-  //   user.save(function(err) {
-  //     if (err) throw err;
-  //     console.log('new user');
-  //     res.status(201).json({
-  //       token: generateToken(user),
-  //       user: user
-  //     });
-  //   });
-  // });
+      newUser.save(function(err) {
+        if (err) throw err;
+        console.log('new user');
+        res.status(201).json({
+          token: generateToken(user),
+          user: newUser
+        });
+      });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
+// Check if the user has the signup code befor registering him/her
 exports.validateSignupCode = function(req, res, next) {
   Setting.findOne({ name: 'signupCode' }, function(err, setting) {
     if (err) throw err;
@@ -115,21 +97,17 @@ exports.validateSignupCode = function(req, res, next) {
 //psw management
 
 exports.postUpdatePassword = (req, res, next) => {
-  if (!req.body) {
+  if (!req.body)
     return res.status(400).json({ message: 'Please fill out all fields' });
-  }
-
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (err) return next(err);
-    if (!user) {
+  findUser(req.body.email).then(user => {
+    if (err) throw err;
+    if (!user)
       res.status(401).json({ message: 'no user found', email: req.body.email });
-    } else {
-      user.password = req.body.password;
-      user.save(err => {
-        if (err) return next(err);
-        res.status(201).json({ msg: 'password has been changed' });
-      });
-    }
+    user.password = req.body.password;
+    user.save(err => {
+      if (err) return next(err);
+      res.status(201).json({ msg: 'password has been changed' });
+    });
   });
 };
 
@@ -268,7 +246,6 @@ exports.isAuthenticated = function(req, res, next) {
 };
 
 exports.isAdmin = function(req, res, next) {
-  console.log(req.decoded);
   if (req.decoded.user.role === 'Admin') {
     next();
   } else {
