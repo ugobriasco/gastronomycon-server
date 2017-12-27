@@ -11,16 +11,6 @@ const cfg = require('../cfg');
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
 
-// Given an email returns a user, if exists
-// async function findUser(email) {
-//   try {
-//     return await User.findOne({ email });
-//   } catch (e) {
-//     console.log(err);
-//     return;
-//   }
-// }
-
 // Log in the user if exists and gives the right psw
 exports.postLogin = function(req, res) {
   if (!req.body.email || !req.body.password) {
@@ -253,7 +243,7 @@ exports.isAdmin = function(req, res, next) {
   }
 };
 
-//Protects the acces to the user profile from exernal CRUDS - admins are allowed
+// Protects the acces to the user profile from exernal CRUDS - admins are allowed
 exports.isAccountOwner = function(req, res, next) {
   if (
     req.params.userID === req.decoded.user._id ||
