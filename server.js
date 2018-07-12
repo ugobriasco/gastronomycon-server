@@ -14,9 +14,7 @@ const cfg = require('./server/cfg');
 
 mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
 //handles mongoose.connect deprecation
-mongoose.connect(cfg.db.local, {
-  useMongoClient: true
-});
+mongoose.connect(cfg.db.local, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 // mongodb connection open
