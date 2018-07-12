@@ -17,6 +17,8 @@ const apiDoc = require('./api-doc.json');
 
 const router = express.Router();
 
+router.use('/v1.0', require('./v1.0'));
+
 router.get('/', function(req, res) {
   res.json({
     message:
