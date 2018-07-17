@@ -3,12 +3,12 @@ const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
 const should = chai.should();
 const expect = chai.expect;
-const t = require('./testdata');
+const t = require('./testdata.utils');
 
 chai.use(chaiHttp);
 const host = t.host;
 
-describe('/user', () => {
+describe('cleanup', () => {
   //create a test user
 
   let admin = {};
@@ -18,10 +18,9 @@ describe('/user', () => {
       .request(host)
       .post('/login')
       .set('content-type', 'application/x-www-form-urlencoded')
-      .send({ email: 'foo', password: 'foo' })
+      .send({ email: 'root', password: 'root' })
       .end((err, res) => {
         admin.token = `Bearer ${res.body.token}`;
-
         done();
       });
   });
@@ -31,20 +30,20 @@ describe('/user', () => {
       it('should cleanup all test users', done => {
         chai
           .request(host)
-          .get('/user')
+          .get('/users')
           .set('Authorization', admin.token)
           .end((err, res) => {
-            let filteredList = res.body.data.filter(function f(user) {
+            let filteredList = res.body.data.filter(user => {
               if (user.email.match(new RegExp('.*@test.com', 'gi')))
                 return true;
             });
             //console.log(filteredList[0]);
 
             for (i = 0; i < filteredList.length; i++) {
-              console.log(filteredList[i]._id);
+              //console.log(filteredList[i]._id);
               chai
                 .request(host)
-                .delete(`/user/${filteredList[i]._id}`)
+                .delete(`/users/${filteredList[i]._id}`)
                 .set('Authorization', admin.token)
                 .end((err, res) => {
                   console.log(res.body);

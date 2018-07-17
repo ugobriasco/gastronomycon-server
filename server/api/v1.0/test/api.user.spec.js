@@ -9,7 +9,7 @@ const t = require('./testdata.utils');
 chai.use(chaiHttp);
 const host = t.host;
 
-describe('/user & /user/:ObjID', () => {
+describe('/users & /users/:ObjID', () => {
   //create a test user
   let user = t.createBasicUser();
   let user1 = t.createBasicUser();
@@ -24,7 +24,7 @@ describe('/user & /user/:ObjID', () => {
             .request(host)
             .post('/login')
             .set('content-type', 'application/x-www-form-urlencoded')
-            .send({ email: 'foo', password: 'foo' })
+            .send({ email: 'root', password: 'root' })
             .end((err, res) => {
               admin.token = `Bearer ${res.body.token}`;
               cb();
@@ -53,7 +53,7 @@ describe('/user & /user/:ObjID', () => {
         (deleteUser = cb => {
           chai
             .request(host)
-            .delete(`/user/${user.id}`)
+            .delete(`/users/${user.id}`)
             .set('Authorization', admin.token)
             .end((err, res) => {
               cb();
@@ -62,7 +62,7 @@ describe('/user & /user/:ObjID', () => {
         (deleteUser1 = cb => {
           chai
             .request(host)
-            .delete(`/user/${user1.id}`)
+            .delete(`/users/${user1.id}`)
             .set('Authorization', admin.token)
             .end((err, res) => {
               cb();
@@ -84,7 +84,7 @@ describe('/user & /user/:ObjID', () => {
       it('should NOT GET the list of all users', done => {
         chai
           .request(host)
-          .get('/user')
+          .get('/users')
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(401);
@@ -95,7 +95,7 @@ describe('/user & /user/:ObjID', () => {
       it('should GET his/her own profile', done => {
         chai
           .request(host)
-          .get(`/user/${user.id}`)
+          .get(`/users/${user.id}`)
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(200);
@@ -107,7 +107,7 @@ describe('/user & /user/:ObjID', () => {
       it('should not GET the profile of another user', done => {
         chai
           .request(host)
-          .get(`/user/${user1.id}`)
+          .get(`/users/${user1.id}`)
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(401);
@@ -117,7 +117,7 @@ describe('/user & /user/:ObjID', () => {
       it('should get a 400 if the params are inconsistant', done => {
         chai
           .request(host)
-          .get(`/user/${user.id.slice(1, 7)}`)
+          .get(`/users/${user.id.slice(1, 7)}`)
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(400);
@@ -130,14 +130,14 @@ describe('/user & /user/:ObjID', () => {
       it('should PUT his profile', done => {
         chai
           .request(host)
-          .put(`/user/${user.id}`)
+          .put(`/users/${user.id}`)
           .set('Authorization', user.token)
           .send({ profile: { name: 'Mr Foo' } })
           .end((err, res) => {
             res.should.have.status(200);
             chai
               .request(host)
-              .get(`/user/${user.id}`)
+              .get(`/users/${user.id}`)
               .set('Authorization', user.token)
               .end((err, res) => {
                 expect(res.body.data.profile.name).to.equal('Mr Foo');
@@ -148,14 +148,14 @@ describe('/user & /user/:ObjID', () => {
       it('should not PUT query which is not matching the user model', done => {
         chai
           .request(host)
-          .put(`/user/${user.id}`)
+          .put(`/users/${user.id}`)
           .set('Authorization', user.token)
           .send({ profile: { amount_of_bananas: 200, name: 'Mr Blue' } })
           .end((err, res) => {
             res.should.have.status(200);
             chai
               .request(host)
-              .get(`/user/${user.id}`)
+              .get(`/users/${user.id}`)
               .set('Authorization', user.token)
               .end((err, res) => {
                 res.should.have.status(200);
@@ -171,14 +171,14 @@ describe('/user & /user/:ObjID', () => {
       it('should not PUT the profile of another user', done => {
         chai
           .request(host)
-          .put(`/user/${user1.id}`)
+          .put(`/users/${user1.id}`)
           .set('Authorization', user.token)
           .send({ profile: { name: 'Mr Red' } })
           .end((er, res) => {
             res.should.have.status(401);
             chai
               .request(host)
-              .get(`/user/${user1.id}`)
+              .get(`/users/${user1.id}`)
               .set('Authorization', admin.token)
               .end((err, res) => {
                 expect(res.body.data.profile.name).to.not.equal('Mr Red');
@@ -189,13 +189,13 @@ describe('/user & /user/:ObjID', () => {
       it('should NOT be able to change the ROLE', done => {
         chai
           .request(host)
-          .put(`/user/${user.id}`)
+          .put(`/users/${user.id}`)
           .set('Authorization', user.token)
           .send({ role: 'Admin' })
           .end((err, res) => {
             chai
               .request(host)
-              .get(`/user/${user1.id}`)
+              .get(`/users/${user1.id}`)
               .set('Authorization', admin.token)
               .end((err, res) => {
                 expect(res.body.data.role).to.not.equal('Admin');
@@ -206,7 +206,7 @@ describe('/user & /user/:ObjID', () => {
       it('should get a 400 if the params are inconsistant', done => {
         chai
           .request(host)
-          .put(`/user/${user.id.slice(1, 7)}`)
+          .put(`/users/${user.id.slice(1, 7)}`)
           .set('Authorization', user.token)
           .send({ profile: { name: 'Mr Red' } })
           .end((err, res) => {
@@ -220,13 +220,13 @@ describe('/user & /user/:ObjID', () => {
       it('should not be able to delete another user', done => {
         chai
           .request(host)
-          .delete(`/user/${user1.id}`)
+          .delete(`/users/${user1.id}`)
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(401);
             chai
               .request(host)
-              .get(`/user/${user1.id}`)
+              .get(`/users/${user1.id}`)
               .set('Authorization', admin.token)
               .end((err, res) => {
                 res.should.have.status(200);
@@ -240,7 +240,7 @@ describe('/user & /user/:ObjID', () => {
       it('should get a 400 if the params are inconsistant', done => {
         chai
           .request(host)
-          .put(`/user/${user.id.slice(1, 7)}`)
+          .put(`/users/${user.id.slice(1, 7)}`)
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(400);
@@ -255,7 +255,7 @@ describe('/user & /user/:ObjID', () => {
       it('should see all users', done => {
         chai
           .request(host)
-          .get('/user')
+          .get('/users')
           .set('Authorization', admin.token)
           .end((err, res) => {
             res.should.have.status(200);
@@ -266,7 +266,7 @@ describe('/user & /user/:ObjID', () => {
       it('should see a single user', done => {
         chai
           .request(host)
-          .get(`/user/${user.id}`)
+          .get(`/users/${user.id}`)
           .set('Authorization', admin.token)
           .end((err, res) => {
             res.should.have.status(200);
@@ -279,7 +279,7 @@ describe('/user & /user/:ObjID', () => {
       it('should return 400 if the request has inconsistant params', done => {
         chai
           .request(host)
-          .get(`/user/${user.id.slice(2, 6)}`)
+          .get(`/users/${user.id.slice(2, 6)}`)
           .set('Authorization', admin.token)
           .send({ profile: { name: 'Mr Flop' } })
           .end((err, res) => {
@@ -292,13 +292,13 @@ describe('/user & /user/:ObjID', () => {
       it('should change the ROLE of a user', done => {
         chai
           .request(host)
-          .put(`/user/${user.id}`)
+          .put(`/users/${user.id}`)
           .set('Authorization', admin.token)
           .send({ role: 'Admin' })
           .end((err, res) => {
             chai
               .request(host)
-              .get(`/user/${user.id}`)
+              .get(`/users/${user.id}`)
               .set('Authorization', admin.token)
               .end((err, res) => {
                 expect(res.body.data.role).to.equal('Admin');
@@ -310,14 +310,14 @@ describe('/user & /user/:ObjID', () => {
       it('should PUT his profile', done => {
         chai
           .request(host)
-          .put(`/user/${user.id}`)
+          .put(`/users/${user.id}`)
           .set('Authorization', user.token)
           .send({ profile: { name: 'Mr Flop' } })
           .end((err, res) => {
             res.should.have.status(200);
             chai
               .request(host)
-              .get(`/user/${user.id}`)
+              .get(`/users/${user.id}`)
               .set('Authorization', user.token)
               .end((err, res) => {
                 expect(res.body.data.profile.name).to.equal('Mr Flop');
@@ -329,7 +329,7 @@ describe('/user & /user/:ObjID', () => {
       it('should return 400 if the request has inconsistant params', done => {
         chai
           .request(host)
-          .put(`/user/${user.id.slice(2, 6)}`)
+          .put(`/users/${user.id.slice(2, 6)}`)
           .set('Authorization', user.token)
           .send({ profile: { name: 'Mr Flop' } })
           .end((err, res) => {
@@ -357,7 +357,7 @@ describe('/user & /user/:ObjID', () => {
             (deleteUser1 = cb => {
               chai
                 .request(host)
-                .delete(`/user/${user1.id}`)
+                .delete(`/users/${user1.id}`)
                 .set('Authorization', user.token)
                 .end((err, res) => {
                   res.should.have.status(200);
@@ -367,7 +367,7 @@ describe('/user & /user/:ObjID', () => {
             (checkUser1 = cb => {
               chai
                 .request(host)
-                .get(`/user/${user1.id}`)
+                .get(`/users/${user1.id}`)
                 .set('Authorization', admin.token)
                 .end((err, res) => {
                   res.should.have.status(404);
@@ -382,7 +382,7 @@ describe('/user & /user/:ObjID', () => {
       it('should return 400 if the request has inconsistant params', done => {
         chai
           .request(host)
-          .delete(`/user/${user.id.slice(2, 6)}`)
+          .delete(`/users/${user.id.slice(2, 6)}`)
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(400);

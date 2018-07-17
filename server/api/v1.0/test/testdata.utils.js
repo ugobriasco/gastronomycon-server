@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
 let should = chai.should();
-const host = 'http://localhost:3000/api/v1.0/';
+const host = 'http://localhost:3000/api/v1.0';
 const signupCode = 'foo';
 chai.use(chaiHttp);
 
