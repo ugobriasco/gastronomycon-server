@@ -4,12 +4,19 @@ const itemCtrl = require('../../item/item.controller');
 const authCtrl = require('../../auth/auth.controller');
 const itemVal = require('../../item/item.validation');
 
+const metrics = require('../../metrics');
+
 const router = express.Router();
 
 router
   .route('/')
   .post(validate(itemVal.postItem), authCtrl.isAuthenticated, itemCtrl.postItem)
-  .get(validate(itemVal.queryItems), itemCtrl.queryItems);
+  .get(
+    validate(itemVal.queryItems),
+    authCtrl.isAuthenticated,
+    metrics.postApiUsage, //we now ask for having an authenticated user, to collect metrics
+    itemCtrl.queryItems
+  );
 router
   .route('/:objID')
   .get(validate(itemVal.getItem), itemCtrl.getItem)
