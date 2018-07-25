@@ -2,12 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
 //const ApiUsage = require('../metrics/api-usage');
 
-const ApiUsage = new mongoose.Schema({
-  current_month: Date,
-  current_monthly_usage: Number,
-  history: Array
-});
-
 const UserSchema = new mongoose.Schema(
   {
     email: { type: String, unique: true, required: true },
@@ -25,11 +19,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       enum: ['User', 'Admin'],
       default: 'User'
-    },
-    api_usage: { type: ApiUsage }
+    }
   },
   {
-    timestamps: true
+    timestamps: true,
+    strict: false
   }
 );
 
