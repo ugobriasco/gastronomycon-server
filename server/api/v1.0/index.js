@@ -1,6 +1,7 @@
 const express = require('express');
 
 const authCtrl = require('../../auth/auth.controller');
+const metricsCtrl = require('../../metrics/metrics.controller');
 const apiDoc = require('./api-doc.json');
 
 const router = express.Router();
@@ -22,6 +23,9 @@ router.route('/login').post(authCtrl.postLogin);
 router.route('/signup').post(authCtrl.validateSignupCode, authCtrl.postSignUp);
 router.route('/reset/:token').post(authCtrl.postReset);
 router.route('/forgot').post(authCtrl.postForgot);
+
+router.route('/usage').get(metricsCtrl.getApiUsage);
+router.route('/usage/:objID').delete(metricsCtrl.deleteUserMetric);
 
 router.all('*', function(req, res) {
   res.status(404).send({ message: '** no hunicorns here**' });

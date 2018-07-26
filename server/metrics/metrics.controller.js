@@ -1,39 +1,38 @@
 const UserMetric = require('./metrics-user.model');
 const User = require('../user/user.model');
+const {
+  createApiUsageRecord,
+  updateApiUsageRecord,
+  deleteApiUsageRecord
+} = require('./api-usage-helper');
+
+const getApiUsage = function(req, res) {
+  UserMetric.find(function(err, metrics) {
+    if (err) res.status(500).send(err);
+    res.json({ data: metrics });
+  });
+};
 
 const postApiUsage = (req, res, next) => {
   const userID = req.decoded.user._id;
-
   UserMetric.findOne({ user_id: userID })
     .then(metric => {
-      console.log('here the metric found!', metric);
-      if (metric === null) return createMetric(userID);
-      metric.current_month = new Date();
-      metric.counter = metric.counter++;
-      // return metric.save().catch(err => console.log(err));
+      console.log('metric not found!', metric);
+      if (metric === null) {
+        return createApiUsageRecord(userID);
+      } else {
+        return updateApiUsageRecord(metric._id);
+      }
     })
     .then(() => next())
     .catch(err => console.log(err));
 };
 
-const createMetric = user_id => {
-  if (!user_id) return;
-  return User.findById(user_id)
-    .then(user => {
-      let metric = new UserMetric();
-      if (!user) return;
-      const NOW = new Date();
-      return (metric = {
-        user_id: user._id,
-        current_month: NOW,
-        counter: 1
-      });
-    })
-    .then(metric => {
-      console.log('new metric', metric);
-      // return metric.save().catch(err => console.log(err));
-    })
-    .catch(err => console.log(err));
+const deleteUserMetric = function(req, res) {
+  UserMetric.findByIdAndRemove(req.params.objID, function(err) {
+    if (err) res.status(500).send(err);
+    res.json({ message: 'Metric ' + req.params.objID + ' removed' });
+  });
 };
 
-module.exports = { postApiUsage };
+module.exports = { postApiUsage, getApiUsage, deleteUserMetric };

@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const UserMetricSchema = new mongoose.Schema({
   user_id: String,
   api_usage: {
-    current_month: String
+    current_month: Date,
+    counter: Number,
+    history: Array
   }
 });
 
