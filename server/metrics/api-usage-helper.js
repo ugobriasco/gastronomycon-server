@@ -3,7 +3,6 @@ const User = require('../user/user.model');
 
 const createApiUsageRecord = user_id => {
   if (!user_id) return;
-
   const metric = new UserMetric({
     user_id,
     api_usage: {
@@ -12,7 +11,7 @@ const createApiUsageRecord = user_id => {
       history: []
     }
   });
-  console.log('new metric', metric);
+  console.log(`Metric for user ${user_id} created`);
   metric.save(function(err) {
     if (err) console.log(err);
     return metric;

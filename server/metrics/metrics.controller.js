@@ -2,8 +2,7 @@ const UserMetric = require('./metrics-user.model');
 const User = require('../user/user.model');
 const {
   createApiUsageRecord,
-  updateApiUsageRecord,
-  deleteApiUsageRecord
+  updateApiUsageRecord
 } = require('./api-usage-helper');
 
 const getApiUsage = function(req, res) {
@@ -17,8 +16,8 @@ const postApiUsage = (req, res, next) => {
   const userID = req.decoded.user._id;
   UserMetric.findOne({ user_id: userID })
     .then(metric => {
-      console.log('metric not found!', metric);
       if (metric === null) {
+        console.log(`No metric for user ${userID} found.`, metric);
         return createApiUsageRecord(userID);
       } else {
         return updateApiUsageRecord(metric._id);
