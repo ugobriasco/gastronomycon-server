@@ -4,7 +4,7 @@ const itemCtrl = require('../../item/item.controller');
 const authCtrl = require('../../auth/auth.controller');
 const itemVal = require('../../item/item.validation');
 
-const metrics = require('../../metrics');
+const { postApiUsage } = require('../../metrics');
 
 const router = express.Router();
 
@@ -14,12 +14,17 @@ router
   .get(
     validate(itemVal.queryItems),
     authCtrl.isAuthenticated,
-    metrics.postApiUsage, //we now ask for having an authenticated user, to collect metrics
+    postApiUsage, //we now ask for having an authenticated user, to collect metrics
     itemCtrl.queryItems
   );
 router
   .route('/:objID')
-  .get(validate(itemVal.getItem), itemCtrl.getItem)
+  .get(
+    validate(itemVal.getItem),
+    authCtrl.isAuthenticated,
+    postApiUsage, //we now ask for having an authenticated user, to collect metrics
+    itemCtrl.getItem
+  )
   .put(
     validate(itemVal.updateItem),
     authCtrl.isAuthenticated,

@@ -1,3 +1,7 @@
-const { postApiUsage } = require('./metrics.controller');
+const {
+  postApiUsage,
+  getApiUsage,
+  deleteUserMetric
+} = require('./metrics.controller');
 
-module.exports = { postApiUsage };
+module.exports = { postApiUsage, getApiUsage, deleteUserMetric };
