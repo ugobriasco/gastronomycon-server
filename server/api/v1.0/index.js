@@ -1,6 +1,15 @@
 const express = require('express');
 
-const authCtrl = require('../../auth/auth.controller');
+const {
+  postLogin,
+  validateSignupCode,
+  postSignUp,
+  postReset,
+  postForgot,
+  isAuthenticated,
+  isAdmin
+} = require('../../auth');
+const { getApiUsage, deleteUserMetric } = require('../../metrics');
 const apiDoc = require('./api-doc.json');
 
 const router = express.Router();
@@ -18,10 +27,15 @@ router.use('/users', require('./user.routes'));
 router.use('/lists', require('./list.routes'));
 router.use('/settings', require('./setting.routes'));
 
-router.route('/login').post(authCtrl.postLogin);
-router.route('/signup').post(authCtrl.validateSignupCode, authCtrl.postSignUp);
-router.route('/reset/:token').post(authCtrl.postReset);
-router.route('/forgot').post(authCtrl.postForgot);
+router.route('/login').post(postLogin);
+router.route('/signup').post(validateSignupCode, postSignUp);
+router.route('/reset/:token').post(postReset);
+router.route('/forgot').post(postForgot);
+
+router.route('/usage').get(isAuthenticated, isAdmin, getApiUsage);
+router
+  .route('/usage/:objID')
+  .delete(isAuthenticated, isAdmin, deleteUserMetric);
 
 router.all('*', function(req, res) {
   res.status(404).send({ message: '** no hunicorns here**' });

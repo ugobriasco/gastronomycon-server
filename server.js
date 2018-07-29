@@ -9,12 +9,11 @@ const passport = require('passport');
 //config
 const app = express();
 const port = process.env.PORT || 3000;
-
 const cfg = require('./server/cfg');
 
 mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
-//handles mongoose.connect deprecation
-mongoose.connect(cfg.db.local, { useNewUrlParser: true });
+mongoose.connect(cfg.db.local, { useNewUrlParser: true }); //handles ES6 moongose promise deprecation
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 // mongodb connection open
@@ -36,21 +35,17 @@ app.all('/api/*', function(req, res, next) {
   return res.sendStatus(204);
 });
 
+// Passport for social authentication
 app.use(passport.initialize());
 
-//parsing
+// Parsing
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-//routing
-var api = require('./server/api/api.routes');
-app.use(express.static(path.join(__dirname, 'dist'))); //Expose /client
+// Routing
+const api = require('./server/api/api.routes');
+
 app.use('/api', api);
-
-app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
-
 app.get('/api/*', function(req, res) {
   res.status(404);
 });

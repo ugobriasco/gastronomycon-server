@@ -1,101 +1,98 @@
 {
-
-	"apiUrl": "http://localhost:3000/api",
-	"endpoints":
-	[
-	{
-		"name": "all items",
-	    "req": {
-	    	"type": "GET",
-	    	"params": "api/item/",
-	    	"body": "",
-	    	"header": ""
-	    },
-	    "res":{
-	    	"status": 200,
-	    	"body": {
-	    		"data": [
-					    {
-					      "_id": "587a64f2c35acc9f57f13d65",
-					      "type": "legumi",
-					      "__v": 0,
-					      "pic": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Crimson_cranberrybeans.jpg",
-					      "name": {
-					        "de": {
-					          "main": "Bohnen",
-					          "spec": "schwarz"
-					        },
-					        "pl": {
-					          "main": "Fasola",
-					          "spec": "czarna"
-					        },
-					        "it": {
-					          "main": "Fagioli",
-					          "spec": "borlotti"
-					        }
-					      }
-					    },
-					    {
-					      "_id": "587a6d436da65aa7f484a135",
-					      "pic": "https://pbs.twimg.com/profile_images/720276641532870657/zONL97lB.jpg",
-					      "type": "legumi",
-					      "__v": 0,
-					      "name": {
-					        "de": {
-					          "main": "Ravioli",
-					          "spec": "ricotta und spinat"
-					        },
-					        "pl": {
-					          "main": "Ravioli",
-					          "spec": "ricotta ze szpinakiem"
-					        },
-					        "it": {
-					          "main": "Ravioli",
-					          "spec": "ricotta e spinaci"
-					        }
-					      }
-					    }
-					]
-	    	}
-		}
-	},
-	{
-		"name": "one item",
-		"req": {
-			"type": "GET",
-			"params": "api/item/587a64f2c35acc9f57f13d65",
-			"body": "",
-	    	"header": ""
-		},
-		"res": {
-			"status": 200,
-			"body":{
-			  "data": {
-				    "_id": "587a64f2c35acc9f57f13d65",
-				    "type": "legumi",
-				    "__v": 0,
-				    "pic": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Crimson_cranberrybeans.jpg",
-				    "name": {
-				      "de": {
-				        "main": "Bohnen",
-				        "spec": "schwarz"
-				      },
-				      "pl": {
-				        "main": "Fasola",
-				        "spec": "czarna"
-				      },
-				      "it": {
-				        "main": "Fagioli",
-				        "spec": "borlotti"
-				      }
-					}
-				}
-			}
-		}
-	}
-]
-
-
-
-
+  "apiUrl": "http://localhost:3000/api/v0.1/",
+  "endpoints": [
+    {
+      "name": "all items",
+      "req": {
+        "type": "GET",
+        "params": "/items/",
+        "body": "",
+        "header": ""
+      },
+      "res": {
+        "status": 200,
+        "body": {
+          "data": [
+            {
+              "_id": "587a64f2c35acc9f57f13d65",
+              "type": "legumi",
+              "__v": 0,
+              "pic":
+                "https://upload.wikimedia.org/wikipedia/commons/1/1e/Crimson_cranberrybeans.jpg",
+              "name": {
+                "de": {
+                  "main": "Bohnen",
+                  "spec": "schwarz"
+                },
+                "pl": {
+                  "main": "Fasola",
+                  "spec": "czarna"
+                },
+                "it": {
+                  "main": "Fagioli",
+                  "spec": "borlotti"
+                }
+              }
+            },
+            {
+              "_id": "587a6d436da65aa7f484a135",
+              "pic":
+                "https://pbs.twimg.com/profile_images/720276641532870657/zONL97lB.jpg",
+              "type": "legumi",
+              "__v": 0,
+              "name": {
+                "de": {
+                  "main": "Ravioli",
+                  "spec": "ricotta und spinat"
+                },
+                "pl": {
+                  "main": "Ravioli",
+                  "spec": "ricotta ze szpinakiem"
+                },
+                "it": {
+                  "main": "Ravioli",
+                  "spec": "ricotta e spinaci"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "one item",
+      "req": {
+        "type": "GET",
+        "params": "/item/587a64f2c35acc9f57f13d65",
+        "body": "",
+        "header": ""
+      },
+      "res": {
+        "status": 200,
+        "body": {
+          "data": {
+            "_id": "587a64f2c35acc9f57f13d65",
+            "type": "legumi",
+            "__v": 0,
+            "pic":
+              "https://upload.wikimedia.org/wikipedia/commons/1/1e/Crimson_cranberrybeans.jpg",
+            "name": {
+              "de": {
+                "main": "Bohnen",
+                "spec": "schwarz"
+              },
+              "pl": {
+                "main": "Fasola",
+                "spec": "czarna"
+              },
+              "it": {
+                "main": "Fagioli",
+                "spec": "borlotti"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }
