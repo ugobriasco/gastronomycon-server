@@ -27,13 +27,10 @@ const updateApiUsageRecord = metric_id => {
         record.api_usage.counter = record.api_usage.counter + 1;
         return record.save();
       } else {
-        record.api_usage.history = [
-          record.api_usage.history,
-          {
-            timestamp: record.api_usage.current_month,
-            usage_record: record.api_usage.counter
-          }
-        ];
+        record.api_usage.history.push({
+          timestamp: record.api_usage.current_month,
+          usage_record: record.api_usage.counter
+        });
         record.api_usage.current_month = new Date();
         record.api_usage.counter = 1;
         return record.save();
