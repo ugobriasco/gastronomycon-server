@@ -45,18 +45,20 @@ exports.postSignUp = function(req, res) {
     .then(user => {
       if (user) return res.status(422).send({ msg: 'email already in use' });
 
+      const name = req.body.name ? req.body.name : '';
+
       const newUser = new User({
         email: req.body.email,
         password: req.body.password,
         role: req.body.role, //to remove after root user
-        profile: { name: '' }
+        profile: { name }
       });
 
       newUser.save(function(err) {
         if (err) throw err;
         console.log('new user');
         res.status(201).json({
-          token: generateToken(user),
+          token: generateToken(newUser),
           user: newUser
         });
       });
@@ -206,8 +208,7 @@ exports.postReset = (req, res, next) => {
   );
 };
 
-//stati
-
+// Checks if the header includes a valid auth token
 exports.isAuthenticated = function(req, res, next) {
   if (
     req.headers.authorization &&
@@ -235,6 +236,7 @@ exports.isAuthenticated = function(req, res, next) {
   }
 };
 
+// Checks if the user has role Admin
 exports.isAdmin = function(req, res, next) {
   if (req.decoded.user.role === 'Admin') {
     next();
