@@ -5,10 +5,20 @@ const {
   updateApiUsageRecord
 } = require('./api-usage-helper');
 
-const getApiUsage = function(req, res) {
+const getApiUsage = (req, res) => {
   UserMetric.find(function(err, metrics) {
     if (err) res.status(500).send(err);
     res.json({ data: metrics });
+  });
+};
+
+const getMyApiUsage = (req, res) => {
+  const userID = req.params.userID;
+  UserMetric.findOne({ user_id: userID }, (err, metric) => {
+    if (err) return res.status(500).send(err);
+    if (!metric)
+      return res.status(404).send({ message: 'No usage metric found' });
+    return res.json({ data: metric });
   });
 };
 
