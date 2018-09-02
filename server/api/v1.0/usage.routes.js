@@ -1,7 +1,9 @@
 const express = require('express');
 const validate = require('express-validation');
 
-const { isAuthenticated, isAccountOwner } = require('../../auth');
+const router = express.Router();
+
+const { isAuthenticated, isAccountOwner, isAdmin } = require('../../auth');
 
 const {
   getApiUsage,
