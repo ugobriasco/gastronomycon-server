@@ -1,0 +1,10 @@
+const {
+  getApps,
+  postApp,
+  putApp,
+  deleteApp,
+  refreshKey
+} = require('./app.controller');
+const App = require('./app.model');
+
+module.exports = { App, getApps, postApp, putApp, deleteApp, refreshKey };

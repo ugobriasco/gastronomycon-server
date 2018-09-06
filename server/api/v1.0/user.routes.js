@@ -4,30 +4,57 @@ const authCtrl = require('../../auth/auth.controller');
 const userCtrl = require('../../user/user.controller');
 const userVal = require('../../user/user.validation');
 
+const {
+  postUser,
+  getUser,
+  getAllUsers,
+  updateUser,
+  deleteUser
+} = require('../../user');
+
+const { isAuthenticated, isAccountOwner, isAdmin } = require('../../auth');
+
+const {
+  getApps,
+  postApp,
+  putApp,
+  deleteApp,
+  refreshKey
+} = require('../../apps');
+
 const router = express.Router();
 
-router
-  .route('/')
-  .get(authCtrl.isAuthenticated, authCtrl.isAdmin, userCtrl.getAllUsers);
+router.route('/').get(isAuthenticated, isAdmin, getAllUsers);
+
+// managing users
 router
   .route('/:userID')
-  .get(
-    validate(userVal.getUser),
-    authCtrl.isAuthenticated,
-    authCtrl.isAccountOwner,
-    userCtrl.getUser
-  )
+  .get(validate(userVal.getUser), isAuthenticated, isAccountOwner, getUser)
   .put(
     validate(userVal.updateUser),
-    authCtrl.isAuthenticated,
-    authCtrl.isAccountOwner,
-    userCtrl.updateUser
+    isAuthenticated,
+    isAccountOwner,
+    updateUser
   )
   .delete(
     validate(userVal.deleteUser),
-    authCtrl.isAuthenticated,
-    authCtrl.isAccountOwner,
-    userCtrl.deleteUser
+    isAuthenticated,
+    isAccountOwner,
+    deleteUser
   );
+
+// managing user.apps
+router
+  .route('/:userID/apps/')
+  .get(getApps)
+  .post(postApp);
+
+router
+  .route('/:userID/apps/:appID')
+  .get(getApps)
+  .put(putApp)
+  .delete(deleteApp);
+
+router.route('/:userID/apps/:appID/refresh').post(refreshKey);
 
 module.exports = router;

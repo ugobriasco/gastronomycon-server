@@ -38,12 +38,6 @@ router.route('/signup').post(validateSignupCode, postSignUp);
 router.route('/reset/:token').post(postReset);
 router.route('/forgot').post(postForgot);
 
-// router.route('/usage').get(isAuthenticated, isAdmin, getApiUsage);
-// router
-//   .route('/usage/:userID')
-//   .get(isAuthenticated, isAccountOwner, getMyApiUsage)
-//   .delete(isAuthenticated, isAdmin, deleteUserMetric);
-
 router.all('*', function(req, res) {
   res.status(404).send({ message: '** no hunicorns here**' });
 });

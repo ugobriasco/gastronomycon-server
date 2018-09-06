@@ -1,5 +1,5 @@
 const UserMetric = require('./metrics-user.model');
-const User = require('../user/user.model');
+const { User } = require('../user');
 const {
   createApiUsageRecord,
   updateApiUsageRecord
