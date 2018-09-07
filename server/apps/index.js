@@ -3,8 +3,17 @@ const {
   postApp,
   putApp,
   deleteApp,
-  refreshKey
+  refreshKey,
+  getAllApps
 } = require('./app.controller');
 const App = require('./app.model');
 
-module.exports = { App, getApps, postApp, putApp, deleteApp, refreshKey };
+module.exports = {
+  App,
+  getApps,
+  postApp,
+  putApp,
+  deleteApp,
+  refreshKey,
+  getAllApps
+};

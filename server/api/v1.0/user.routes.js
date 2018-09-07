@@ -55,6 +55,6 @@ router
   .put(putApp)
   .delete(deleteApp);
 
-router.route('/:userID/apps/:appID/refresh').post(refreshKey);
+router.route('/:userID/apps/:appID/refresh').put(refreshKey);
 
 module.exports = router;
