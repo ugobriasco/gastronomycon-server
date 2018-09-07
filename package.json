@@ -5,7 +5,7 @@
   "author": "Ugo Briasco",
   "scripts": {
     "start": "nodemon server",
-    "test": "mocha --opts ./mocha.opts",
+    "test": "mocha --opts ./mocha.opts || true",
     "coverage":
       "clear && mocha --opts ./mocha.opts && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",
     "precommit": "lint-staged"
