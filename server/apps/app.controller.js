@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const hat = require('hat');
 const cfg = require('../cfg');
 
 const App = require('./app.model');
@@ -81,7 +81,7 @@ const refreshKey = (req, res) => {
   App.findById(appID, (err, app) => {
     if (err) res.status(500).send(err);
 
-    app.api_key = generateKey(app.user_id);
+    app.api_key = generateKey();
     app.save(err => {
       if (err) res.status(500).send(err);
       res.json(app);
@@ -90,7 +90,7 @@ const refreshKey = (req, res) => {
 };
 
 // Generates api key given the user and secret
-const generateKey = userID => jwt.sign({ userID }, cfg.secret);
+const generateKey = () => hat();
 
 const getUserID = req =>
   req.query.user_id || req.body.user_id || req.params.userID;
