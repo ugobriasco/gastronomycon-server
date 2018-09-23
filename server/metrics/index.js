@@ -2,7 +2,14 @@ const {
   postApiUsage,
   getApiUsage,
   getMyApiUsage,
-  deleteUserMetric
+  deleteUserMetric,
+  recordUsage
 } = require('./metrics.controller');
 
-module.exports = { postApiUsage, getApiUsage, getMyApiUsage, deleteUserMetric };
+module.exports = {
+  postApiUsage,
+  getApiUsage,
+  getMyApiUsage,
+  deleteUserMetric,
+  recordUsage
+};

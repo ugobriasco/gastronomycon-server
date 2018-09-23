@@ -232,7 +232,7 @@ exports.isAuthenticated = function(req, res, next) {
   } else {
     return res
       .status(401)
-      .json({ message: 'no token provided', headers: req.headers });
+      .json({ message: 'No token provided', headers: req.headers });
   }
 };
 

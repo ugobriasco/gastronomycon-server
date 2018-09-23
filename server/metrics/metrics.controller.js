@@ -28,6 +28,7 @@ const getMyApiUsage = (req, res) => {
     });
 };
 
+//Middelware which posts usage if JWT headers is provided
 const postApiUsage = (req, res, next) => {
   const userID = req.decoded.user._id;
   UserMetric.findOne({ user_id: userID })
@@ -43,6 +44,22 @@ const postApiUsage = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
+// Tick api usage for a given user
+const recordUsage = user_id => {
+  UserMetric.findOne({ user_id })
+    .then(metric => {
+      if (metric === null) {
+        console.log(`No metric for user ${userID} found.`, metric);
+        return createApiUsageRecord(userID);
+      } else {
+        return updateApiUsageRecord(metric._id);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 const deleteUserMetric = function(req, res) {
   UserMetric.findByIdAndRemove(req.params.objID, function(err) {
     if (err) res.status(500).send(err);
@@ -50,4 +67,10 @@ const deleteUserMetric = function(req, res) {
   });
 };
 
-module.exports = { postApiUsage, getApiUsage, getMyApiUsage, deleteUserMetric };
+module.exports = {
+  postApiUsage,
+  getApiUsage,
+  getMyApiUsage,
+  deleteUserMetric,
+  recordUsage
+};

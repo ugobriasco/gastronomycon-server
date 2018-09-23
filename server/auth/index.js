@@ -9,6 +9,7 @@ const {
   isAdmin,
   isAccountOwner
 } = require('./auth.controller');
+const { hasApiKey } = require('./has-api-key');
 
 module.exports = {
   postLogin,
@@ -19,5 +20,6 @@ module.exports = {
   postReset,
   isAuthenticated,
   isAdmin,
-  isAccountOwner
+  isAccountOwner,
+  hasApiKey
 };
