@@ -6,4 +6,6 @@ const AppSchema = new mongoose.Schema({
   api_key: String
 });
 
+AppSchema.index({ api_key: 'text' });
+
 module.exports = mongoose.model('App', AppSchema);

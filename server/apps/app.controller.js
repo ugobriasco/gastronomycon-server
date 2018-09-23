@@ -1,5 +1,4 @@
 const hat = require('hat');
-const cfg = require('../cfg');
 
 const App = require('./app.model');
 const User = require('../user/user.model');
@@ -81,7 +80,7 @@ const refreshKey = (req, res) => {
   App.findById(appID, (err, app) => {
     if (err) res.status(500).send(err);
 
-    app.api_key = generateKey();
+    app.api_key = generateKey(app);
     app.save(err => {
       if (err) res.status(500).send(err);
       res.json(app);
