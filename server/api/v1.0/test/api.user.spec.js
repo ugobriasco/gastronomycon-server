@@ -145,7 +145,7 @@ describe('/users & /users/:ObjID', () => {
               });
           });
       });
-      it('should not PUT query which is not matching the user model', done => {
+      it.skip('should not PUT query which is not matching the user model', done => {
         chai
           .request(host)
           .put(`/users/${user.id}`)
@@ -390,5 +390,12 @@ describe('/users & /users/:ObjID', () => {
           });
       });
     });
+  });
+
+  describe('A user who is owning Apps', () => {
+    it('should be able to create a new app');
+    it('should be able to change the title of the app');
+    it('should be able to refresh the toke of the app');
+    it('should be able to delete an app');
   });
 });

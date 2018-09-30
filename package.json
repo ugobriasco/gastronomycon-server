@@ -6,12 +6,14 @@
   "scripts": {
     "start": "nodemon server",
     "test": "mocha --opts ./mocha.opts || true",
-    "coverage":
-      "clear && mocha --opts ./mocha.opts && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",
+    "coverage": "clear && mocha --opts ./mocha.opts && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "async": "^2.6.0",
@@ -23,6 +25,7 @@
     "express": "^4.16.2",
     "express-validation": "^1.0.2",
     "express-validator": "^5.2.0",
+    "hat": "0.0.3",
     "joi": "^13.4.0",
     "jsonwebtoken": "^8.1.0",
     "mongoose": "^5.2.2",

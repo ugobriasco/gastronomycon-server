@@ -232,7 +232,7 @@ exports.isAuthenticated = function(req, res, next) {
   } else {
     return res
       .status(401)
-      .json({ message: 'no token provided', headers: req.headers });
+      .json({ message: 'No token provided', headers: req.headers });
   }
 };
 
@@ -248,6 +248,7 @@ exports.isAdmin = function(req, res, next) {
 // Protects the acces to the user profile from exernal CRUDS - admins are allowed
 exports.isAccountOwner = function(req, res, next) {
   if (
+    req.query.userID === req.decoded.user._id ||
     req.params.userID === req.decoded.user._id ||
     req.body.userID == req.decoded.user._id ||
     req.decoded.user.role === 'Admin'
