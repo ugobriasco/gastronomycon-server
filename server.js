@@ -9,7 +9,7 @@ const passport = require('passport');
 //config
 const app = express();
 const port = process.env.PORT || 3000;
-const cfg = require('./server/cfg');
+const cfg = require('./cfg');
 
 mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
 mongoose.connect(cfg.db.local, { useNewUrlParser: true }); //handles ES6 moongose promise deprecation

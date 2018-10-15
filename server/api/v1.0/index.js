@@ -29,11 +29,12 @@ router.get('/', (req, res) => {
   });
 });
 
-router.use('/items', require('./item.routes'));
-router.use('/users', require('./user.routes'));
-router.use('/lists', require('./list.routes'));
-router.use('/settings', require('./setting.routes'));
-router.use('/usage', require('./usage.routes'));
+router.use('/items', require('./item-routes'));
+router.use('/users', require('./user-routes'));
+router.use('/lists', require('./list-routes'));
+router.use('/settings', require('./setting-routes'));
+router.use('/usage', require('./usage-routes'));
+router.use('/grocery', require('./grocery-routes'));
 
 router.route('/login').post(postLogin);
 router.route('/signup').post(validateSignupCode, postSignUp);

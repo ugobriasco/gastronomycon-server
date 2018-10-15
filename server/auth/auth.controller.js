@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
-const cfg = require('../cfg');
+const cfg = require('../../cfg');
 
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
