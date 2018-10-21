@@ -50,7 +50,7 @@ const getGroceryId = (req, res) =>
     .catch(err => res.status(500).send({ err }));
 
 // Query groceries given the following query parameters:
-// lang, name, class, cathegory
+// lang, name, class, category
 // Require response restriction control
 const queryGroceries = (req, res) => {
   findGrocery(req)
@@ -62,7 +62,7 @@ const queryGroceries = (req, res) => {
 function mapPayload(req) {
   // TODO: handle multiple locale from same root, e.g. de_CH
   return {
-    cathegory: req.body.cathegory,
+    category: req.body.category,
     primaryName: req.body.primaryName,
     package: req.body.package,
     type: req.body.type,
@@ -77,10 +77,10 @@ function mapPayload(req) {
 
 // Fetch data from old grocery to new grocery; Meeeh dont like it
 function fetchPayload(oldGrocery, newGrocery) {
-  // Fetch Grocery.cathegory (Str)
-  oldGrocery.cathegory = newGrocery.cathegory
-    ? newGrocery.cathegory
-    : oldGrocery.cathegory;
+  // Fetch Grocery.category (Str)
+  oldGrocery.category = newGrocery.category
+    ? newGrocery.category
+    : oldGrocery.category;
 
   // Fetch Grocery.type (Str)
   oldGrocery.type = newGrocery.type ? newGrocery.type : oldGrocery.type;

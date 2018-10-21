@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = new mongoose.Schema({
-  cathegory: String, // e.g. aromi
+  category: String, // e.g. aromi
   type: String, // enum basic | spec
   package: Array,
   primaryName: String, // equal to en_GB name

@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const authCtrl = require('../../auth/auth.controller');
+const { hasApiKey } = require('../../auth');
 
 const {
   postGrocery,

@@ -1,18 +1,25 @@
 const Grocery = require('../grocery-model');
-const queryName = require('./query-like-name-locale');
+const { queryNameAndLocale } = require('./query-like-name');
+const {
+  queryCategory,
+  queryCategoryAndNameAndLocale
+} = require('./query-like-category');
 const queryPrimaryName = require('./query-like-primary-name');
 
 // SPECS
 // TODO: /grocery?lang=it&name=cipolla
 // /grocery?lang=it_IT&name=cipolla
 // /grocery?primaryName=onion
+// /grocery?category=vegetable
 
 const findGrocery = req => {
+  const category = req.query.category;
   const primaryName = req.query.primaryName;
   const locale = req.query.lang;
   const name = req.query.name;
 
   const query = buildQuery({
+    category,
     primaryName,
     locale,
     name
@@ -28,9 +35,13 @@ const findGrocery = req => {
 };
 
 // Factory pattern for building query depending to query params
-function buildQuery({ primaryName, locale, name }) {
+function buildQuery({ category, primaryName, locale, name }) {
   if (primaryName) return queryPrimaryName(primaryName);
-  if (name && locale) return queryName(name, locale);
+  if (name && locale) return queryNameAndLocale(name, locale);
+  if (category) return queryCategory(category);
+  if (category && name && locale)
+    return queryCategoryAndNameAndLocale(category, name, locale);
+
   return {};
 }
 
