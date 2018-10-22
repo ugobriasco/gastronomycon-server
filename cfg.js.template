@@ -1,0 +1,7 @@
+module.exports = {
+  secret: "visit matchyourtie.com!", //jwt secret
+  db: {
+    local: "YOUR_LOCAL_DB",
+    remote: "YOUR_REMOTE_DB"
+  }
+};
