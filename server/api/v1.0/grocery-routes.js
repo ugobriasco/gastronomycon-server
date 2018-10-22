@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const authCtrl = require('../../auth/auth.controller');
-const { hasApiKey } = require('../../auth');
+const { hasApiKey, isAuthenticated, isAdmin } = require('../../auth');
 
 const {
   postGrocery,
@@ -13,15 +13,15 @@ const {
 
 router
   .route('/')
-  .get(queryGroceries)
-  .post(postGrocery);
+  .get(hasApiKey, queryGroceries)
+  .post(isAuthenticated, isAdmin, postGrocery);
 
 router
   .route('/id/:GID')
-  .get(getGroceryId)
-  .put(updateGrocery)
-  .delete(deleteGrocery);
+  .get(isAuthenticated, getGroceryId)
+  .put(isAuthenticated, isAdmin, updateGrocery)
+  .delete(isAuthenticated, isAdmin, deleteGrocery);
 
-router.route('/all').get(getAllGroceries);
+router.route('/all').get(isAuthenticated, isAdmin, getAllGroceries);
 
 module.exports = router;
