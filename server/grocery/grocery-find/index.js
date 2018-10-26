@@ -16,6 +16,7 @@ const mapLocale = require('./lib/map-locale');
 // /grocery?primaryName=onion
 // /grocery?category=vegetable
 // /grocery?id=5bcc73beff6bf516e991c507
+// /grocery?lang=it_IT&name=cipolla&translate[]=de_DE&translate=es
 
 const findGrocery = req => {
   const _id = req.query.id;
@@ -61,7 +62,6 @@ function getTranslationQueryString(translateParam) {
   if (typeof translateParam === 'string') {
     return mapLocale(translateParam);
   }
-
   if (typeof translateParam === 'object') {
     const arrayOfLocale = translateParam.map(obj => mapLocale(obj));
     return arrayOfLocale.join(' ');
