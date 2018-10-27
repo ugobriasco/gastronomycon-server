@@ -1,5 +1,6 @@
 # Grocerybot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1a78fa78eba4b649d7d45c7db63a35e)](https://app.codacy.com/app/ugobriasco/grocerybot-server?utm_source=github.com&utm_medium=referral&utm_content=ugobriasco/grocerybot-server&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.org/ugobriasco/grocerybot-server.svg?branch=master)](https://travis-ci.org/ugobriasco/grocerybot-server)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
