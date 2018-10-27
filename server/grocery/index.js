@@ -54,7 +54,7 @@ const getGroceryId = (req, res) =>
 // Require response restriction control
 const queryGroceries = (req, res) => {
   findGrocery(req)
-    .then(groceries => res.send({ data: groceries }))
+    .then(groceries => res.send({ data: groceries, count: groceries.length }))
     .catch(err => res.status(500).send({ err }));
 };
 
