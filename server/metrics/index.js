@@ -4,7 +4,7 @@ const {
   getMyApiUsage,
   deleteUserMetric,
   recordUsage
-} = require('./metrics.controller');
+} = require('./api-usage');
 
 module.exports = {
   postApiUsage,
