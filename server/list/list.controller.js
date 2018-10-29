@@ -5,8 +5,6 @@ const User = require('../user/user.model');
 exports.postList = (req, res) => {
   const list = new List();
 
-  let message = 'list created';
-
   if (req.decoded._doc._id) {
     list.ownerID = req.body.req.decoded._doc._id;
   } else if (req.body.ownerID) {
@@ -14,10 +12,9 @@ exports.postList = (req, res) => {
   } else {
     res.status(400).send({ message: 'no ownerID defined' });
   }
+  if (req.body.data) list.items.push(req.body.data);
 
-  req.body.data
-    ? list.items.push(req.body.data)
-    : (message = 'blank list created');
+  const message = list.items.length > 0 ? 'list created' : 'blank list created';
 
   list.save(function(err) {
     if (err) res.status(500).send(err);
@@ -85,32 +82,3 @@ exports.isListOwner = function(req, res, next) {
     });
   }
 };
-
-// //share a list
-// exports.shareList = (req, res) => {
-
-// 	List.findById(req.params.objID,(err, list) => {
-// 		if(err) res.status(404).send(err);
-// 		if(!list) res.status(404).send({message: 'No list found'});
-// 		if(!req.body.userID) res.status(422).send({message: 'No userID provided'});
-// 		//if(!req.body.userID.match(/^[0-9a-fA-F]{24}$/)) res.status(422).send({message: 'No user founf'});
-
-// 		// User.findById(req.body.userID, (err, res, next) =>{
-// 		// 	if(err) res.status(404).send(err);
-// 		// 	else list.allowedUsers.push(res._id);
-// 		// 	next();
-// 		// });
-
-// 		list.allowedUsers.push(req.body.userID);
-
-// 		Object.assign(list, req.body).save((err, list) => {
-// 			if(err) res.send(err);
-// 			res.json({ message: 'List updated!', list });
-// 		});
-
-// 	});
-// }
-
-// exports.unshareList = (req, res) => {
-
-// }
