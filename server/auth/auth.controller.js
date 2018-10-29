@@ -71,7 +71,7 @@ exports.validateSignupCode = function(req, res, next) {
   Setting.findOne({ name: 'signupCode' }, function(err, setting) {
     if (err) throw err;
     if (setting) {
-      if (setting.enabled == false || !setting) next();
+      if (setting.enabled === false || !setting) next();
       else {
         if (!req.body.signupCode)
           return res.status(422).json({
@@ -119,7 +119,7 @@ exports.postForgot = (req, res, next) => {
             return res.status(422).send({ msg: 'this email does not exit' });
 
           user.passwordResetToken = token;
-          user.passwordResetExpires = Date.now() + 36000000;
+          user.passwordResetExpires = Date.now() + 3.6e7;
           user.save(err => {
             done(err, token, user);
           });
