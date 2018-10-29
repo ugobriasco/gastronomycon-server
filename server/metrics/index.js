@@ -6,7 +6,11 @@ const {
   recordUsage
 } = require('./api-usage');
 
-const { countUsers, countGroceries } = require('./cohort-metrics');
+const {
+  countUsers,
+  countGroceries,
+  countLanguages
+} = require('./cohort-metrics');
 
 module.exports = {
   postApiUsage,
@@ -15,5 +19,6 @@ module.exports = {
   deleteUserMetric,
   recordUsage,
   countUsers,
-  countGroceries
+  countGroceries,
+  countLanguages
 };
