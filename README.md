@@ -1,32 +1,16 @@
-# Grocerybot
+# Gastronomycon
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1a78fa78eba4b649d7d45c7db63a35e)](https://app.codacy.com/app/ugobriasco/grocerybot-server?utm_source=github.com&utm_medium=referral&utm_content=ugobriasco/grocerybot-server&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9551ffcba0e0422fa1b1a09985ebe09f)](https://www.codacy.com/app/ugobriasco/grocerybot-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ugobriasco/gastronomycon-server&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/ugobriasco/grocerybot-server.svg?branch=master)](https://travis-ci.org/ugobriasco/grocerybot-server)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Intro
 
-This is the server-side application of Grocerybot - a microservice for multilingual grocery lists. It provides and handles a customizable list of grocery products, accessable via REST API. The default client application can be found [here](https://github.com/ugobriasco/grocerybot-cli).
+This is the server-side application of Gastronomycon - a microservice for multilingual groceries. It provides and handles groceries, accessable via REST API. The default client application can be found [here](https://github.com/ugobriasco/grocerybot-cli).
 
-Visit the [official page](http://46.101.201.71:3000), collaborate to the project on [GitHub](https://github.com/ugobriasco/grocerybot-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
-
-## Release Notes
-
-The v. 0.0.1 of Grocerybot includes
-
-1. Full user management
-   ..+ email service
-   ..+ basic profile
-2. Full item-list management
-   ..+ it supports the following languages: DE, PL, IT
-3. REST API
-   ..+ API Documentation
-   ..+ JWT autentification compliant with the [ietf standards](https://tools.ietf.org/html/rfc6750)
-4. User Signup limitations option
+Visit the [official page](http://46.101.201.71:3000), collaborate to the project on [GitHub](https://github.com/ugobriasco/gastronomycon-server), or contact the author [Ugo Briasco](http://ugobriasco.me) on [Slack](https://matchyourtie.slack.com/messages/general/whats_new/).
 
 ## Framework
-
-This a RESTful API based on:
 
 * [mongo](https://docs.mongodb.com/getting-started/shell/)
 * [node](https://nodejs.org/en/)
@@ -34,22 +18,35 @@ This a RESTful API based on:
 
 ## Usage
 
-Please refer to the [API documentation](http://gb.matchyourtie.com/documentation) for released versions, or check [here](https://github.com/ugobriasco/grocerybot-server/blob/master/server/api/api-doc.json).
+Please refer to the [API documentation](https://github.com/ugobriasco/gastronomycon-server/wiki/API-v1.0-reference) for released versions, or check [here](https://github.com/ugobriasco/grocerybot-server/blob/master/server/api/v1.0/api-doc.json).
 
-## Development server
+## Development
 
-Start the server side with `npm start` and it is accessable via port `3000`(it requires a target mongo database running). The API documentation is accessable under `http://localhost:3000/api/`
+### Prerequisites
+
+- node 8+
+- npm 6+
+- Nodemon 1.4+
+- mongoDB 4+
 
 ### Setup
 
-Install the dependancies with `npm install`.
-Create the root user, by sending a `POST` request to `http://localhost:3000/api/signup` with the following body (x-www-form-urlencoded):
-`{"email":"root@root.com","passowrd":"root","role": "Admin"}` (remove the entry point 'role' in the [`postSignUp`](https://github.com/ugobriasco/grocerybot-server/blob/master/server/auth/auth.controller.js) method, after the root user has been created)
+- Install dependencies
 
-Optional - SignupCode
-In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be created by an admin user as following:
-`POST http://localhost/api/settings`
-`{"name": "signupCode", "value": "foo"}`
+```bash
+git clone git@github.com:ugobriasco/gastronomycon-server.git && cd gastronomycon-server
+npm i
+mongod
+npm start
+```
+
+- Create the root user, by sending a `POST` request to `http://localhost:3000/api/v1.0/signup` with the following body:
+  `{"email":"ROOT_EMAIL","passowrd":"ROOT_PASSWORD","role": "Admin"}` (remove the entry point 'role' in the [`postSignUp`](https://github.com/ugobriasco/grocerybot-server/blob/master/server/auth/auth.controller.js) method, after the root user has been created)
+
+- Optional - SignupCode
+  In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be created by an admin user as following:
+  `POST http://localhost/api/settings`
+  `{"name": "signupCode", "value": "foo"}`
 
 ### Test
 
@@ -70,4 +67,3 @@ In lieu of a formal style guide, take care to maintain the existing coding style
 ## License
 
 [MIT](https://github.com/ugobriasco/grocerybot-server/blob/master/LICENSE.md)
-

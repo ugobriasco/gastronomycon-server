@@ -1,19 +1,18 @@
 {
-  "name": "grocerybot-server",
-  "version": "0.0.1",
+  "name": "gastronomycon-server",
+  "version": "0.5.0",
   "license": "MIT",
   "author": "Ugo Briasco",
   "scripts": {
-    "start": "nodemon server",
+    "start": "node server",
+    "dev": "nodemon server",
     "test": "mocha --opts ./mocha.opts || true",
-    "coverage": "clear && mocha --opts ./mocha.opts && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",
+    "coverage":
+      "clear && mocha --opts ./mocha.opts && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["prettier --write", "git add"]
   },
   "dependencies": {
     "async": "^2.6.0",

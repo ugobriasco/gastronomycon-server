@@ -24,7 +24,7 @@ const findGrocery = req => {
   const primaryName = req.query.primaryName;
   const name = req.query.name;
 
-  const locale = mapLocale(req.query.lang);
+  const locale = req.query.lang ? mapLocale(req.query.lang) : 'en_GB';
   const translate = getTranslationQueryString(req.query.translate);
 
   const query = buildQuery({
@@ -57,8 +57,6 @@ function buildQuery({ category, primaryName, locale, name, _id }) {
 }
 
 function getTranslationQueryString(translateParam) {
-  console.log(translateParam);
-
   if (typeof translateParam === 'string') {
     return mapLocale(translateParam);
   }
