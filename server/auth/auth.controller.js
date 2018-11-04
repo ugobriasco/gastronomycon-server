@@ -6,10 +6,11 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
-const cfg = require('../../cfg');
-
+const getConfig = require('../../util/get-config');
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
+
+const cfg = getConfig();
 
 // Log in the user if exists and gives the right psw
 exports.postLogin = function(req, res) {
