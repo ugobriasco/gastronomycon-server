@@ -1,9 +1,34 @@
 language: node_js
 sudo: true
 node_js:
-  - "stable"
+- stable
 services:
-  - mongodb
+- mongodb
 notifications:
-    email: false
-    slack: matchyourtie:2C6Xhhrqvwjgn3aYE943iRrv
+  email: false
+  slack: matchyourtie:2C6Xhhrqvwjgn3aYE943iRrv
+addons:
+  sshknownhosts:
+  - 46.101.201.71
+branches:
+  only:
+  - master
+env:
+  global:
+  - REMOTEAPPDIR=/var/www/gatronomycon/
+  - REMOTEUSER=deploy
+  - REMOTEHOST=46.101.201.71
+  - PORT=8000
+beforeinstall:
+- npm install -g npm@^2
+install:
+- npm install
+beforescript:
+- chmod 600 deploy && mv deploy ~/.ssh/idrsa
+script:
+- npm test
+after_success:
+- "./scripts/deploy.sh"
+before_install:
+- openssl aes-256-cbc -K $encrypted_1f719fd9470e_key -iv $encrypted_1f719fd9470e_iv
+  -in deploy.enc -out deploy -d
