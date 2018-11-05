@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
-const getConfig = require('../../util/get-config');
-
-const cfg = getConfig();
+const cfg = require('../../cfg');
 
 function generateToken(user) {
   return jwt.sign({ user }, cfg.secret, {

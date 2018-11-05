@@ -6,12 +6,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const getConfig = require('./util/get-config');
-
 //config
 const app = express();
 const port = process.env.PORT || 3000;
-const cfg = getConfig();
+const cfg = require('./cfg');
 
 mongoose.Promise = global.Promise; //handles ES6 moongose promise deprecation
 mongoose.connect(cfg.db.local, { useNewUrlParser: true }); //handles ES6 moongose promise deprecation
