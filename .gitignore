@@ -43,3 +43,6 @@ typings
 
 # configurations
 cfg.js
+
+# keys
+deploy

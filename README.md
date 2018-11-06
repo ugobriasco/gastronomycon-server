@@ -1,7 +1,7 @@
 # Gastronomycon
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9551ffcba0e0422fa1b1a09985ebe09f)](https://www.codacy.com/app/ugobriasco/grocerybot-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ugobriasco/gastronomycon-server&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/ugobriasco/grocerybot-server.svg?branch=master)](https://travis-ci.org/ugobriasco/grocerybot-server)
+[![Build Status](https://travis-ci.org/ugobriasco/gastronomycon-server.svg?branch=master)](https://travis-ci.org/ugobriasco/ggastronomycon-server)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Intro
