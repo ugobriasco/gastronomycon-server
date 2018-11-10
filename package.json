@@ -4,8 +4,9 @@
   "license": "MIT",
   "author": "Ugo Briasco",
   "scripts": {
-    "start": "node server",
+    "start": "node server --PORT=3001",
     "dev": "nodemon server",
+    "deploy": "bash ./scripts/deploy.sh",
     "test": "mocha --opts ./mocha.opts || true",
     "coverage":
       "clear && mocha --opts ./mocha.opts && istanbul cover _mocha $(find ./server/*/ -name \"*.js\" -not -path \"./node_modules/*\" -not -name \"*.spec.js\" -not -name \"*.utils.js\") || true && open coverage/lcov-report/index.html ",

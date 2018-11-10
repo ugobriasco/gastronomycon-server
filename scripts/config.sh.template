@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+REMOTE_APP_DIR=/var/www/gastronomycon/
+REMOTE_USER=YOUR_USER
+REMOTE_HOST=YOUR_IP
+PORT=YOUR_PORT

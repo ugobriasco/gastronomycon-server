@@ -40,9 +40,11 @@ typings
 # compiled output
 /dist
 /tmp
+package.tgz
 
 # configurations
 cfg.js
+config.sh
 
 # keys
 deploy
