@@ -36,15 +36,17 @@ Please refer to the [API documentation](https://github.com/ugobriasco/gastronomy
 ```bash
 git clone git@github.com:ugobriasco/gastronomycon-server.git && cd gastronomycon-server
 npm i
+cp ./cfg.js.template ./cfg.js
 mongod
 npm start
 ```
-
 - Create the root user, by sending a `POST` request to `http://localhost:3000/api/v1.0/signup` with the following body:
-  `{"email":"ROOT_EMAIL","passowrd":"ROOT_PASSWORD","role": "Admin"}` (remove the entry point 'role' in the [`postSignUp`](https://github.com/ugobriasco/grocerybot-server/blob/master/server/auth/auth.controller.js) method, after the root user has been created)
+  `{"email":"ROOT_EMAIL","passowrd":"ROOT_PASSWORD","role": "Admin"}`
+
+- Set `allow_set_role_on_signup: false` in `./cfg.js`. This prevents guest user to sign up as Admin.
 
 - Optional - SignupCode
-  In order to control the signup, it is possible to provide e signup code option, which -if enabled- requires a signup code by the signup. This option can be created by an admin user as following:
+  In order to control the signup, it is possible to provide a signup code option, which -if enabled- requires a code during the the registration of a new user. This option can be created by an admin user as following:
   `POST http://localhost/api/settings`
   `{"name": "signupCode", "value": "foo"}`
 

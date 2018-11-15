@@ -1,7 +1,8 @@
 module.exports = {
   secret: "visit matchyourtie.com!", //jwt secret
   db: {
-    local: "YOUR_LOCAL_DB",
+    local: "mongodb://localhost:27017/gastronomycon",
     remote: "YOUR_REMOTE_DB"
-  }
+  },
+  allow_set_role_on_signup: true
 };

@@ -50,7 +50,7 @@ exports.postSignUp = function(req, res) {
       const newUser = new User({
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role, //to remove after root user
+        role: cfg.allow_set_role_on_signup ? req.body.role : undefined,
         profile: { name }
       });
 

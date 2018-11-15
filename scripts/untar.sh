@@ -10,4 +10,3 @@ cd /var/www/gastronomycon
 tar zxvf package.tgz -C .
 cd ./dist
 npm install --production
-systemctl restart gastronomycon.service
