@@ -18,7 +18,10 @@ const getMyApiUsage = (req, res) => {
   UserMetric.findOne({ user_id: userID })
     .then(metric => {
       if (!metric) {
-        return res.status(404).send({ message: 'No usage metric found' });
+        return createApiUsageRecord(userID);
+        return res
+          .status(201)
+          .send({ message: 'No usage metric found, metric initialized' });
       } else {
         return res.json({ data: metric });
       }

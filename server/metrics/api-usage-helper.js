@@ -7,7 +7,7 @@ const createApiUsageRecord = user_id => {
     user_id,
     api_usage: {
       current_month: new Date(),
-      counter: 1,
+      counter: 0,
       history: []
     }
   });
