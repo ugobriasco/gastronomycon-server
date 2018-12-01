@@ -10,6 +10,7 @@ const cfg = require('../../cfg');
 
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
+const verifyToken = require('./token-verify');
 
 // Log in the user if exists and gives the right psw
 exports.postLogin = function(req, res) {
@@ -87,7 +88,6 @@ exports.validateSignupCode = function(req, res, next) {
 };
 
 //psw management
-
 exports.postUpdatePassword = (req, res, next) => {
   if (!req.body)
     return res.status(400).json({ message: 'Please fill out all fields' });
@@ -209,7 +209,7 @@ exports.postReset = (req, res, next) => {
 };
 
 // Checks if the header includes a valid auth token
-exports.isAuthenticated = function(req, res, next) {
+exports.isAuthenticated = (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.split(' ')[0] === 'Bearer'
@@ -220,20 +220,15 @@ exports.isAuthenticated = function(req, res, next) {
       req.body.token || req.query.token || req.headers['x-access-token'];
   }
 
-  if (token) {
-    jwt.verify(token, cfg.secret, function(err, decoded) {
-      if (err) {
-        res.status(401).json({ message: 'Failed autenthicate token' });
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    return res
-      .status(401)
-      .json({ message: 'No token provided', headers: req.headers });
-  }
+  verifyToken(token).then(_res => {
+    console.log(_res);
+    if (_res.status != 200) {
+      return res.status(_res.status).send({ message: _res.message });
+    } else {
+      req.decoded = _res.decoded;
+      next();
+    }
+  });
 };
 
 // Checks if the user has role Admin
