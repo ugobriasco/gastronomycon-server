@@ -11,6 +11,7 @@ const cfg = require('../../cfg');
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
 const verifyToken = require('./token-verify');
+const activateAccount = require('./activate-account');
 
 // Log in the user if exists and gives the right psw
 exports.postLogin = (req, res) => {
@@ -66,6 +67,12 @@ exports.postSignUp = (req, res) => {
     })
     .catch(err => res.status(500).send(err));
 };
+
+// Activate a User account given the correct verifyToken
+exports.getActivateAccount = (req, res) =>
+  activateAccount(req.params.token)
+    .then(_res => res.status(_res.status).send({ message: _res.message }))
+    .catch(err => res.status(500).send({ message: 'An error occurred', err }));
 
 // Check if the user has the signup code befor registering him/her
 exports.validateSignupCode = (req, res, next) => {

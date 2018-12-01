@@ -1,5 +1,6 @@
 module.exports = {
-  secret: "visit matchyourtie.com!", //jwt secret
+  secret: "visit matchyourtie.com!", //jwt secret,
+  activation_secret: "activate-your-account",
   db: {
     local: "mongodb://localhost:27017/gastronomycon",
     remote: "YOUR_REMOTE_DB"

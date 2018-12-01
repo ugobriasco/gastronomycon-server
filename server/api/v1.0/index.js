@@ -39,6 +39,7 @@ router.use('/metrics', require('./metrics-routes'));
 
 router.route('/login').post(postLogin);
 router.route('/signup').post(validateSignupCode, postSignUp);
+router.route('/activate/:token').get(getActivateAccount);
 router.route('/reset/:token').post(postReset);
 router.route('/forgot').post(postForgot);
 

@@ -1,6 +1,7 @@
 const {
   postLogin,
   postSignUp,
+  getActivateAccount,
   validateSignupCode,
   postUpdatePassword,
   postForgot,
@@ -14,6 +15,7 @@ const { hasApiKey } = require('./has-api-key');
 module.exports = {
   postLogin,
   postSignUp,
+  getActivateAccount,
   validateSignupCode,
   postUpdatePassword,
   postForgot,
