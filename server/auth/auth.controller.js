@@ -13,7 +13,7 @@ const findUser = require('./user-find');
 const verifyToken = require('./token-verify');
 
 // Log in the user if exists and gives the right psw
-exports.postLogin = function(req, res) {
+exports.postLogin = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({ message: 'Please fill out all fields' });
   }
@@ -38,7 +38,7 @@ exports.postLogin = function(req, res) {
 };
 
 // Sign Up user via email
-exports.postSignUp = function(req, res) {
+exports.postSignUp = (req, res) => {
   if (!req.body.email || !req.body.password)
     return res.status(422).json({ message: 'Please fill out all fields' });
 
@@ -68,7 +68,7 @@ exports.postSignUp = function(req, res) {
 };
 
 // Check if the user has the signup code befor registering him/her
-exports.validateSignupCode = function(req, res, next) {
+exports.validateSignupCode = (req, res, next) => {
   Setting.findOne({ name: 'signupCode' }, function(err, setting) {
     if (err) throw err;
     if (setting) {
@@ -231,16 +231,16 @@ exports.isAuthenticated = (req, res, next) => {
 };
 
 // Checks if the user has role Admin
-exports.isAdmin = function(req, res, next) {
+exports.isAdmin = (req, res, next) => {
   if (req.decoded.role === 'Admin') {
     next();
   } else {
-    res.status(401).json({ message: 'the user has no admin rights' });
+    res.status(401).send({ message: 'the user has no admin rights' });
   }
 };
 
 // Protects the acces to the user profile from exernal CRUDS - admins are allowed
-exports.isAccountOwner = function(req, res, next) {
+exports.isAccountOwner = (req, res, next) => {
   if (
     req.query.userID === req.decoded.userID ||
     req.params.userID === req.decoded.userID ||
@@ -249,6 +249,6 @@ exports.isAccountOwner = function(req, res, next) {
   )
     next();
   else {
-    res.status(401).json({ message: 'the user has not the rights' });
+    res.status(401).send({ message: 'the user has not the rights' });
   }
 };
