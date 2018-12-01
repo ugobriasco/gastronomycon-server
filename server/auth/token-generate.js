@@ -12,4 +12,5 @@ function generateToken(_user, _secret, _expire) {
 
   return jwt.sign(user, secret, { expiresIn });
 }
+
 module.exports = generateToken;

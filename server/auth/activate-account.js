@@ -1,6 +1,7 @@
 const findUser = require('./user-find');
+const verifyToken = require('./token-verify');
 
-const activateAccount = (token, email) => {
+const activateAccount = token => {
   if (!token || !email) return false;
 
   findUser(email).then(user => {

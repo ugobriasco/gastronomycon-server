@@ -220,7 +220,7 @@ exports.isAuthenticated = (req, res, next) => {
       req.body.token || req.query.token || req.headers['x-access-token'];
   }
 
-  verifyToken(token).then(_res => {
+  verifyToken({ token }).then(_res => {
     if (_res.status != 200) {
       return res.status(_res.status).send({ message: _res.message });
     } else {

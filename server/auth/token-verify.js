@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken');
 const cfg = require('../../cfg');
 
-const verifyToken = token => {
+const verifyToken = ({ token, secret }) => {
   return new Promise((resolve, reject) => {
     if (!token) resolve({ status: 400, message: 'No token provided' });
-    return jwt.verify(token, cfg.secret, (err, decoded) => {
+    const _secret = secret || cfg.secret;
+    return jwt.verify(token, _secret, (err, decoded) => {
       if (err) {
         resolve({ status: 401, message: 'Token authentication failed' });
       } else {
