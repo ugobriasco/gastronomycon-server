@@ -221,7 +221,6 @@ exports.isAuthenticated = (req, res, next) => {
   }
 
   verifyToken(token).then(_res => {
-    console.log(_res);
     if (_res.status != 200) {
       return res.status(_res.status).send({ message: _res.message });
     } else {
@@ -233,7 +232,7 @@ exports.isAuthenticated = (req, res, next) => {
 
 // Checks if the user has role Admin
 exports.isAdmin = function(req, res, next) {
-  if (req.decoded.user.role === 'Admin') {
+  if (req.decoded.role === 'Admin') {
     next();
   } else {
     res.status(401).json({ message: 'the user has no admin rights' });
@@ -243,10 +242,10 @@ exports.isAdmin = function(req, res, next) {
 // Protects the acces to the user profile from exernal CRUDS - admins are allowed
 exports.isAccountOwner = function(req, res, next) {
   if (
-    req.query.userID === req.decoded.user._id ||
-    req.params.userID === req.decoded.user._id ||
-    req.body.userID == req.decoded.user._id ||
-    req.decoded.user.role === 'Admin'
+    req.query.userID === req.decoded.userID ||
+    req.params.userID === req.decoded.userID ||
+    req.body.userID == req.decoded.userID ||
+    req.decoded.role === 'Admin'
   )
     next();
   else {
