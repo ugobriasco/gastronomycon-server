@@ -4,6 +4,7 @@ const {
   postLogin,
   validateSignupCode,
   postSignUp,
+  getActivateAccount,
   postReset,
   postForgot,
   isAuthenticated,
