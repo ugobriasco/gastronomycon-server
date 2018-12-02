@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const cfg = require('../../cfg');
-const { templateActivation, welcome } = require('./template');
 const getTransporter = require('./get-transporter');
+const sendMail = require('./send-mail');
 
 const sendEmail = props => {
   const { email, token, template } = props;
@@ -18,9 +18,9 @@ const sendEmail = props => {
     loadTemplate({ to: email, token, host, template }),
     transporter
   ]).then(promises => {
-    const email = promises[0];
+    const emailOptions = promises[0];
     const transporter = promises[1];
-    return send(email, transporter);
+    return send(emailOptions, transporter);
   });
 };
 
@@ -29,26 +29,30 @@ const loadTemplate = props => {
   const { to, token, host, type } = props;
   const DIR = getTemplate(type);
   return ejs.renderFile(DIR, { token, host }).then(html => {
+    const text = `Welcome in Gastronomycon! \n
+    Here your activation link: \n
+    ${props.host || 'https://gcon.matchyourtie.com'}/activate/${props.token} \n
+    Enjoy!`;
+
     return {
       from: '"Gastronomycon" <noreply@gastronomycon.matchyourtie.com>',
       to: props.to,
       subjcet: 'Welcome to Gastronomycon',
-      text: 'Welcome to Gastronomycon',
+      text,
       html
     };
   });
 };
 
 // util for selecting the specific template
-function getTemplate(template) {
+const getTemplate = template => {
   if ((template = 'activation')) {
-    return `${__dirname}/template/welcome.ejs`;
+    return `${__dirname}/template/activate-account.ejs`;
   }
+  return `${__dirname}/template/activate-account.ejs`;
+};
 
-  return `${__dirname}/template/welcome.ejs`;
-}
-
-//  Send email
+// //  Send email
 const send = (mailOptions, transporter) => {
   return new Promise((resolve, reject) => {
     return transporter.sendMail(mailOptions, (err, info) => {
