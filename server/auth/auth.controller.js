@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
 const cfg = require('../../cfg');
+const sendEmail = require('../email');
 
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
@@ -72,14 +73,28 @@ exports.postSignUp = (req, res) => {
 exports.postGenerateActivationToken = (req, res) => {
   const email = req.body.email;
 
-  return findUser(email).then(user => {
-    if (user) {
-      const token = generateToken(user, cfg.activation_secret);
-      return res.status(201).send({ message: 'Enjoy', token });
-      //TODO instead of returning the token we will send an email with it.
-    }
-    return res.status(404).send({ message: 'No user found', email });
-  });
+  return findUser(email)
+    .then(user => {
+      if (!user) throw { status: 404, message: 'User not found' };
+
+      return {
+        email: user.email,
+        token: generateToken(user, cfg.activation_secret)
+      };
+    })
+    .then(_res => {
+      const { email, token } = _res;
+      return sendEmail({ email, token, template: 'activation' });
+    })
+    .then(_res => {
+      console.log(_res);
+      res.status(_res.status).send(_res);
+    })
+    .catch(err =>
+      res
+        .status(err.status || 500)
+        .send({ message: err.message || 'An error occurred', err })
+    );
 };
 
 // Activate a User account given the correct verifyToken

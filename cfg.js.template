@@ -5,5 +5,17 @@ module.exports = {
     local: "mongodb://localhost:27017/gastronomycon",
     remote: "YOUR_REMOTE_DB"
   },
-  allow_set_role_on_signup: true
+  allow_set_role_on_signup: true,
+  email_service: 'ethereal',
+  api: {
+    ethereal: {
+      //https://ethereal.email/create
+      user: 'YOUR_ETHEREAL_USERNAME',
+      pass: 'YOUR_ETHEREAL_PASSWORD'
+    },
+    sendGrid: {
+      user: 'YOUR_SENDGRID_USERNAME',
+      pass: 'YOUR_SENDGRID_PASSWORD'
+    }
+  }
 };
