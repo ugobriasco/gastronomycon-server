@@ -68,11 +68,27 @@ exports.postSignUp = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+// Generate a new activation token
+exports.postGenerateActivationToken = (req, res) => {
+  const email = req.body.email;
+
+  return findUser(email).then(user => {
+    if (user) {
+      const token = generateToken(user, cfg.activation_secret);
+      return res.status(201).send({ message: 'Enjoy', token });
+      //TODO instead of returning the token we will send an email with it.
+    }
+    return res.status(404).send({ message: 'No user found', email });
+  });
+};
+
 // Activate a User account given the correct verifyToken
-exports.getActivateAccount = (req, res) =>
-  activateAccount(req.params.token)
-    .then(_res => res.status(_res.status).send({ message: _res.message }))
+exports.getActivateAccount = (req, res) => {
+  const token = req.params.token;
+  activateAccount(token)
+    .then(result => res.status(result.status).send(result))
     .catch(err => res.status(500).send({ message: 'An error occurred', err }));
+};
 
 // Check if the user has the signup code befor registering him/her
 exports.validateSignupCode = (req, res, next) => {

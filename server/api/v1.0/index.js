@@ -5,6 +5,7 @@ const {
   validateSignupCode,
   postSignUp,
   getActivateAccount,
+  postGenerateActivationToken,
   postReset,
   postForgot,
   isAuthenticated,
@@ -41,6 +42,7 @@ router.use('/metrics', require('./metrics-routes'));
 router.route('/login').post(postLogin);
 router.route('/signup').post(validateSignupCode, postSignUp);
 router.route('/activate/:token').get(getActivateAccount);
+router.route('/activate').post(postGenerateActivationToken);
 router.route('/reset/:token').post(postReset);
 router.route('/forgot').post(postForgot);
 
