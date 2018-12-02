@@ -76,20 +76,16 @@ exports.postGenerateActivationToken = (req, res) => {
   return findUser(email)
     .then(user => {
       if (!user) throw { status: 404, message: 'User not found' };
-
       return {
         email: user.email,
         token: generateToken(user, cfg.activation_secret)
       };
     })
-    .then(_res => {
-      const { email, token } = _res;
+    .then(data => {
+      const { email, token } = data;
       return sendEmail({ email, token, template: 'activation' });
     })
-    .then(_res => {
-      console.log(_res);
-      res.status(_res.status).send(_res);
-    })
+    .then(response => res.status(response.status).send(response))
     .catch(err =>
       res
         .status(err.status || 500)

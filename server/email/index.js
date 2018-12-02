@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const cfg = require('../../cfg');
-const { templateActivation } = require('./template');
+const { templateActivation, welcome } = require('./template');
 const getTransporter = require('./get-transporter');
 
 const sendEmail = props => {
@@ -10,7 +10,10 @@ const sendEmail = props => {
     getTransporter(cfg.email_service)
   );
 
-  const mailOptions = templateActivation({ to: email, token });
+  const host = cfg.host;
+
+  const mailOptions = templateActivation({ to: email, token, host });
+  //const mailOptions = welcome({ to: email });
 
   return new Promise((resolve, reject) => {
     return transporter.sendMail(mailOptions, (err, info) => {
@@ -28,7 +31,7 @@ const sendEmail = props => {
       resolve({
         status: 200,
         message: `EMail sent to ${mailOptions.to}`,
-        service: cfg.email.service,
+        service: cfg.email_service,
         subject: mailOptions.subject
       });
     });
