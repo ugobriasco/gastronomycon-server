@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const cfg = require('../../cfg');
 const getTransporter = require('./get-transporter');
-const sendMail = require('./send-mail');
 
 const sendEmail = props => {
   const { email, token, template } = props;
@@ -49,7 +48,7 @@ const getTemplate = template => {
   if ((template = 'activation')) {
     return `${__dirname}/template/activate-account.ejs`;
   }
-  return `${__dirname}/template/activate-account.ejs`;
+  return `${__dirname}/template/welcome.ejs`;
 };
 
 // //  Send email
