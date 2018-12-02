@@ -83,7 +83,7 @@ exports.postGenerateActivationToken = (req, res) => {
     })
     .then(data => {
       const { email, token } = data;
-      return sendEmail({ email, token, template: 'activationq' });
+      return sendEmail({ email, token, template: 'activation' });
     })
     .then(response => res.status(response.status).send(response))
     .catch(err =>

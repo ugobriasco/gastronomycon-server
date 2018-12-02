@@ -36,7 +36,7 @@ const loadTemplate = props => {
     return {
       from: '"Gastronomycon" <noreply@gastronomycon.matchyourtie.com>',
       to: props.to,
-      subjcet: 'Welcome to Gastronomycon',
+      subject: 'Welcome to Gastronomycon',
       text,
       html
     };
