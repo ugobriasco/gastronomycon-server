@@ -1,8 +1,8 @@
 const templateActivation = props => {
   const text = `
-    Welcome in gastronomycon! \n
+    Welcome in Gastronomycon! \n
     Here your activation link: \n
-    https://gcon.matchyourtie.com/activate/${props.token} \n
+    https://${props.host || 'gcon.matchyourtie.com'}/activate/${props.token} \n
     Enjoy!
   `;
 
