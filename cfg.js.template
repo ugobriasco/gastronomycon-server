@@ -11,10 +11,12 @@ module.exports = {
   api: {
     ethereal: {
       //https://ethereal.email/create
+      // Use it for emails in development
       user: 'YOUR_ETHEREAL_USERNAME',
       pass: 'YOUR_ETHEREAL_PASSWORD'
     },
     sendGrid: {
+      // Use it for emails in production
       user: 'YOUR_SENDGRID_USERNAME',
       pass: 'YOUR_SENDGRID_PASSWORD'
     }
