@@ -1,8 +1,24 @@
 module.exports = {
-  secret: "visit matchyourtie.com!", //jwt secret
+  host: 'https://gastronomycon.matchyourtie.com',
+  secret: "visit matchyourtie.com!", //jwt secret,
+  activation_secret: "activate-your-account",
   db: {
     local: "mongodb://localhost:27017/gastronomycon",
     remote: "YOUR_REMOTE_DB"
   },
-  allow_set_role_on_signup: true
+  allow_set_role_on_signup: true,
+  email_service: 'ethereal',
+  api: {
+    ethereal: {
+      //https://ethereal.email/create
+      // Use it for emails in development
+      user: 'YOUR_ETHEREAL_USERNAME',
+      pass: 'YOUR_ETHEREAL_PASSWORD'
+    },
+    sendGrid: {
+      // Use it for emails in production
+      user: 'YOUR_SENDGRID_USERNAME',
+      pass: 'YOUR_SENDGRID_PASSWORD'
+    }
+  }
 };

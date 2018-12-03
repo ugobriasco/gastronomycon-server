@@ -7,12 +7,15 @@ const jwt = require('jsonwebtoken');
 const User = require('../user/user.model');
 const Setting = require('../setting/setting.model');
 const cfg = require('../../cfg');
+const sendEmail = require('../email');
 
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
+const verifyToken = require('./token-verify');
+const activateAccount = require('./activate-account');
 
 // Log in the user if exists and gives the right psw
-exports.postLogin = function(req, res) {
+exports.postLogin = (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).json({ message: 'Please fill out all fields' });
   }
@@ -37,7 +40,7 @@ exports.postLogin = function(req, res) {
 };
 
 // Sign Up user via email
-exports.postSignUp = function(req, res) {
+exports.postSignUp = (req, res) => {
   if (!req.body.email || !req.body.password)
     return res.status(422).json({ message: 'Please fill out all fields' });
 
@@ -66,8 +69,40 @@ exports.postSignUp = function(req, res) {
     .catch(err => res.status(500).send(err));
 };
 
+// Generate a new activation token
+exports.postGenerateActivationToken = (req, res) => {
+  const email = req.body.email;
+
+  return findUser(email)
+    .then(user => {
+      if (!user) throw { status: 404, message: 'User not found' };
+      return {
+        email: user.email,
+        token: generateToken(user, cfg.activation_secret)
+      };
+    })
+    .then(data => {
+      const { email, token } = data;
+      return sendEmail({ email, token, template: 'activation' });
+    })
+    .then(response => res.status(response.status).send(response))
+    .catch(err =>
+      res
+        .status(err.status || 500)
+        .send({ message: err.message || 'An error occurred', err })
+    );
+};
+
+// Activate a User account given the correct verifyToken
+exports.getActivateAccount = (req, res) => {
+  const token = req.params.token;
+  activateAccount(token)
+    .then(result => res.status(result.status).send(result))
+    .catch(err => res.status(500).send({ message: 'An error occurred', err }));
+};
+
 // Check if the user has the signup code befor registering him/her
-exports.validateSignupCode = function(req, res, next) {
+exports.validateSignupCode = (req, res, next) => {
   Setting.findOne({ name: 'signupCode' }, function(err, setting) {
     if (err) throw err;
     if (setting) {
@@ -87,7 +122,6 @@ exports.validateSignupCode = function(req, res, next) {
 };
 
 //psw management
-
 exports.postUpdatePassword = (req, res, next) => {
   if (!req.body)
     return res.status(400).json({ message: 'Please fill out all fields' });
@@ -209,7 +243,7 @@ exports.postReset = (req, res, next) => {
 };
 
 // Checks if the header includes a valid auth token
-exports.isAuthenticated = function(req, res, next) {
+exports.isAuthenticated = (req, res, next) => {
   if (
     req.headers.authorization &&
     req.headers.authorization.split(' ')[0] === 'Bearer'
@@ -220,41 +254,35 @@ exports.isAuthenticated = function(req, res, next) {
       req.body.token || req.query.token || req.headers['x-access-token'];
   }
 
-  if (token) {
-    jwt.verify(token, cfg.secret, function(err, decoded) {
-      if (err) {
-        res.status(401).json({ message: 'Failed autenthicate token' });
-      } else {
-        req.decoded = decoded;
-        next();
-      }
-    });
-  } else {
-    return res
-      .status(401)
-      .json({ message: 'No token provided', headers: req.headers });
-  }
+  verifyToken({ token }).then(_res => {
+    if (_res.status != 200) {
+      return res.status(_res.status).send({ message: _res.message });
+    } else {
+      req.decoded = _res.decoded;
+      next();
+    }
+  });
 };
 
 // Checks if the user has role Admin
-exports.isAdmin = function(req, res, next) {
-  if (req.decoded.user.role === 'Admin') {
+exports.isAdmin = (req, res, next) => {
+  if (req.decoded.role === 'Admin') {
     next();
   } else {
-    res.status(401).json({ message: 'the user has no admin rights' });
+    res.status(401).send({ message: 'the user has no admin rights' });
   }
 };
 
 // Protects the acces to the user profile from exernal CRUDS - admins are allowed
-exports.isAccountOwner = function(req, res, next) {
+exports.isAccountOwner = (req, res, next) => {
   if (
-    req.query.userID === req.decoded.user._id ||
-    req.params.userID === req.decoded.user._id ||
-    req.body.userID == req.decoded.user._id ||
-    req.decoded.user.role === 'Admin'
+    req.query.userID === req.decoded.userID ||
+    req.params.userID === req.decoded.userID ||
+    req.body.userID == req.decoded.userID ||
+    req.decoded.role === 'Admin'
   )
     next();
   else {
-    res.status(401).json({ message: 'the user has not the rights' });
+    res.status(401).send({ message: 'the user has not the rights' });
   }
 };
