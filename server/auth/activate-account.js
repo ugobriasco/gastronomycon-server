@@ -36,7 +36,6 @@ const generateActivationToken = user => {
   //return token;
 };
 
-// Privates
 const verifyActivationToken = token => {
   const compliantToken = token.replace('TAA', '.'); //Reverse mapping due to GH Pages restriction
   return verifyToken({
