@@ -32,12 +32,11 @@ const activateAccount = token =>
 
 const generateActivationToken = user => {
   const token = generateToken(user, cfg.activation_secret);
-  return token.replace('.', 'TAA'); //GH Pages do not accept dots in url encoded links
-  //return token;
+  return token.split('.').join('TAA'); //GH Pages do not accept dots in url encoded links
 };
 
 const verifyActivationToken = token => {
-  const compliantToken = token.replace('TAA', '.'); //Reverse mapping due to GH Pages restriction
+  const compliantToken = token.split('TAA').join('.'); //Reverse mapping due to GH Pages restriction
   return verifyToken({
     token: compliantToken,
     secret: cfg.activation_secret
