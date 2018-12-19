@@ -1,5 +1,6 @@
 module.exports = {
-  host: 'https://gastronomycon.matchyourtie.com',
+  host: 'https://gcon.matchyourtie.com',
+  clientHost: 'https://gastronomycon.matchyourtie.com',
   secret: "visit matchyourtie.com!", //jwt secret,
   activation_secret: "activate-your-account",
   db: {

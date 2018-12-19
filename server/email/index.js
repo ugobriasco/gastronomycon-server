@@ -5,7 +5,7 @@ const getTransporter = require('./get-transporter');
 
 const sendEmail = props => {
   const { email, token, template } = props;
-  const host = cfg.host;
+  const host = cfg.clientHost;
 
   // Sets the service used
   const transporter = new Promise((resolve, reject) => {
@@ -14,7 +14,12 @@ const sendEmail = props => {
 
   // Send email
   return Promise.all([
-    loadTemplate({ to: email, token, host, template }),
+    loadTemplate({
+      to: email,
+      token,
+      host,
+      template
+    }),
     transporter
   ]).then(promises => {
     const emailOptions = promises[0];
@@ -26,11 +31,12 @@ const sendEmail = props => {
 // build the email
 const loadTemplate = props => {
   const { to, token, host, type } = props;
+  const year = new Date().getFullYear();
   const DIR = getTemplate(type);
-  return ejs.renderFile(DIR, { token, host }).then(html => {
+  return ejs.renderFile(DIR, { token, host, year }).then(html => {
     const text = `Welcome in Gastronomycon! \n
     Here your activation link: \n
-    ${props.host || 'https://gcon.matchyourtie.com'}/activate/${props.token} \n
+    ${host || 'https://gcon.matchyourtie.com'}/activate/${token} \n
     Enjoy!`;
 
     return {

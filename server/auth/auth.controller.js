@@ -12,7 +12,10 @@ const sendEmail = require('../email');
 const generateToken = require('./token-generate');
 const findUser = require('./user-find');
 const verifyToken = require('./token-verify');
-const activateAccount = require('./activate-account');
+const {
+  activateAccount,
+  generateActivationToken
+} = require('./activate-account');
 
 // Log in the user if exists and gives the right psw
 exports.postLogin = (req, res) => {
@@ -78,7 +81,7 @@ exports.postGenerateActivationToken = (req, res) => {
       if (!user) throw { status: 404, message: 'User not found' };
       return {
         email: user.email,
-        token: generateToken(user, cfg.activation_secret)
+        token: generateActivationToken(user, cfg.activation_secret)
       };
     })
     .then(data => {
