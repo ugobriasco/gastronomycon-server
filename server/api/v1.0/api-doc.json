@@ -2,14 +2,12 @@
   "apiUrl": "http://localhost:3000/api/v1.0/",
   "endpoints": [
     {
-      "name": "query groceries",
+      "name": "Query groceries",
       "req": {
         "type": "GET",
-        "params":
-          "/grocery?lang=de_DE&primaryName=garlic&translate[]=en_GB&translate[]=it_IT&translate[]=de_DE'",
+        "params": "/grocery?lang=de_DE&primaryName=garlic&translate[]=en_GB&translate[]=it_IT&translate[]=de_DE'",
         "body": "",
-        "header":
-          "-H 'Content-Type: application/json' -H 'x-api-key: YOUR_API_KEY' "
+        "header": "-H 'Content-Type: application/json' -H 'x-api-key: YOUR_API_KEY' "
       },
       "res": {
         "status": 200,
