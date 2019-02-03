@@ -52,9 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // Routing
 app.use('/api', api);
-app.get('/*', function(req, res) {
-  res.status(404);
-});
+app.use('/', api);
 
 // Error handling
 app.use((err, req, res, next) => {
