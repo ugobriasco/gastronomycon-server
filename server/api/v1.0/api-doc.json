@@ -1,5 +1,5 @@
 {
-  "apiUrl": "http://localhost:3000/api/v1.0/",
+  "apiUrl": "https://api.gastronomycon.io/v1.0/",
   "endpoints": [
     {
       "name": "Query groceries",
