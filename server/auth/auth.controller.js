@@ -9,7 +9,10 @@ const Setting = require('../setting/setting.model');
 const cfg = require('../../cfg');
 const sendEmail = require('../email');
 
-const generateToken = require('./token-generate');
+const {
+  generateToken,
+  generatePasswordResetToken
+} = require('./token-generate');
 const findUser = require('./user-find');
 const verifyToken = require('./token-verify');
 const {
@@ -140,59 +143,29 @@ exports.postUpdatePassword = (req, res, next) => {
   });
 };
 
-exports.postForgot = (req, res, next) => {
-  async.waterfall(
-    [
-      function createRandomToken(done) {
-        crypto.randomBytes(16, (err, buf) => {
-          const token = buf.toString('hex');
-          done(err, token);
-        });
-      },
-      function setRandomToken(token, done) {
-        User.findOne({ email: req.body.email }, (err, user) => {
-          if (err) return done(err);
-          if (!user)
-            return res.status(422).send({ msg: 'this email does not exit' });
+exports.postForgot = (req, res) => {
+  generatePasswordResetToken()
+    .then(token => {
+      return findUser({ email: req.body.email }).then(user => {
+        if (!user) {
+          return res.status(422).send({ msg: 'this email does not exit' });
+        }
 
-          user.passwordResetToken = token;
-          user.passwordResetExpires = Date.now() + 3.6e7;
-          user.save(err => {
-            done(err, token, user);
-          });
-        });
-      },
-      function sendForgotPasswordEmail(token, user, done) {
-        const transporter = nodemailer.createTransport({
-          service: 'sendGrid',
-          auth: {
-            user: process.env.SENDGRID_USER,
-            pass: process.env.SENDGRID_PASSWORD
-          }
-        });
-        const mailOptions = {
-          to: user.email,
-          from: 'noreply@matchyourtie.com',
-          subject: 'Reset your password on Grocerybot',
-          text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-          Please click on the following link, or paste this into your browser to complete the process:\n\n
-          http://${req.headers.host}/reset/${token}\n\n
-          If you did not request this, please ignore this email and your password will remain unchanged.\n`
-        };
-        transporter.sendMail(mailOptions, err => {
-          res.json({
-            message: `An e-mail has been sent to ${
-              user.email
-            } with further instructions.`
-          });
-          done(err);
-        });
-      }
-    ],
-    err => {
-      if (err) return next(err);
-    }
-  );
+        user.passwordResetToken = token;
+        user.passwordResetExpires = Date.now() + 3.6e7;
+        user.save();
+        return { email: user.email, token };
+      });
+    })
+    .then(data => {
+      const { email, token } = data;
+      return sendEmail({ email, token, template: 'reset-password' });
+    })
+    .catch(err => {
+      res
+        .status(err.status || 500)
+        .send({ message: err.message || 'An error occurred', err });
+    });
 };
 
 exports.postReset = (req, res, next) => {
