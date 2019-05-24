@@ -54,6 +54,9 @@ const getTemplate = template => {
   if ((template = 'activation')) {
     return `${__dirname}/template/activate-account.ejs`;
   }
+  if ((template = 'reset-password')) {
+    return `${__dirname}/template/reset-password.ejs`;
+  }
   return `${__dirname}/template/welcome.ejs`;
 };
 

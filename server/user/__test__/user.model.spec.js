@@ -3,7 +3,7 @@ const sinon = require('sinon');
 
 const User = require('../user.model');
 
-describe('👴🏼  The User model', () => {
+describe('The User model', () => {
   describe('model validations', () => {
     it('should be invalid if email or password are missing', done => {
       const u = new User();

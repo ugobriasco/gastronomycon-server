@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
 const cfg = require('../../cfg');
 
 function generateToken(_user, _secret, _expire) {
@@ -13,4 +15,13 @@ function generateToken(_user, _secret, _expire) {
   return jwt.sign(user, secret, { expiresIn });
 }
 
-module.exports = generateToken;
+const generatePasswordResetToken = () =>
+  new Promise((resolve, reject) =>
+    crypto.randomBytes(16, (err, buf) => {
+      const token = buf.toString('hex');
+      if (err) reject(err);
+      resolve(token);
+    })
+  );
+
+module.exports = { generateToken, generatePasswordResetToken };
