@@ -18,7 +18,7 @@ const sendEmail = props => {
       to: email,
       token,
       host,
-      template
+      type: template
     }),
     transporter
   ]).then(promises => {
@@ -51,13 +51,14 @@ const loadTemplate = props => {
 
 // util for selecting the specific template
 const getTemplate = template => {
-  if ((template = 'activation')) {
+  if (template == 'activation') {
     return `${__dirname}/template/activate-account.ejs`;
   }
-  if ((template = 'reset-password')) {
+  if (template == 'reset-password') {
     return `${__dirname}/template/reset-password.ejs`;
+  } else {
+    return `${__dirname}/template/welcome.ejs`;
   }
-  return `${__dirname}/template/welcome.ejs`;
 };
 
 // //  Send email
