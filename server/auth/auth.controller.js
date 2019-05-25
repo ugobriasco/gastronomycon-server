@@ -144,13 +144,22 @@ exports.postUpdatePassword = (req, res, next) => {
 };
 
 exports.postForgot = (req, res) => {
-  generatePasswordResetToken()
-    .then(token => {
-      return findUser({ email: req.body.email }).then(user => {
-        if (!user) {
-          return res.status(422).send({ msg: 'this email does not exit' });
-        }
+  // Get email from request body
+  const { email } = req.body;
+  if (!email) {
+    res.status(400).send({ message: 'Email not specified' });
+  }
 
+  // Verify that the user assigned to that email exists
+  User.findOne({ email })
+    .catch(err => res.status(500).send({ message: 'Something bad happened' }))
+    .then(user => {
+      if (!user) {
+        res.status(422).send({ message: 'This email does not exit' });
+      }
+
+      // Generate the token and store it
+      return generatePasswordResetToken().then(token => {
         user.passwordResetToken = token;
         user.passwordResetExpires = Date.now() + 3.6e7;
         user.save();
@@ -159,7 +168,10 @@ exports.postForgot = (req, res) => {
     })
     .then(data => {
       const { email, token } = data;
-      return sendEmail({ email, token, template: 'reset-password' });
+      sendEmail({ email, token, template: 'reset-password' }).then(response => {
+        console.log(response);
+        res.status(200).send({ message: 'Email sent', email });
+      });
     })
     .catch(err => {
       res
@@ -169,6 +181,7 @@ exports.postForgot = (req, res) => {
 };
 
 exports.postReset = (req, res, next) => {
+  // TODO: remove the waterfall
   async.waterfall(
     [
       function resetPassword(done) {
