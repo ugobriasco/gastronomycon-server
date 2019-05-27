@@ -32,17 +32,12 @@ const sendEmail = props => {
 const loadTemplate = props => {
   const { to, token, host, type } = props;
   const year = new Date().getFullYear();
-  const DIR = getTemplate(type);
-  return ejs.renderFile(DIR, { token, host, year }).then(html => {
-    const text = `Welcome in Gastronomycon! \n
-    Here your activation link: \n
-    ${host || 'https://gcon.matchyourtie.com'}/activate/${token} \n
-    Enjoy!`;
-
+  const { html, subject, text } = getTemplate(type);
+  return ejs.renderFile(html, { token, host, year }).then(html => {
     return {
       from: '"Gastronomycon" <noreply@gastronomycon.matchyourtie.com>',
       to: props.to,
-      subject: 'Welcome to Gastronomycon',
+      subject,
       text,
       html
     };
@@ -50,14 +45,30 @@ const loadTemplate = props => {
 };
 
 // util for selecting the specific template
-const getTemplate = template => {
-  if (template == 'activation') {
-    return `${__dirname}/template/activate-account.ejs`;
+const getTemplate = type => {
+  if (type == 'activation') {
+    return {
+      html: `${__dirname}/template/activate-account.ejs`,
+      subject: 'Welcome to Gastronomycon',
+      text: `Are you ready to use hundreds of gastronomycal terms in 5 languages? Then, follow the link below: \n ${host ||
+        'https://gastronomycon.io'}/activate/${token} \n
+      Cheers! \n Your Gastronomycon assistant`
+    };
   }
-  if (template == 'reset-password') {
-    return `${__dirname}/template/reset-password.ejs`;
+  if (type == 'reset-password') {
+    return {
+      html: `${__dirname}/template/reset-password.ejs`,
+      subject: 'Reset your password',
+      text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account. Please click on the following link, or paste this into your browser to complete the process: \n ${host ||
+        'https://gastronomycon.io'}/reset/${token} \n
+    \nIf you did not request this, please ignore this email and your password will remain unchanged.\n Cheers! \n Your Gastronomycon assistant`
+    };
   } else {
-    return `${__dirname}/template/welcome.ejs`;
+    return {
+      html: `${__dirname}/template/welcome.ejs`,
+      subject: 'This is a welcome',
+      text: 'Welcome!'
+    };
   }
 };
 
