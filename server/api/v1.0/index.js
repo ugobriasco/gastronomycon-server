@@ -41,7 +41,7 @@ router.route('/login').post(postLogin);
 router.route('/signup').post(validateSignupCode, postSignUp);
 router.route('/activate/:token').get(getActivateAccount);
 router.route('/activate').post(postGenerateActivationToken);
-//router.route('/reset/:token').post(postReset);
+router.route('/reset/:token').post(postReset);
 router.route('/forgot').post(postForgot);
 
 router.route('/apps').get(getAllApps);

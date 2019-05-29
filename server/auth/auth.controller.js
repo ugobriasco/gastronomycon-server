@@ -180,55 +180,84 @@ exports.postForgot = (req, res) => {
     });
 };
 
-exports.postReset = (req, res, next) => {
-  // TODO: remove the waterfall
-  async.waterfall(
-    [
-      function resetPassword(done) {
-        User.findOne({ passwordResetToken: req.params.token })
-          .where('passwordResetExpires')
-          .gt(Date.now())
-          .exec((err, user) => {
-            if (err) return next(err);
-            if (user)
-              return res.status(401).json({
-                msg: 'Password reset token is invalid or has expired.'
-              });
-            user.password = req.body.password;
-            user.passwordResetToken = undefined;
-            user.passwordResetExpires = undefined;
-            user.save(err => {
-              if (err) return next(err);
-              done(err, user);
-            });
-          });
-      },
-      function sendResetPasswordEmail(user, done) {
-        const transporter = nodemailer.createTransport({
-          service: 'sendGrid',
-          auth: {
-            user: process.env.SENDGRID_USER,
-            pass: process.env.SENDGRID_PASSWORD
-          }
-        });
-        const mailOptions = {
-          to: user.email,
-          from: 'noreply@matchyourtie.com',
-          subject: 'Your Grocerybot password has been changed',
-          text: `Hello,\n\nThis is a confirmation that the password for your account ${
-            user.email
-          } has just been changed.\n`
-        };
-        transporter.sendMail(mailOptions, err => {
-          res.json({ msg: 'Success! Your password has been changed.' });
-          done(err);
-        });
+exports.postReset = (req, res) => {
+  const passwordResetToken = req.params.token;
+  if (!passwordResetToken || typeof passwordResetToken != 'string') {
+    res.status(401).send({ message: 'Invalid token or expired' });
+  }
+
+  const newPassword = req.body.password;
+
+  User.findOne({ passwordResetToken })
+    .where('passwordResetExpires')
+    .gt(Date.now())
+    .exec()
+    .catch(err => res.status(500).send({ message: 'Something bad happened' }))
+    .then(user => {
+      if (!user) {
+        res.status(401).send({ message: 'Invalid token or expired' });
       }
-    ],
-    err => {
-      if (err) return next(err);
-    }
-  );
+
+      user.password = newPassword;
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+      user.save();
+      res.send({ message: 'password updated' });
+    })
+    .catch(err => {
+      res
+        .status(err.status || 500)
+        .send({ message: err.message || 'An error occurred', err });
+    });
+
+  // // TODO: remove the waterfall
+  // async.waterfall(
+  //   [
+  //     function resetPassword(done) {
+  //       User.findOne({ passwordResetToken: req.params.token })
+  //         .where('passwordResetExpires')
+  //         .gt(Date.now())
+  //         .exec((err, user) => {
+  //           if (err) return next(err);
+  //           if (user)
+  //             return res.status(401).json({
+  //               msg: 'Password reset token is invalid or has expired.'
+  //             });
+  //           user.password = req.body.password;
+  //           user.passwordResetToken = undefined;
+  //           user.passwordResetExpires = undefined;
+  //           user.save(err => {
+  //             if (err) return next(err);
+  //             done(err, user);
+  //           });
+  //         });
+  //     },
+  //     function sendResetPasswordEmail(user, done) {
+  //       const transporter = nodemailer.createTransport({
+  //         service: 'sendGrid',
+  //         auth: {
+  //           user: process.env.SENDGRID_USER,
+  //           pass: process.env.SENDGRID_PASSWORD
+  //         }
+  //       });
+  //       const mailOptions = {
+  //         to: user.email,
+  //         from: 'noreply@matchyourtie.com',
+  //         subject: 'Your Grocerybot password has been changed',
+  //         text: `Hello,\n\nThis is a confirmation that the password for your account ${
+  //           user.email
+  //         } has just been changed.\n`
+  //       };
+  //       transporter.sendMail(mailOptions, err => {
+  //         res.json({ msg: 'Success! Your password has been changed.' });
+  //         done(err);
+  //       });
+  //     }
+  //   ],
+  //   err => {
+  //     if (err) return next(err);
+  //   }
+  // );
 };
 
 // Checks if the header includes a valid auth token
