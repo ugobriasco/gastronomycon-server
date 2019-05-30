@@ -187,6 +187,9 @@ exports.postReset = (req, res) => {
   }
 
   const newPassword = req.body.password;
+  if (!newPassword || typeof newPassword != 'string') {
+    res.status(401).send({ message: 'The new paasword is invalid or missing' });
+  }
 
   User.findOne({ passwordResetToken })
     .where('passwordResetExpires')
@@ -204,6 +207,7 @@ exports.postReset = (req, res) => {
       user.save();
       res.send({ message: 'password updated' });
     })
+    .then(() => res.send({ message: 'password updated' }))
     .catch(err => {
       res
         .status(err.status || 500)
