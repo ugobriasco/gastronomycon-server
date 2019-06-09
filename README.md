@@ -1,6 +1,6 @@
 # Gastronomycon
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9551ffcba0e0422fa1b1a09985ebe09f)](https://www.codacy.com/app/ugobriasco/grocerybot-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ugobriasco/gastronomycon-server&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9551ffcba0e0422fa1b1a09985ebe09f)](https://www.codacy.com/app/ugobriasco/grocerybot-server?utm_source=github.com&utm_medium=referral&utm_content=ugobriasco/gastronomycon-server&utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/ugobriasco/gastronomycon-server.svg?branch=master)](https://travis-ci.org/ugobriasco/ggastronomycon-server)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
@@ -12,9 +12,9 @@ Visit the [official page](http://46.101.201.71:3000), collaborate to the project
 
 ## Framework
 
-* [mongo](https://docs.mongodb.com/getting-started/shell/)
-* [node](https://nodejs.org/en/)
-* [express](http://expressjs.com/)
+- [mongo](https://docs.mongodb.com/getting-started/shell/)
+- [node](https://nodejs.org/en/)
+- [express](http://expressjs.com/)
 
 ## Usage
 
@@ -28,6 +28,7 @@ Please refer to the [API documentation](https://github.com/ugobriasco/gastronomy
 - npm 6+
 - Nodemon 1.4+
 - mongoDB 4+
+- dependency-cruiser 4+ (for updating dependency graph)
 
 ### Setup
 
@@ -40,6 +41,7 @@ cp ./cfg.js.template ./cfg.js
 mongod
 npm start
 ```
+
 - Create the root user, by sending a `POST` request to `http://localhost:3000/api/v1.0/signup` with the following body:
   `{"email":"ROOT_EMAIL","passowrd":"ROOT_PASSWORD","role": "Admin"}`
 
@@ -54,13 +56,23 @@ npm start
 
 Run `npm test` to execute the unit and integration tests. It requires the following ftramework:
 
-* [Mocha](https://mochajs.org/).
-* [Chai](http://chaijs.com).
-* [Sinon](http://sinonjs.org).
+- [Mocha](https://mochajs.org/).
+- [Chai](http://chaijs.com).
+- [Sinon](http://sinonjs.org).
 
 In order to check the current test coverage, run `npm coverage`, which requires [Istanbul](https://istanbul.js.org/).
 
 Before running the tests make sure you are serving the app via `npm start`.
+
+### Architecture
+
+![Dependency Graph](./dependencygraph.svg)
+
+To update the above graph please run:
+
+```
+sh ./script/plot-dependency-graph.sh
+```
 
 ## Contributing
 
