@@ -3,9 +3,10 @@ const ejs = require('ejs');
 const cfg = require('../../cfg');
 const getTransporter = require('./get-transporter');
 
+const HOST = cfg.clientHost;
+
 const sendEmail = props => {
   const { email, token, template } = props;
-  const host = cfg.clientHost;
 
   // Sets the service used
   const transporter = new Promise((resolve, reject) => {
@@ -17,7 +18,7 @@ const sendEmail = props => {
     loadTemplate({
       to: email,
       token,
-      host,
+      host: HOST,
       type: template
     }),
     transporter
@@ -32,7 +33,7 @@ const sendEmail = props => {
 const loadTemplate = props => {
   const { to, token, host, type } = props;
   const year = new Date().getFullYear();
-  const { html, subject, text } = getTemplate(type);
+  const { html, subject, text } = getTemplate({ type, host, token });
   return ejs.renderFile(html, { token, host, year }).then(html => {
     return {
       from: '"Gastronomycon" <noreply@gastronomycon.matchyourtie.com>',
@@ -45,7 +46,9 @@ const loadTemplate = props => {
 };
 
 // util for selecting the specific template
-const getTemplate = type => {
+const getTemplate = props => {
+  const { type, host, token } = props;
+
   if (type == 'activation') {
     return {
       html: `${__dirname}/template/activate-account.ejs`,

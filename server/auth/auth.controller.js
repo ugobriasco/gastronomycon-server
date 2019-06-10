@@ -174,6 +174,7 @@ exports.postForgot = (req, res) => {
       });
     })
     .catch(err => {
+      console.log(err);
       res
         .status(err.status || 500)
         .send({ message: err.message || 'An error occurred', err });
