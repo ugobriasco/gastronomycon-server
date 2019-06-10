@@ -1,9 +1,9 @@
 language: node_js
 sudo: true
 node_js:
-  - "stable"
+  - 'stable'
 services:
   - mongodb
 notifications:
-    email: false
-    slack: matchyourtie:2C6Xhhrqvwjgn3aYE943iRrv
+  email: false
+  slack: matchyourtie:2C6Xhhrqvwjgn3aYE943iRrv
