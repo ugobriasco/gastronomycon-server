@@ -66,9 +66,7 @@ Before running the tests make sure you are serving the app via `npm start`.
 
 ### Architecture
 
-![Dependency Graph](./dependencygraph.svg)
-
-To update the above graph please run:
+Dependency graph [here](./dependencygraph.svg). For updating it, run:
 
 ```
 sh ./script/plot-dependency-graph.sh
